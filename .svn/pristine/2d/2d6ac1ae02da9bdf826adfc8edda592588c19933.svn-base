@@ -1,0 +1,208 @@
+package pmcg.imti.domain;
+
+import gerador.annotation.*;
+
+@ZKEntity(label = "Mov", sequence = "seqmov")
+public class MovVO {
+	@ZKId
+	@ZKField(label = "idmov", maxsize = 19, width = 95, tooltip = "")
+	private Long idmov;
+
+	@ZKField(label = "Data/Hora de Entrada do Processo:", maxsize = 29, width = 145, tooltip = "Data/Hora de Entrada do Processo")
+	private java.util.Date datemov;
+
+	@ZKField(label = "Processo:", maxsize = 19, width = 95, tooltip = "Processo")
+	private Long promov;
+
+	@ZKField(label = "Descrição:", maxsize = 200, width = 1000, tooltip = "Descricao")
+	private String desmov;
+
+	@ZKField(label = "usualt", maxsize = 20, width = 100, tooltip = "")
+	private String usualt;
+
+	@ZKField(label = "datalt", maxsize = 13, width = 65, tooltip = "")
+	private java.util.Date datalt;
+
+	@ZKField(label = "Funcionario de Origem do Processo", maxsize = 19, width = 95, tooltip = "Funcionario de Origem do Processo")
+	private Long orimov;
+
+	@ZKField(label = "Funcionário de Destido do Processo", maxsize = 19, width = 95, tooltip = "Funcionário de Destido do Processo")
+	private Long destmov;
+
+	@ZKField(label = "Data/ Hora de Saida do Processo", maxsize = 22, width = 110, tooltip = "Data/ Hora de Saida do Processo")
+	private java.util.Date datsmov;
+
+	@ZKField(label="conmov", maxsize=1, width=5, tooltip="Confirmação de Recebimento")
+	private Object conmov;
+	
+	private FunVO funOrigemVO = new FunVO();
+    private FunVO funDestinoVO = new FunVO(); 
+	/**
+	 * null
+	 **/
+	public Long getIdmov() {
+		return this.idmov;
+	}
+
+	/**
+	 * Data/Hora de Entrada do Processo
+	 **/
+	public java.util.Date getDatemov() {
+		return this.datemov;
+	}
+
+	/**
+	 * Processo
+	 **/
+	public Long getPromov() {
+		return this.promov;
+	}
+
+	/**
+	 * Descricao
+	 **/
+	public String getDesmov() {
+		return this.desmov;
+	}
+
+	/**
+	 * null
+	 **/
+	public String getUsualt() {
+		return this.usualt;
+	}
+
+	/**
+	 * null
+	 **/
+	public java.util.Date getDatalt() {
+		return this.datalt;
+	}
+
+	/**  a
+	 * Funcionario de Origem do Processo
+	 **/
+	public Long getOrimov() {
+		return this.orimov;
+	}
+
+	/**
+	 * Funcionário de Destido do Processo
+	 **/
+	public Long getDestmov() {
+		return this.destmov;
+	}
+
+	/**
+	 * Data/ Hora de Saida do Processo
+	 **/
+	public java.util.Date getDatsmov() {
+		return this.datsmov;
+	}
+
+	/**
+	 * Confirmação de Recebimento
+	 **/
+	public Object getConmov() {
+		return this.conmov;
+	}
+
+	/**
+	 * null
+	 **/
+	public void setIdmov(Long idmov) {
+		this.idmov = idmov;
+	}
+
+	/**
+	 * Data/Hora de Entrada do Processo
+	 **/
+	public void setDatemov(java.util.Date datemov) {
+		this.datemov = datemov;
+	}
+
+	/**
+	 * Processo
+	 **/
+	public void setPromov(Long promov) {
+		this.promov = promov;
+	}
+
+	/**
+	 * Descricao
+	 **/
+	public void setDesmov(String desmov) {
+		this.desmov = desmov;
+	}
+
+	/**
+	 * null
+	 **/
+	public void setUsualt(String usualt) {
+		this.usualt = usualt;
+	}
+
+	/**
+	 * null
+	 **/
+	public void setDatalt(java.util.Date datalt) {
+		this.datalt = datalt;
+	}
+
+	/**
+	 * Funcionario de Origem do Processo
+	 **/
+	public void setOrimov(Long orimov) {
+		this.orimov = orimov;
+	}
+
+	/**
+	 * Funcionário de Destido do Processo
+	 **/
+	public void setDestmov(Long destmov) {
+		this.destmov = destmov;
+	}
+
+	/**
+	 * Data/ Hora de Saida do Processo
+	 **/
+	public void setDatsmov(java.util.Date datsmov) {
+		this.datsmov = datsmov;
+	}
+
+	/**
+	 * Confirmação de Recebimento
+	 **/
+	public void setConmov(Boolean conmov) {
+		this.conmov = conmov;
+	}
+
+	public FunVO getFunDestinoVO() {
+		return funDestinoVO;
+	}
+
+	public void setFunDestinoVO(FunVO funDestinoVO) {
+		this.funDestinoVO = funDestinoVO;
+		if(funDestinoVO != null){
+			destmov= funDestinoVO.getIddfun();
+		}
+		else{
+			destmov=null;
+		}
+	}
+
+	public FunVO getFunOrigemVO() {
+		return funOrigemVO;
+	}
+
+	public void setFunOrigemVO(FunVO funOrigemVO) {
+		this.funOrigemVO = funOrigemVO;
+		if(funOrigemVO != null){
+			orimov= funOrigemVO.getIddfun();
+		}
+		else{
+			orimov=null;
+		}
+	}
+
+}

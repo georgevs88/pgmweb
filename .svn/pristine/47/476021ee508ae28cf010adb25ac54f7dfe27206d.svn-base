@@ -1,0 +1,14 @@
+<Context docBase="pgmweb" path="/pgmweb" reloadable="false">
+	<!-- <ResourceLink name="jdbc/jndiacessos" global="jdbc/jndiacessos" type="javax.sql.DataSource" 
+		/> -->
+
+	<Resource driverClassName="org.postgresql.Driver" factory="org.apache.tomcat.dbcp.dbcp.BasicDataSourceFactory"
+		maxActive="10" maxIdle="2" name="jdbc/jndiacessos" password="postgres118" scope="Shareable" type="javax.sql.DataSource"
+		url="jdbc:postgresql://10.0.0.118:5432/DBACESSOS" username="postgres" />
+
+	<Resource driverClassName="org.postgresql.Driver"
+		factory="org.apache.tomcat.dbcp.dbcp.BasicDataSourceFactory"
+		maxActive="10" maxIdle="5" maxWait="30" name="jdbc/jndipgm" password="postgres118"
+		scope="Shareable" type="javax.sql.DataSource" url="jdbc:postgresql://10.0.0.118:5432/DBPGM"
+		username="postgres" />
+</Context>

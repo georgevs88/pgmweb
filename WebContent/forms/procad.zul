@@ -1,0 +1,160 @@
+<?page id="wCadProZul" title="Cadastro de Pro" cacheable="false" language="xul/html" zscriptLanguage="Java" contentType="text/html;charset=UTF-8"?> 
+ <zk xmlns="http://www.zkoss.org/2005/zul" 
+ 	xmlns:h="http://www.w3.org/1999/xhtml" 
+ 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-infabnce" 
+ 	xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd"> 
+ 	<window use="pmcg.imti.view.Procad" id="wCadPro" 
+ 		title="Cadastro de Pro" border="normal" shadow="false" 
+ 		width="550px" position="center" mode="overlapped" sizable="false" 
+ 		closable="false" onCreate="wCadPro.initComponentes()"> 
+ 		<separator height="5px" /> 
+ 		 
+ 		<grid width="97%" align="center"> 
+ 			<columns> 
+ 				<column label="" align="right" width="150px" /> 
+ 				<column label="" align="left" />				 
+ 			</columns> 
+ 			<rows>			 
+ 				<row>
+	<hbox>
+		<label value="iddpro:" />
+		</hbox>
+	 <longbox id="iddpro" value="@{wCadPro.proVO.iddpro}" maxlength="19"  tooltiptext="PK"  width="95px"  />
+	</row>
+<row>
+	<hbox>
+		<label value="numpro:" />
+		</hbox>
+	<textbox id="numpro" value="@{wCadPro.proVO.numpro}" maxlength="25"  tooltiptext="Número do Processo"  width="125px"  />
+	</row>
+<row>
+	<hbox>
+		<label value="sitpro:" />
+		</hbox>
+	<textbox id="sitpro" value="@{wCadPro.proVO.sitpro}" maxlength="25"  tooltiptext="Situação do Processo"  width="125px"  />
+	</row>
+<row>
+	<hbox>
+		<label value="clapro:" />
+		</hbox>
+	<textbox id="clapro" value="@{wCadPro.proVO.clapro}" maxlength="50"  tooltiptext="Classe"  width="250px"  />
+	</row>
+<row>
+	<hbox>
+		<label value="arepro:" />
+		</hbox>
+	<textbox id="arepro" value="@{wCadPro.proVO.arepro}" maxlength="50"  tooltiptext="�?rea"  width="250px"  />
+	</row>
+<row>
+	<hbox>
+		<label value="asspro:" />
+		</hbox>
+	<textbox id="asspro" value="@{wCadPro.proVO.asspro}" maxlength="200"  tooltiptext="Assunto"  width="1000px"  />
+	</row>
+<row>
+	<hbox>
+		<label value="conpro:" />
+		</hbox>
+	<textbox id="conpro" value="@{wCadPro.proVO.conpro}" maxlength="20"  tooltiptext="Controle"  width="100px"  />
+	</row>
+<row>
+	<hbox>
+		<label value="juipro:" />
+		</hbox>
+	<textbox id="juipro" value="@{wCadPro.proVO.juipro}" maxlength="200"  tooltiptext="Juiz"  width="1000px"  />
+	</row>
+<row>
+	<hbox>
+		<label value="valpro:" />
+		</hbox>
+	<decimalbox id="valpro" value="@{wCadPro.proVO.valpro}"  maxlength="15"  tooltiptext="Valor da ação"  width="75px"  />
+	</row>
+<row>
+	<hbox>
+		<label value="oripro:" />
+		</hbox>
+	<textbox id="oripro" value="@{wCadPro.proVO.oripro}" maxlength="200"  tooltiptext="Origem"  width="1000px"  />
+	</row>
+<row>
+	<hbox>
+		<label value="norpro:" />
+		</hbox>
+	<textbox id="norpro" value="@{wCadPro.proVO.norpro}" maxlength="200"  tooltiptext="Números de Origem"  width="1000px"  />
+	</row>
+<row>
+	<hbox>
+		<label value="relpro:" />
+		</hbox>
+	<textbox id="relpro" value="@{wCadPro.proVO.relpro}" maxlength="200"  tooltiptext="Relator"  width="1000px"  />
+	</row>
+<row>
+	<hbox>
+		<label value="vappro:" />
+		</hbox>
+	<textbox id="vappro" value="@{wCadPro.proVO.vappro}" maxlength="20"  tooltiptext="Volume/Apenso"  width="100px"  />
+	</row>
+<row>
+	<hbox>
+		<label value="onrpro:" />
+		</hbox>
+	<textbox id="onrpro" value="@{wCadPro.proVO.onrpro}" maxlength="200"  tooltiptext="Outro numeros"  width="1000px"  />
+	</row>
+<row>
+	<hbox>
+		<label value="obspro:" />
+		</hbox>
+	<textbox id="obspro" value="@{wCadPro.proVO.obspro}" maxlength="200"  tooltiptext="Observacoes"  width="1000px"  />
+	</row>
+<row>
+	<hbox>
+		<label value="usualt:" />
+		</hbox>
+	<textbox id="usualt" value="@{wCadPro.proVO.usualt}" maxlength="20"  width="100px"  />
+	</row>
+<row>
+	<hbox>
+		<label value="datalt:" />
+		</hbox>
+	 <datebox id="datalt" value="@{wCadPro.proVO.datalt}"  maxlength="13"  format="dd/MM/yyyy"  width="65px"  />
+	</row>
+<row>
+	<hbox>
+		<label value="dimpro:" />
+		</hbox>
+	 <datebox id="dimpro" value="@{wCadPro.proVO.dimpro}"  maxlength="29"  format="dd/MM/yyyy"  tooltiptext="Data importacao"  width="145px"  />
+	</row>
+<row>
+	<hbox>
+		<label value="Disponibilização:" />
+		</hbox>
+	 <datebox id="dtdispopro" value="@{wCadPro.proVO.dtdispopro}"  maxlength="29"  format="dd/MM/yyyy"  tooltiptext="Data Disponibilização"  width="145px"  />
+	</row>
+<row>
+	<hbox>
+		<label value="Prazo:" />
+		</hbox>
+	 <longbox id="prapro" value="@{wCadPro.proVO.prapro}" maxlength="19"  tooltiptext="Prazo"  width="95px"  />
+	</row>
+<row>
+	<hbox>
+		<label value="Natureza da Intimação::" />
+		</hbox>
+	<textbox id="naipro" value="@{wCadPro.proVO.naipro}" maxlength="200"  tooltiptext="Natureza da Intimação"  width="1000px"  />
+	</row>
+<row>
+	<hbox>
+		<label value="Teor da Intimação::" />
+		</hbox>
+	<textbox id="tepro" value="@{wCadPro.proVO.tepro}" maxlength="200"  tooltiptext="Teor da Intimação"  width="1000px"  />
+	</row>
+ 
+ 				 
+ 				<row spans="2" style="text-align:left"> 
+ 				<label style="color:red; font-size: 10px;" value="* Campos de Preenchimento Obrigatório." /> 
+ 				</row> 
+ 			</rows> 
+ 		</grid> 
+ 		<separator height="10px" /> 
+ 	</window> 
+ </zk> 
+ 

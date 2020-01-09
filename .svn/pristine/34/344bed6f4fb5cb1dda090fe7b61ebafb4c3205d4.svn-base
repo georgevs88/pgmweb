@@ -1,0 +1,105 @@
+ 
+ 
+package pmcg.imti.view; 
+  
+  
+ import org.zkoss.zul.Listbox; 
+ import org.zkoss.zul.Paging; 
+ import org.zkoss.zul.event.PagingEvent; 
+ import org.apache.commons.beanutils.BeanUtils; 
+ import org.zkoss.zk.ui.event.Event; 
+ import org.zkoss.zk.ui.event.EventListener; 
+ import java.lang.reflect.InvocationTargetException; 
+ import java.util.List; 
+ import org.zkoss.zul.ListModelList; 
+ import org.zkoss.zul.Messagebox; 
+ import org.zkoss.zul.Textbox; 
+ import pmcg.framework.ui.WindowList; 
+ import pmcg.framework.util.WinUtils; 
+  
+ import pmcg.imti.dao.ibatis.AhisDAO; 
+ import pmcg.imti.domain.AhisVO; 
+  
+  
+ /** 
+ *	Listagem Dinamica de Ahis 
+ **/ 
+ @SuppressWarnings("serial") 
+ public class Ahislis extends WindowList<AhisVO> { 
+ 	 
+ 	public AhisVO ahisVO = new AhisVO(); 
+ 	private List<AhisVO> hmSis; 
+ 	 
+ 	public AhisVO obj; 
+ 	public Ahislis() { 
+ 		super(); 
+ 	} 
+ 	/** 
+ 	*Metodo initComponentes serve para iniciar a tela 
+ 	**/ 
+ 	public void initComponentes() { 
+ 		 
+ 		this.getCrdBar().getBotao(3).setVisible(true); 
+ 		this.getCrdBar().getBotao(4).setVisible(true); 
+ 		pesquisar(); 
+ 		 
+ 	} 
+ 	/** 
+ 	*Metodo pesquisar 
+ 	**/ 
+ 	 
+ 	
+public void pesquisar() {
+ Paging pag =(Paging) this.getComponente("pagAhis");
+  obj = new AhisVO();
+try {
+	obj=(AhisVO) BeanUtils.cloneBean(ahisVO);
+} catch (IllegalAccessException e) {
+	e.printStackTrace();
+} catch (InstantiationException e) {
+e.printStackTrace();
+} catch (InvocationTargetException e) {
+	e.printStackTrace();
+} catch (NoSuchMethodException e) {
+	e.printStackTrace();
+}
+	 pag.setTotalSize(new AhisDAO().getCountByCriterio(obj).intValue());
+   final int PAGE_SIZE = pag.getPageSize();
+   redraw(obj,0,PAGE_SIZE);
+     pag.setActivePage(0);
+    pag.setDetailed(true);
+    pag.addEventListener("onPaging", new EventListener() {
+       public void onEvent(Event event) {
+        	PagingEvent pe = (PagingEvent) event;
+       	int pgno = pe.getActivePage(); 
+        	int ofs = pgno * PAGE_SIZE;    
+       	redraw(obj,ofs,PAGE_SIZE); 
+      	vincular();
+   	      	}
+   	   });
+   	    vincular();
+   	}		
+/** 
+*Metodo redraw()- Metodo responsável pelo carregar os dados da pagina desejada.
+ * @param AhisVO obj,Integer inicial,Integer maximoPermitido **/
+	private void redraw(AhisVO obj,Integer inicial,Integer maximoPermitido) {	  	
+	    this.hmSis = new AhisDAO().getByCriterioLimit(obj,inicial,maximoPermitido);	 
+	    setListmodel(new ListModelList(hmSis));
+	} 
+ 	 
+  
+ 	 
+ 	/** 
+ 	*Metodo limpar 
+ 	**/ 
+ 	public void limpar() { 
+ 		
+this.ahisVO = new AhisVO(); 
+ 		 
+ 		this.vincular(); 
+ 	} 
+ 	  
+ 	 
+ 	 
+ } 
+ 

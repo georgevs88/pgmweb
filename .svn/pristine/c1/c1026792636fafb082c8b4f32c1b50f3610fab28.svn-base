@@ -1,0 +1,88 @@
+package pmcg.imti.dao.ibatis; 
+  
+ import pmcg.framework.dao.ibatis.DAOConcorrencia; 
+ import pmcg.imti.domain.PadVO; 
+ import java.util.List; 
+ import java.sql.SQLException; 
+   /** 
+    * PadDAO  
+    * Responsável pela Manipulação de registros 
+    * @author Gerador ZK 
+    */ 
+ public class PadDAO extends DAOConcorrencia<PadVO, Long> { 
+ 	public PadDAO() { 
+ 		super("Pad"); 
+ 	} 
+ 	  
+ 	public List<PadVO> getRegByCriterioComplex(PadVO obj) { 
+ 		String nameSpace = getNameSpaceMap(); 
+ 		if (nameSpace == null) 
+ 			setNameSpaceMap("Pad"); 
+ 		try { 
+ 			return sqlMap.queryForList(nameSpace + ".getRegByCriterioComplex", 
+ 					obj); 
+ 		} catch (SQLException e) { 
+ 			e.printStackTrace(); 
+ 		} 
+ 		return null; 
+ 	} 
+   
+ 	public PadVO getRegByCodComplex(Long cod) { 
+ 		String nameSpace = getNameSpaceMap(); 
+ 		if (nameSpace == null) 
+ 			setNameSpaceMap("Pad"); 
+ 		try { 
+ 			return (PadVO) sqlMap.queryForObject(nameSpace 
+ 					+ ".getRegByCodComplex", cod); 
+ 		} catch (SQLException e) { 
+ 			e.printStackTrace(); 
+ 		} 
+ 		return null; 
+ 	} 
+  	  
+ 	public Integer delByCodigos(String codigos) { 
+ 		String nameSpace = getNameSpaceMap(); 
+ 		if (nameSpace == null) 
+ 			setNameSpaceMap("Pad"); 
+ 		try { 
+ 			return sqlMap.delete(nameSpace + ".delByCodigos", codigos); 
+ 		} catch (Exception e) { 
+ 			e.printStackTrace(); 
+ 		} 
+ 		return null; 
+ 	} 
+ 	  
+ 	public Integer 	getCountByCriterio(PadVO  obj) {  
+  		String nameSpace = getNameSpaceMap();  
+  		if (nameSpace == null)  
+  			setNameSpaceMap("Pad");  
+  		try {  
+  			return (Integer) sqlMap.queryForObject(nameSpace + ".getCountByCriterio", obj);  
+  		} catch (Exception e) {  
+  			e.printStackTrace();  
+  		}  
+  		return 0;  
+  	}  
+  	  
+  	public List<PadVO> 	getByCriterioLimit(PadVO obj,Integer inicial, Integer maximoPermitido) {  
+  		String nameSpace = getNameSpaceMap();  
+  		if (nameSpace == null)  
+  			setNameSpaceMap("Pad");  
+  		try {  
+  			return sqlMap.queryForList(nameSpace + ".getRegByCriterioComplex",obj,inicial,maximoPermitido);  
+  		} catch (SQLException e) {  
+  			e.printStackTrace();  
+  		}  
+  		return null;  
+  	} 
+  	
+  	public Integer getVerificaProc(PadVO  obj) {  
+  		try {  
+  			return (Integer) sqlMap.queryForObject(getNameSpaceMap() + ".getVerificaProc", obj);  
+  		} catch (Exception e) {  
+  			e.printStackTrace();  
+  		}  
+  		return null;  
+  	}
+ } 
+ 

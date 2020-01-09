@@ -1,0 +1,357 @@
+package pmcg.imti.domain; 
+
+import gerador.annotation.*;
+@ZKEntity(label = "Pro", sequence = "seqpro")	
+public class ProVO{
+	@ZKId
+	@ZKField(label="iddpro", maxsize=19, width=95, tooltip="PK")
+	private Long iddpro;
+
+ 	@ZKField(label="numpro", maxsize=25, width=125, tooltip="Número do Processo")
+	private String numpro;
+
+ 	@ZKField(label="sitpro", maxsize=25, width=125, tooltip="Situação do Processo")
+	private String sitpro;
+
+ 	@ZKField(label="clapro", maxsize=50, width=250, tooltip="Classe")
+	private String clapro;
+
+ 	@ZKField(label="arepro", maxsize=50, width=250, tooltip="Área")
+	private String arepro;
+
+ 	@ZKField(label="asspro", maxsize=200, width=1000, tooltip="Assunto")
+	private String asspro;
+
+ 	@ZKField(label="conpro", maxsize=20, width=100, tooltip="Controle")
+	private String conpro;
+
+ 	@ZKField(label="juipro", maxsize=200, width=1000, tooltip="Juiz")
+	private String juipro;
+
+ 	@ZKField(label="valpro", maxsize=15, width=75, tooltip="Valor da ação")
+	private java.math.BigDecimal valpro;
+
+ 	@ZKField(label="oripro", maxsize=200, width=1000, tooltip="Origem")
+	private String oripro;
+
+ 	@ZKField(label="norpro", maxsize=200, width=1000, tooltip="Números de Origem")
+	private String norpro;
+
+ 	@ZKField(label="relpro", maxsize=200, width=1000, tooltip="Relator")
+	private String relpro;
+
+ 	@ZKField(label="vappro", maxsize=20, width=100, tooltip="Volume/Apenso")
+	private String vappro;
+
+ 	@ZKField(label="onrpro", maxsize=200, width=1000, tooltip="Outro numeros")
+	private String onrpro;
+
+ 	@ZKField(label="obspro", maxsize=200, width=1000, tooltip="Observacoes")
+	private String obspro;
+
+ 	@ZKField(label="usualt", maxsize=20, width=100, tooltip="")
+	private String usualt;
+
+ 	@ZKField(label="datalt", maxsize=13, width=65, tooltip="")
+	private java.util.Date datalt;
+
+ 	@ZKField(label="dimpro", maxsize=29, width=145, tooltip="Data importacao")
+	private java.util.Date dimpro;
+
+	@ZKField(label="Disponibilização", maxsize=29, width=145, tooltip="Data Disponibilização")
+	private java.util.Date dtdispopro;
+		
+	@ZKField(label="Prazo", maxsize=19, width=95, tooltip="Prazo")
+	private Long prapro;
+
+	
+	@ZKField(label="Natureza da Intimação:", maxsize=200, width=1000, tooltip="Natureza da Intimação")
+	private String naipro;
+	
+	@ZKField(label="Teor da Intimação:", maxsize=200, width=1000, tooltip="Teor da Intimação")
+	private String tepro;
+	
+	public Long getPrapro() {
+		return prapro;
+	}
+
+	public String getNaipro() {
+		return naipro;
+	}
+
+	public void setNaipro(String naipro) {
+		this.naipro = naipro;
+	}
+
+	public String getTepro() {
+		return tepro;
+	}
+
+	public void setTepro(String tepro) {
+		this.tepro = tepro;
+	}
+
+	public void setPrapro(Long prapro) {
+		this.prapro = prapro;
+	}
+	public java.util.Date getDtdispopro() {
+		return dtdispopro;
+	}
+
+	public void setDtdispopro(java.util.Date dtdispopro) {
+		this.dtdispopro = dtdispopro;
+	}
+	/**
+	* PK
+	**/
+	public Long getIddpro(){
+		return this.iddpro; 
+	}
+ 
+	/**
+	* Número do Processo
+	**/
+	public String getNumpro(){
+		return this.numpro; 
+	}
+ 
+	/**
+	* Situação do Processo
+	**/
+	public String getSitpro(){
+		return this.sitpro; 
+	}
+ 
+	/**
+	* Classe
+	**/
+	public String getClapro(){
+		return this.clapro; 
+	}
+ 
+	/**
+	* Área
+	**/
+	public String getArepro(){
+		return this.arepro; 
+	}
+ 
+	/**
+	* Assunto
+	**/
+	public String getAsspro(){
+		return this.asspro; 
+	}
+ 
+	/**
+	* Controle
+	**/
+	public String getConpro(){
+		return this.conpro; 
+	}
+ 
+	/**
+	* Juiz
+	**/
+	public String getJuipro(){
+		return this.juipro; 
+	}
+ 
+	/**
+	* Valor da ação
+	**/
+	public java.math.BigDecimal getValpro(){
+		return this.valpro; 
+	}
+ 
+	/**
+	* Origem
+	**/
+	public String getOripro(){
+		return this.oripro; 
+	}
+ 
+	/**
+	* Números de Origem
+	**/
+	public String getNorpro(){
+		return this.norpro; 
+	}
+ 
+	/**
+	* Relator
+	**/
+	public String getRelpro(){
+		return this.relpro; 
+	}
+ 
+	/**
+	* Volume/Apenso
+	**/
+	public String getVappro(){
+		return this.vappro; 
+	}
+ 
+	/**
+	* Outro numeros
+	**/
+	public String getOnrpro(){
+		return this.onrpro; 
+	}
+ 
+	/**
+	* Observacoes
+	**/
+	public String getObspro(){
+		return this.obspro; 
+	}
+ 
+	/**
+	* null
+	**/
+	public String getUsualt(){
+		return this.usualt; 
+	}
+ 
+	/**
+	* null
+	**/
+	public java.util.Date getDatalt(){
+		return this.datalt; 
+	}
+ 
+	/**
+	* Data importacao
+	**/
+	public java.util.Date getDimpro(){
+		return this.dimpro; 
+	}
+
+
+	/**
+	* PK
+	**/
+	public void setIddpro(Long iddpro){
+		this.iddpro = iddpro; 
+	}
+ 
+	/**
+	* Número do Processo
+	**/
+	public void setNumpro(String numpro){
+		this.numpro = numpro; 
+	}
+ 
+	/**
+	* Situação do Processo
+	**/
+	public void setSitpro(String sitpro){
+		this.sitpro = sitpro; 
+	}
+ 
+	/**
+	* Classe
+	**/
+	public void setClapro(String clapro){
+		this.clapro = clapro; 
+	}
+ 
+	/**
+	* Área
+	**/
+	public void setArepro(String arepro){
+		this.arepro = arepro; 
+	}
+ 
+	/**
+	* Assunto
+	**/
+	public void setAsspro(String asspro){
+		this.asspro = asspro; 
+	}
+ 
+	/**
+	* Controle
+	**/
+	public void setConpro(String conpro){
+		this.conpro = conpro; 
+	}
+ 
+	/**
+	* Juiz
+	**/
+	public void setJuipro(String juipro){
+		this.juipro = juipro; 
+	}
+ 
+	/**
+	* Valor da ação
+	**/
+	public void setValpro(java.math.BigDecimal valpro){
+		this.valpro = valpro; 
+	}
+ 
+	/**
+	* Origem
+	**/
+	public void setOripro(String oripro){
+		this.oripro = oripro; 
+	}
+ 
+	/**
+	* Números de Origem
+	**/
+	public void setNorpro(String norpro){
+		this.norpro = norpro; 
+	}
+ 
+	/**
+	* Relator
+	**/
+	public void setRelpro(String relpro){
+		this.relpro = relpro; 
+	}
+ 
+	/**
+	* Volume/Apenso
+	**/
+	public void setVappro(String vappro){
+		this.vappro = vappro; 
+	}
+ 
+	/**
+	* Outro numeros
+	**/
+	public void setOnrpro(String onrpro){
+		this.onrpro = onrpro; 
+	}
+ 
+	/**
+	* Observacoes
+	**/
+	public void setObspro(String obspro){
+		this.obspro = obspro; 
+	}
+ 
+	/**
+	* null
+	**/
+	public void setUsualt(String usualt){
+		this.usualt = usualt; 
+	}
+ 
+	/**
+	* null
+	**/
+	public void setDatalt(java.util.Date datalt){
+		this.datalt = datalt; 
+	}
+ 
+	/**
+	* Data importacao
+	**/
+	public void setDimpro(java.util.Date dimpro){
+		this.dimpro = dimpro; 
+	}
+
+}

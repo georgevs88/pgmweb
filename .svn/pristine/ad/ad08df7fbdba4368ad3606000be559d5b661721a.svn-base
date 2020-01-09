@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+ <!DOCTYPE sqlMap PUBLIC "//iBATIS.com//DTD SQL Map 2.0//EN" "HTTP://ibatis.apache.org/dtd/sql-map-2.dtd" > 
+ <sqlMap namespace="Pro"> 
+ 	<typeAlias alias="ProVO" type="pmcg.imti.domain.ProVO" /> 
+
+
+  <resultMap id="mapComplexQuery" class="ProVO">
+<result property="iddpro" column="iddpro" />
+<result property="numpro" column="numpro" />
+<result property="sitpro" column="sitpro" />
+<result property="clapro" column="clapro" />
+<result property="arepro" column="arepro" />
+<result property="asspro" column="asspro" />
+<result property="conpro" column="conpro" />
+<result property="juipro" column="juipro" />
+<result property="valpro" column="valpro" />
+<result property="oripro" column="oripro" />
+<result property="norpro" column="norpro" />
+<result property="relpro" column="relpro" />
+<result property="vappro" column="vappro" />
+<result property="onrpro" column="onrpro" />
+<result property="obspro" column="obspro" />
+<result property="usualt" column="usualt" />
+<result property="datalt" column="datalt" />
+<result property="dimpro" column="dimpro" />
+<result property="dtdispopro" column="dtdispopro" />
+<result property="prapro" column="prapro" />
+<result property="naipro" column="naipro" />
+<result property="tepro" column="tepro" />   </resultMap>
+
+<select id="getRegByCod" parameterClass="Long" resultClass="ProVO" >  
+SELECT *  	  FROM pgm.Pro 		 WHERE iddpro = #value:NUMERIC# 
+</select>
+
+<select id="getRegByCodComplex" parameterClass="Long" resultMap="mapComplexQuery"> 
+ SELECT *  	  FROM pgm.Pro 		 WHERE iddpro = #value:NUMERIC#
+ </select>
+
+ <select id="getRegByCriterio" parameterClass="ProVO" resultMap="ProVO" > 
+ SELECT *  	  FROM pgm.Pro 
+		<dynamic prepend=" WHERE "> 
+<isNotNull property="iddpro" prepend=" AND "> 
+  iddpro = #iddpro:NUMERIC# 
+</isNotNull> 
+ <isNotNull property="numpro" prepend=" AND ">
+      numpro ILIKE '%' || #numpro:VARCHAR# || '%'
+ </isNotNull> 
+ <isNotNull property="sitpro" prepend=" AND ">
+      sitpro ILIKE '%' || #sitpro:VARCHAR# || '%'
+ </isNotNull> 
+ <isNotNull property="clapro" prepend=" AND ">
+      clapro ILIKE '%' || #clapro:VARCHAR# || '%'
+ </isNotNull> 
+ <isNotNull property="arepro" prepend=" AND ">
+      arepro ILIKE '%' || #arepro:VARCHAR# || '%'
+ </isNotNull> 
+ <isNotNull property="asspro" prepend=" AND ">
+      asspro ILIKE '%' || #asspro:VARCHAR# || '%'
+ </isNotNull> 
+ <isNotNull property="conpro" prepend=" AND ">
+      conpro ILIKE '%' || #conpro:VARCHAR# || '%'
+ </isNotNull> 
+ <isNotNull property="juipro" prepend=" AND ">
+      juipro ILIKE '%' || #juipro:VARCHAR# || '%'
+ </isNotNull> 
+<isNotNull property="valpro" prepend=" AND "> 
+  valpro = #valpro:NUMERIC# 
+</isNotNull> 
+ <isNotNull property="oripro" prepend=" AND ">
+      oripro ILIKE '%' || #oripro:VARCHAR# || '%'
+ </isNotNull> 
+ <isNotNull property="norpro" prepend=" AND ">
+      norpro ILIKE '%' || #norpro:VARCHAR# || '%'
+ </isNotNull> 
+ <isNotNull property="relpro" prepend=" AND ">
+      relpro ILIKE '%' || #relpro:VARCHAR# || '%'
+ </isNotNull> 
+ <isNotNull property="vappro" prepend=" AND ">
+      vappro ILIKE '%' || #vappro:VARCHAR# || '%'
+ </isNotNull> 
+ <isNotNull property="onrpro" prepend=" AND ">
+      onrpro ILIKE '%' || #onrpro:VARCHAR# || '%'
+ </isNotNull> 
+ <isNotNull property="obspro" prepend=" AND ">
+      obspro ILIKE '%' || #obspro:VARCHAR# || '%'
+ </isNotNull> 
+ <isNotNull property="usualt" prepend=" AND ">
+      usualt ILIKE '%' || #usualt:VARCHAR# || '%'
+ </isNotNull>
+  <isNotNull property="datalt" prepend=" AND "> to_char(datalt,'dd/MM/yyyy') = to_char(#datalt:TIMESTAMP#,'dd/MM/yyyy') 
+ </isNotNull>
+  <isNotNull property="dimpro" prepend=" AND "> to_char(dimpro,'dd/MM/yyyy') = to_char(#dimpro:TIMESTAMP#,'dd/MM/yyyy') 
+ </isNotNull>
+  <isNotNull property="dtdispopro" prepend=" AND "> to_char(dtdispopro,'dd/MM/yyyy') = to_char(#dtdispopro:TIMESTAMP#,'dd/MM/yyyy') 
+ </isNotNull> 
+<isNotNull property="prapro" prepend=" AND "> 
+  prapro = #prapro:NUMERIC# 
+</isNotNull> 
+ <isNotNull property="naipro" prepend=" AND ">
+      naipro ILIKE '%' || #naipro:VARCHAR# || '%'
+ </isNotNull> 
+ <isNotNull property="tepro" prepend=" AND ">
+      tepro ILIKE '%' || #tepro:VARCHAR# || '%'
+ </isNotNull>	
+	</dynamic> 
+ 	</select>
+ 
+<select id="getRegByCriterioComplex" parameterClass="ProVO" resultMap="mapComplexQuery">
+  SELECT *  	  FROM pgm.Pro 	
+	<dynamic prepend=" WHERE ">
+<isNotNull property="iddpro" prepend=" AND ">   iddpro = #iddpro:NUMERIC# 
+</isNotNull> 
+ <isNotNull property="numpro" prepend=" AND ">
+      numpro ILIKE '%' || #numpro:VARCHAR# || '%'
+ </isNotNull> 
+ <isNotNull property="sitpro" prepend=" AND ">
+      sitpro ILIKE '%' || #sitpro:VARCHAR# || '%'
+ </isNotNull> 
+ <isNotNull property="clapro" prepend=" AND ">
+      clapro ILIKE '%' || #clapro:VARCHAR# || '%'
+ </isNotNull> 
+ <isNotNull property="arepro" prepend=" AND ">
+      arepro ILIKE '%' || #arepro:VARCHAR# || '%'
+ </isNotNull> 
+ <isNotNull property="asspro" prepend=" AND ">
+      asspro ILIKE '%' || #asspro:VARCHAR# || '%'
+ </isNotNull> 
+ <isNotNull property="conpro" prepend=" AND ">
+      conpro ILIKE '%' || #conpro:VARCHAR# || '%'
+ </isNotNull> 
+ <isNotNull property="juipro" prepend=" AND ">
+      juipro ILIKE '%' || #juipro:VARCHAR# || '%'
+ </isNotNull>
+<isNotNull property="valpro" prepend=" AND ">   valpro = #valpro:NUMERIC# 
+</isNotNull> 
+ <isNotNull property="oripro" prepend=" AND ">
+      oripro ILIKE '%' || #oripro:VARCHAR# || '%'
+ </isNotNull> 
+ <isNotNull property="norpro" prepend=" AND ">
+      norpro ILIKE '%' || #norpro:VARCHAR# || '%'
+ </isNotNull> 
+ <isNotNull property="relpro" prepend=" AND ">
+      relpro ILIKE '%' || #relpro:VARCHAR# || '%'
+ </isNotNull> 
+ <isNotNull property="vappro" prepend=" AND ">
+      vappro ILIKE '%' || #vappro:VARCHAR# || '%'
+ </isNotNull> 
+ <isNotNull property="onrpro" prepend=" AND ">
+      onrpro ILIKE '%' || #onrpro:VARCHAR# || '%'
+ </isNotNull> 
+ <isNotNull property="obspro" prepend=" AND ">
+      obspro ILIKE '%' || #obspro:VARCHAR# || '%'
+ </isNotNull> 
+ <isNotNull property="usualt" prepend=" AND ">
+      usualt ILIKE '%' || #usualt:VARCHAR# || '%'
+ </isNotNull>
+  <isNotNull property="datalt" prepend=" AND "> to_char(datalt,'dd/MM/yyyy') = to_char(#datalt:TIMESTAMP#,'dd/MM/yyyy') 
+ </isNotNull>
+  <isNotNull property="dimpro" prepend=" AND "> to_char(dimpro,'dd/MM/yyyy') = to_char(#dimpro:TIMESTAMP#,'dd/MM/yyyy') 
+ </isNotNull>
+  <isNotNull property="dtdispopro" prepend=" AND "> to_char(dtdispopro,'dd/MM/yyyy') = to_char(#dtdispopro:TIMESTAMP#,'dd/MM/yyyy') 
+ </isNotNull>
+<isNotNull property="prapro" prepend=" AND ">   prapro = #prapro:NUMERIC# 
+</isNotNull> 
+ <isNotNull property="naipro" prepend=" AND ">
+      naipro ILIKE '%' || #naipro:VARCHAR# || '%'
+ </isNotNull> 
+ <isNotNull property="tepro" prepend=" AND ">
+      tepro ILIKE '%' || #tepro:VARCHAR# || '%'
+ </isNotNull>		</dynamic>  	</select>
+
+ <select id="getTodos" resultMap="mapComplexQuerySimple" > 
+ SELECT *  	  FROM pgm.Pro
+ </select>
+ 
+  <insert id="insReg" parameterClass="ProVO"> 
+   <selectKey keyProperty="iddpro" resultClass="Long"> 
+ SELECT NEXTVAL('pgm.seqpro') 	
+	</selectKey> 	
+	INSERT INTO pgm.Pro(iddpro,numpro,sitpro,clapro,arepro,asspro,conpro,juipro,valpro,oripro,norpro,relpro,vappro,onrpro,obspro,usualt,datalt,dimpro,dtdispopro,prapro,naipro,tepro)	VALUES (#iddpro:NUMERIC#, UPPER(#numpro:VARCHAR#), UPPER(#sitpro:VARCHAR#), UPPER(#clapro:VARCHAR#), UPPER(#arepro:VARCHAR#), UPPER(#asspro:VARCHAR#), UPPER(#conpro:VARCHAR#), UPPER(#juipro:VARCHAR#),#valpro:NUMERIC#, UPPER(#oripro:VARCHAR#), UPPER(#norpro:VARCHAR#), UPPER(#relpro:VARCHAR#), UPPER(#vappro:VARCHAR#), UPPER(#onrpro:VARCHAR#), UPPER(#obspro:VARCHAR#), UPPER(#usualt:VARCHAR#),now(),#dimpro:TIMESTAMP#,#dtdispopro:TIMESTAMP#,#prapro:NUMERIC#, UPPER(#naipro:VARCHAR#), UPPER(#tepro:VARCHAR#)	) 
+	</insert>
+
+ <update id="updRegByCod" parameterClass="ProVO">
+ UPDATE pgm.Pro  SET numpro= UPPER(#numpro:VARCHAR#),sitpro= UPPER(#sitpro:VARCHAR#),clapro= UPPER(#clapro:VARCHAR#),arepro= UPPER(#arepro:VARCHAR#),asspro= UPPER(#asspro:VARCHAR#),conpro= UPPER(#conpro:VARCHAR#),juipro= UPPER(#juipro:VARCHAR#),valpro= #valpro:NUMERIC#,oripro= UPPER(#oripro:VARCHAR#),norpro= UPPER(#norpro:VARCHAR#),relpro= UPPER(#relpro:VARCHAR#),vappro= UPPER(#vappro:VARCHAR#),onrpro= UPPER(#onrpro:VARCHAR#),obspro= UPPER(#obspro:VARCHAR#),usualt= UPPER(#usualt:VARCHAR#),datalt=  now(),dimpro= #dimpro:TIMESTAMP#,dtdispopro= #dtdispopro:TIMESTAMP#,prapro= #prapro:NUMERIC#,naipro= UPPER(#naipro:VARCHAR#),tepro= UPPER(#tepro:VARCHAR#) WHERE iddpro = #iddpro:NUMERIC#
+ </update>
+ <delete id="delByCod" parameterClass="Long"> 
+ DELETE FROM pgm.Pro    WHERE     iddpro = #value:NUMERIC#
+  </delete>
+ <delete id="delByCodigos" parameterClass="String"> 
+ DELETE FROM pgm.Pro    WHERE     iddpro in  ($value$)
+  </delete>
+ 
+<select id="getCountByCriterio" parameterClass="ProVO" resultClass="Integer">
+  SELECT count(iddpro)  	  FROM pgm.Pro 	
+	<dynamic prepend=" WHERE ">
+<isNotNull property="iddpro" prepend=" AND ">   iddpro = #iddpro:NUMERIC# 
+</isNotNull> 
+ <isNotNull property="numpro" prepend=" AND ">
+      numpro ILIKE '%' || #numpro:VARCHAR# || '%'
+ </isNotNull> 
+ <isNotNull property="sitpro" prepend=" AND ">
+      sitpro ILIKE '%' || #sitpro:VARCHAR# || '%'
+ </isNotNull> 
+ <isNotNull property="clapro" prepend=" AND ">
+      clapro ILIKE '%' || #clapro:VARCHAR# || '%'
+ </isNotNull> 
+ <isNotNull property="arepro" prepend=" AND ">
+      arepro ILIKE '%' || #arepro:VARCHAR# || '%'
+ </isNotNull> 
+ <isNotNull property="asspro" prepend=" AND ">
+      asspro ILIKE '%' || #asspro:VARCHAR# || '%'
+ </isNotNull> 
+ <isNotNull property="conpro" prepend=" AND ">
+      conpro ILIKE '%' || #conpro:VARCHAR# || '%'
+ </isNotNull> 
+ <isNotNull property="juipro" prepend=" AND ">
+      juipro ILIKE '%' || #juipro:VARCHAR# || '%'
+ </isNotNull>
+<isNotNull property="valpro" prepend=" AND ">   valpro = #valpro:NUMERIC# 
+</isNotNull> 
+ <isNotNull property="oripro" prepend=" AND ">
+      oripro ILIKE '%' || #oripro:VARCHAR# || '%'
+ </isNotNull> 
+ <isNotNull property="norpro" prepend=" AND ">
+      norpro ILIKE '%' || #norpro:VARCHAR# || '%'
+ </isNotNull> 
+ <isNotNull property="relpro" prepend=" AND ">
+      relpro ILIKE '%' || #relpro:VARCHAR# || '%'
+ </isNotNull> 
+ <isNotNull property="vappro" prepend=" AND ">
+      vappro ILIKE '%' || #vappro:VARCHAR# || '%'
+ </isNotNull> 
+ <isNotNull property="onrpro" prepend=" AND ">
+      onrpro ILIKE '%' || #onrpro:VARCHAR# || '%'
+ </isNotNull> 
+ <isNotNull property="obspro" prepend=" AND ">
+      obspro ILIKE '%' || #obspro:VARCHAR# || '%'
+ </isNotNull> 
+ <isNotNull property="usualt" prepend=" AND ">
+      usualt ILIKE '%' || #usualt:VARCHAR# || '%'
+ </isNotNull>
+  <isNotNull property="datalt" prepend=" AND "> to_char(datalt,'dd/MM/yyyy') = to_char(#datalt:TIMESTAMP#,'dd/MM/yyyy') 
+ </isNotNull>
+  <isNotNull property="dimpro" prepend=" AND "> to_char(dimpro,'dd/MM/yyyy') = to_char(#dimpro:TIMESTAMP#,'dd/MM/yyyy') 
+ </isNotNull>
+  <isNotNull property="dtdispopro" prepend=" AND "> to_char(dtdispopro,'dd/MM/yyyy') = to_char(#dtdispopro:TIMESTAMP#,'dd/MM/yyyy') 
+ </isNotNull>
+<isNotNull property="prapro" prepend=" AND ">   prapro = #prapro:NUMERIC# 
+</isNotNull> 
+ <isNotNull property="naipro" prepend=" AND ">
+      naipro ILIKE '%' || #naipro:VARCHAR# || '%'
+ </isNotNull> 
+ <isNotNull property="tepro" prepend=" AND ">
+      tepro ILIKE '%' || #tepro:VARCHAR# || '%'
+ </isNotNull>		</dynamic>  	</select> 
+ </sqlMap> 
+ 

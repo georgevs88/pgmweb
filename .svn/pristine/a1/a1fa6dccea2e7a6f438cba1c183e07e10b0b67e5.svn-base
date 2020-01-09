@@ -1,0 +1,200 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+ <!DOCTYPE sqlMap PUBLIC "//iBATIS.com//DTD SQL Map 2.0//EN" "HTTP://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="Adeb">
+	<typeAlias alias="AdebVO" type="pmcg.imti.domain.AdebVO" />
+
+	<resultMap id="mapComplexQuerySimple" class="AdebVO">
+		<result property="codrem" column="codrem" />
+		<result property="codcad" column="codcad" />
+		<result property="numcad" column="numcad" />
+		<result property="coddeb" column="coddeb" />
+		<result property="datven" column="datven" />
+		<result property="vallan" column="vallan" />
+		<result property="valatu" column="valatu" />
+		<result property="valjur" column="valjur" />
+		<result property="valcor" column="valcor" />
+	</resultMap>
+
+	<resultMap id="mapComplexQuery" class="AdebVO">
+		<result property="codrem" column="codrem" />
+		<result property="codcad" column="codcad" />
+		<result property="numcad" column="numcad" />
+		<result property="coddeb" column="coddeb" />
+		<result property="datven" column="datven" />
+		<result property="vallan" column="vallan" />
+		<result property="valatu" column="valatu" />
+		<result property="valjur" column="valjur" />
+		<result property="valcor" column="valcor" />
+	</resultMap>
+
+	<select id="getRegByCod" parameterClass="Long" resultMap="mapComplexQuerySimple">
+		SELECT * FROM imo.imodeb WHERE codrem = #value:NUMERIC#
+	</select>
+
+	<select id="getRegByCodComplex" parameterClass="Long" resultMap="mapComplexQuery">
+		SELECT * FROM imo.imodeb WHERE codrem = #value:NUMERIC#
+	</select>
+
+	<select id="getRegByCriterio" parameterClass="AdebVO" resultMap="mapComplexQuerySimple">
+		SELECT * FROM imo.imodeb
+		<dynamic prepend=" WHERE ">
+			<isNotNull property="codrem" prepend=" AND ">
+				codrem = #codrem:NUMERIC#
+			</isNotNull>
+			<isNotNull property="codcad" prepend=" AND ">
+				codcad ILIKE '%' || #codcad:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="numcad" prepend=" AND ">
+				numcad ILIKE '%' || #numcad:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="coddeb" prepend=" AND ">
+				coddeb ILIKE '%' || #coddeb:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="datven" prepend=" AND ">
+				datven ILIKE '%' || #datven:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="vallan" prepend=" AND ">
+				vallan ILIKE '%' || #vallan:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="valatu" prepend=" AND ">
+				valatu ILIKE '%' || #valatu:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="valjur" prepend=" AND ">
+				valjur ILIKE '%' || #valjur:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="valcor" prepend=" AND ">
+				valcor ILIKE '%' || #valcor:VARCHAR# || '%'
+			</isNotNull>
+		</dynamic>
+	</select>
+
+	<select id="getRegByCriterioComplex" parameterClass="AdebVO" resultMap="mapComplexQuery">
+		SELECT * FROM imo.imodeb
+		<dynamic prepend=" WHERE ">
+			<isNotNull property="codrem" prepend=" AND "> codrem = #codrem:NUMERIC#
+			</isNotNull>
+			<isNotNull property="codcad" prepend=" AND ">
+				codcad ILIKE '%' || #codcad:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="numcad" prepend=" AND ">
+				numcad ILIKE '%' || #numcad:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="coddeb" prepend=" AND ">
+				coddeb ILIKE '%' || #coddeb:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="datven" prepend=" AND ">
+				datven ILIKE '%' || #datven:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="vallan" prepend=" AND ">
+				vallan ILIKE '%' || #vallan:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="valatu" prepend=" AND ">
+				valatu ILIKE '%' || #valatu:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="valjur" prepend=" AND ">
+				valjur ILIKE '%' || #valjur:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="valcor" prepend=" AND ">
+				valcor ILIKE '%' || #valcor:VARCHAR# || '%'
+			</isNotNull>
+		</dynamic>
+	</select>
+
+	<select id="getTodos" resultMap="mapComplexQuerySimple">
+		SELECT * FROM imo.imodeb
+	</select>
+
+	<insert id="insReg" parameterClass="AdebVO">
+		<selectKey keyProperty="codrem" resultClass="Long">
+			SELECT NEXTVAL('imo.seqimp')
+		</selectKey>
+		INSERT INTO imo.imodeb(codrem,codcad,numcad,coddeb,datven,vallan,valatu,valjur,valcor) VALUES
+		(#codrem:NUMERIC#,UPPER(#codcad:VARCHAR#), UPPER(#numcad:VARCHAR#), UPPER(#coddeb:VARCHAR#),
+		UPPER(#datven:VARCHAR#), UPPER(#vallan:VARCHAR#), UPPER(#valatu:VARCHAR#), UPPER(#valjur:VARCHAR#),
+		UPPER(#valcor:VARCHAR#))
+	</insert>
+
+	<update id="updRegByCod" parameterClass="AdebVO">
+		UPDATE imo.imodeb SET codcad= UPPER(#codcad:VARCHAR#),numcad= UPPER(#numcad:VARCHAR#),coddeb=
+		UPPER(#coddeb:VARCHAR#),datven= UPPER(#datven:VARCHAR#),vallan= UPPER(#vallan:VARCHAR#),valatu=
+		UPPER(#valatu:VARCHAR#),valjur= UPPER(#valjur:VARCHAR#),valcor= UPPER(#valcor:VARCHAR#) WHERE codrem = #codrem:NUMERIC#
+	</update>
+	
+	<delete id="delByCod" parameterClass="Long">
+		DELETE FROM imo.imodeb WHERE codrem = #value:NUMERIC#
+	</delete>
+	
+	<delete id="delByCodigos" parameterClass="String">
+		DELETE FROM imo.imodeb WHERE codrem in ($value$)
+	</delete>
+
+	<select id="getCountByCriterio" parameterClass="AdebVO" resultClass="Integer">
+		SELECT count(codrem) FROM imo.imodeb
+		<dynamic prepend=" WHERE ">
+			<isNotNull property="codrem" prepend=" AND "> codrem = #codrem:NUMERIC#
+			</isNotNull>
+			<isNotNull property="codcad" prepend=" AND ">
+				codcad ILIKE '%' || #codcad:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="numcad" prepend=" AND ">
+				numcad ILIKE '%' || #numcad:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="coddeb" prepend=" AND ">
+				coddeb ILIKE '%' || #coddeb:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="datven" prepend=" AND ">
+				datven ILIKE '%' || #datven:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="vallan" prepend=" AND ">
+				vallan ILIKE '%' || #vallan:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="valatu" prepend=" AND ">
+				valatu ILIKE '%' || #valatu:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="valjur" prepend=" AND ">
+				valjur ILIKE '%' || #valjur:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="valcor" prepend=" AND ">
+				valcor ILIKE '%' || #valcor:VARCHAR# || '%'
+			</isNotNull>
+		</dynamic>
+	</select>
+	
+	<insert id="insRegRestoArquivo" parameterClass="AdebVO">
+		INSERT INTO imo.imodeb(codrem,codcad,numcad,coddeb,datven,vallan,valatu,valjur,valcor) VALUES
+		(#codrem:NUMERIC#, UPPER(#codcad:VARCHAR#), UPPER(#numcad:VARCHAR#), UPPER(#coddeb:VARCHAR#),
+		UPPER(#datven:VARCHAR#), UPPER(#vallan:VARCHAR#), UPPER(#valatu:VARCHAR#), UPPER(#valjur:VARCHAR#),
+		UPPER(#valcor:VARCHAR#) )
+	</insert>
+	
+	<select id="getCoddebRem" resultClass="String" parameterClass="Long">
+		SELECT 
+			coddeb
+		FROM
+			imo.imodeb
+		WHERE
+			codrem = #value:NUMERIC#
+	</select>
+
+	<select id="getInscricoesAgrup" resultClass="String" parameterClass="Long">
+		SELECT 
+			distinct(numcad) as INSCRICAO 
+		FROM
+			imo.imodeb
+		WHERE
+			codrem = #value:NUMERIC#
+	</select>
+	
+	<select id="getDivByInscricao" resultMap="mapComplexQuerySimple" parameterClass="AdebVO">
+		SELECT 
+			*
+		FROM
+			imo.imodeb
+		WHERE
+			numcad = #numcad:VARCHAR#
+			and codrem = #codrem:NUMERIC#
+		GROUP BY
+			codrem,codcad,numcad,coddeb,datven,vallan,valatu,valjur,valcor
+	</select>
+</sqlMap> 
+ 

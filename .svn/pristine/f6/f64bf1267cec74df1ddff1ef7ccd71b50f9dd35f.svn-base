@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+ <!DOCTYPE sqlMap PUBLIC "//iBATIS.com//DTD SQL Map 2.0//EN" "HTTP://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="Pad">
+	<typeAlias alias="PadVO" type="pmcg.imti.domain.PadVO" />
+
+	<resultMap id="mapComplexQuerySimple" class="PadVO">
+		<result property="iddpad" column="iddpad" />
+		<result property="imopad" column="imopad" />
+		<result property="propad" column="propad" />
+		<result property="despad" column="despad" />
+	</resultMap>
+
+	<resultMap id="mapComplexQuery" class="PadVO">
+		<result property="iddpad" column="iddpad" />
+		<result property="imopad" column="imopad" />
+		<result property="propad" column="propad" />
+		<result property="despad" column="despad" />
+	</resultMap>
+
+	<select id="getRegByCod" parameterClass="Long" resultMap="mapComplexQuerySimple">
+		SELECT * FROM imo.imopad WHERE iddpad = #value:NUMERIC#
+	</select>
+
+	<select id="getRegByCodComplex" parameterClass="Long" resultMap="mapComplexQuery">
+		SELECT * FROM imo.imopad WHERE iddpad = #value:NUMERIC#
+	</select>
+
+	<select id="getRegByCriterio" parameterClass="PadVO" resultMap="mapComplexQuerySimple">
+		SELECT * FROM imo.imopad
+		<dynamic prepend=" WHERE ">
+			<isNotNull property="iddpad" prepend=" AND ">
+				iddpad = #iddpad:NUMERIC#
+			</isNotNull>
+			<isNotNull property="imopad" prepend=" AND ">
+				imopad ILIKE '%' || #imopad:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="propad" prepend=" AND ">
+				propad ILIKE '%' || #propad:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="despad" prepend=" AND ">
+				despad ILIKE '%' || #despad:VARCHAR# || '%'
+			</isNotNull>
+		</dynamic>
+	</select>
+
+	<select id="getRegByCriterioComplex" parameterClass="PadVO" resultMap="mapComplexQuery">
+		SELECT * FROM imo.imopad
+		<dynamic prepend=" WHERE ">
+			<isNotNull property="iddpad" prepend=" AND "> iddpad = #iddpad:NUMERIC#
+			</isNotNull>
+			<isNotNull property="imopad" prepend=" AND ">
+				imopad ILIKE '%' || #imopad:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="propad" prepend=" AND ">
+				propad ILIKE '%' || #propad:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="despad" prepend=" AND ">
+				despad ILIKE '%' || #despad:VARCHAR# || '%'
+			</isNotNull>
+		</dynamic>
+	</select>
+
+	<select id="getTodos" resultMap="mapComplexQuerySimple">
+		SELECT * FROM imo.imopad
+	</select>
+
+	<insert id="insReg" parameterClass="PadVO">
+		<selectKey keyProperty="iddpad" resultClass="Long">
+			SELECT NEXTVAL('imo.seqpad')
+		</selectKey>
+		INSERT INTO imo.imopad(iddpad,imopad,propad,despad) VALUES (#iddpad:NUMERIC#, UPPER(#imopad:VARCHAR#),
+		UPPER(#propad:VARCHAR#), UPPER(#despad:VARCHAR#) )
+	</insert>
+
+	<update id="updRegByCod" parameterClass="PadVO">
+		UPDATE imo.imopad SET imopad= UPPER(#imopad:VARCHAR#),propad= UPPER(#propad:VARCHAR#),despad= UPPER(#despad:VARCHAR#) WHERE
+		iddpad = #iddpad:NUMERIC#
+	</update>
+	
+	<delete id="delByCod" parameterClass="Long">
+		DELETE FROM imo.imopad WHERE iddpad = #value:NUMERIC#
+	</delete>
+	
+	<delete id="delByCodigos" parameterClass="String">
+		DELETE FROM imo.imopad WHERE iddpad in ($value$)
+	</delete>
+
+	<select id="getCountByCriterio" parameterClass="PadVO" resultClass="Integer">
+		SELECT count(iddpad) FROM imo.imopad
+		<dynamic prepend=" WHERE ">
+			<isNotNull property="iddpad" prepend=" AND "> iddpad = #iddpad:NUMERIC#
+			</isNotNull>
+			<isNotNull property="imopad" prepend=" AND ">
+				imopad ILIKE '%' || #imopad:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="propad" prepend=" AND ">
+				propad ILIKE '%' || #propad:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="despad" prepend=" AND ">
+				despad ILIKE '%' || #despad:VARCHAR# || '%'
+			</isNotNull>
+		</dynamic>
+	</select>
+</sqlMap> 
+ 

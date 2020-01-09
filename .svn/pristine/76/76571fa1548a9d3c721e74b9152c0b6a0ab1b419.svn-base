@@ -1,0 +1,86 @@
+package pmcg.imti.domain;
+
+import java.util.Date;
+
+import gerador.annotation.ZKEntity;
+import gerador.annotation.ZKField;
+import gerador.annotation.ZKId;
+
+@ZKEntity(label = "Rai", sequence = "seqrai")
+public class RaiVO {
+	@ZKId
+	@ZKField(label = "Código", artigo = "o", readonly = true, maxsize = 80, tooltip = "Código incremental!")
+	private Integer codcad; //Código do Cadastro
+	private Long codimo; //Inscrição
+	private Long numpro; //Número do Processo
+	private String numaut; //Número Auto
+	private Date datpro; //Data Processo
+	private Date dataut; //Data Auto
+	private Date datcad; //Data CAdastro
+	private Integer nummrc; //Número da Marcação
+	private Date dataju; //
+	private Date dattra; //Data Transito em Julgado
+	
+	public Integer getCodcad() {
+		return codcad;
+	}
+	public void setCodcad(Integer codcad) {
+		this.codcad = codcad;
+	}
+	public Long getCodimo() {
+		return codimo;
+	}
+	public void setCodimo(Long codimo) {
+		this.codimo = codimo;
+	}
+	public Long getNumpro() {
+		return numpro;
+	}
+	public void setNumpro(Long numpro) {
+		this.numpro = numpro;
+	}
+	public String getNumaut() {
+		return numaut;
+	}
+	public void setNumaut(String numaut) {
+		this.numaut = numaut;
+	}
+	public Date getDatpro() {
+		return datpro;
+	}
+	public void setDatpro(Date datpro) {
+		this.datpro = datpro;
+	}
+	public Date getDataut() {
+		return dataut;
+	}
+	public void setDataut(Date dataut) {
+		this.dataut = dataut;
+	}
+	public Date getDatcad() {
+		return datcad;
+	}
+	public void setDatcad(Date datcad) {
+		this.datcad = datcad;
+	}
+	public Integer getNummrc() {
+		return nummrc;
+	}
+	public void setNummrc(Integer nummrc) {
+		this.nummrc = nummrc;
+	}
+	public Date getDataju() {
+		return dataju;
+	}
+	public void setDataju(Date dataju) {
+		this.dataju = dataju;
+	}
+	public Date getDattra() {
+		return dattra;
+	}
+	public void setDattra(Date dattra) {
+		this.dattra = dattra;
+	}
+
+	
+}

@@ -1,0 +1,315 @@
+package pmcg.imti.view;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
+import org.zkoss.exporter.excel.ExcelExporter;
+import org.zkoss.util.media.AMedia;
+import org.zkoss.util.media.Media;
+import org.zkoss.zk.ui.WrongValueException;
+import org.zkoss.zk.ui.event.Event;
+import org.zkoss.zk.ui.event.UploadEvent;
+import org.zkoss.zul.Filedownload;
+import org.zkoss.zul.Listbox;
+import org.zkoss.zul.Messagebox;
+
+import jxl.Cell;
+import jxl.Sheet;
+import jxl.Workbook;
+import jxl.WorkbookSettings;
+import jxl.read.biff.BiffException;
+import pmcg.framework.ui.WindowCrud;
+import pmcg.framework.util.UploadUtils;
+import pmcg.framework.util.WinUtils;
+import pmcg.imti.dao.ibatis.EcoDAO;
+import pmcg.imti.util.FormatUtils;
+
+public class Repcad extends WindowCrud {
+	private static final long serialVersionUID = 1L;
+	public Long codrem = 19L;
+	public String nomeArquivo;
+	public Integer qtdOK = 0;
+	public List<HashMap<String, Object>> listArq = new ArrayList<HashMap<String, Object>>(); 
+	public List<HashMap<String, Object>> listCdas = new ArrayList<HashMap<String, Object>>(); 
+	
+	public void initComponentes() throws InterruptedException {
+		this.getCrdBar().getBotao(0).setVisible(false);// incluir
+		this.getCrdBar().getBotao(1).setVisible(false);// salvar
+		this.getCrdBar().getBotao(2).setVisible(false);// excluir
+		this.getCrdBar().getBotao(3).setVisible(false);// limpar
+		this.getCrdBar().getBotao(4).setVisible(false);// pesquisar
+		this.getCrdBar().getBotao(5).setVisible(false);// imprimir
+		this.getCrdBar().getBotao(6).setVisible(true);// sair
+		this.vincular();
+		//atualizaVaraRemessa();
+	}
+	
+	public void upload(Event evt) throws IOException, InterruptedException {
+		listArq = new ArrayList<HashMap<String, Object>>(); 
+		listCdas = new ArrayList<HashMap<String, Object>>(); 
+
+		UploadEvent e = (UploadEvent) evt;
+		Media arquivo = e.getMedia();
+		nomeArquivo = arquivo.getName();
+
+		File file = criaArquivo(arquivo);
+		String tipo = arquivo.getFormat();
+		if (!tipo.equals("xls")) {
+			throw new WrongValueException(this.getComponente("nomeArquivo"),"Tipo de Arquivo Inválido. Selecione um arquivo EXCEL 97-03!");
+		} else {
+			Workbook workbook;
+			try {
+				WorkbookSettings workbookSettings = new WorkbookSettings();
+				workbookSettings.setEncoding("Cp1252");
+				workbook = Workbook.getWorkbook(file, workbookSettings);
+
+				Sheet sheet = workbook.getSheet(0);
+				int linhas = sheet.getRows();
+				int colunas = sheet.getColumns();
+				String col = "";
+				Cell a1 = null;
+				for (int i = 0; i < linhas - 1; i++) {
+					HashMap<String, Object> reg = new HashMap<String, Object>();
+					sheet.getRow(i);
+					for (int j = 0; j < colunas; j++) {
+						if (i == 0) {
+							col = sheet.getCell(j, i).getContents();
+						} else {
+							col = sheet.getCell(j, 0).getContents();
+						}
+						if (i < linhas - 1) {
+							a1 = sheet.getCell(j, i + 1);
+						} else {
+							a1 = sheet.getCell(j, i);
+						}
+						if (col.trim().equalsIgnoreCase("processo")) {
+							if (a1.getContents() != null && !a1.getContents().trim().equals("")) {
+								reg.put("processo", a1.getContents().trim());
+							}
+						} else if (col.trim().equalsIgnoreCase("cda")) {
+							if (a1.getContents() != null && a1.getContents().trim() != "") {
+								reg.put("cda", a1.getContents().trim());
+							}
+						} else if (col.trim().equalsIgnoreCase("valor")) {
+							if (a1.getContents() != null && a1.getContents().trim() != "") {
+								reg.put("valor", a1.getContents().trim());
+							}
+						} else if (col.trim().equalsIgnoreCase("inscricao")) {
+							if (a1.getContents() != null && a1.getContents().trim() != "") {
+								reg.put("inscricao", a1.getContents().trim());
+							}
+						} else if (col.trim().equalsIgnoreCase("contribuinte")) {
+							if (a1.getContents() != null && a1.getContents().trim() != "") {
+								reg.put("contribuinte", a1.getContents().trim());
+							}
+						} else if (col.trim().equalsIgnoreCase("transito_julgado")) {
+							if (a1.getContents() != null && a1.getContents().trim() != "") {
+								reg.put("transito_julgado", a1.getContents().trim());
+							}
+						} 
+					}
+					listArq.add(reg);
+				}
+				file.delete();
+			} catch (BiffException e2) {
+				e2.printStackTrace();
+			}
+		}
+		this.vincular();
+		Messagebox.show("Arquivo importado com sucesso!","Importação de Arquivo",Messagebox.OK, Messagebox.INFORMATION);
+	}
+	
+	public void exportListboxToExcel() throws Exception {
+		Listbox listAtv = ((Listbox) getComponente("listArq"));
+		ExcelExporter exporter = new ExcelExporter();
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		exporter.export(listAtv, out);
+		AMedia amedia = new AMedia("analise_cdas.xlsx", "xls", "application/file", out.toByteArray());
+		Filedownload.save(amedia);
+		out.close();
+	}
+	
+	public void analisar() throws InterruptedException{
+		listCdas = new ArrayList<HashMap<String, Object>>(); 
+		qtdOK = 0;
+		for(HashMap<String, Object> reg : listArq){
+			try {
+				Integer qtdCda = new EcoDAO().getQtdCdaByCod(reg.get("cda").toString());
+				if(qtdCda != null && qtdCda > 0){
+					//verificar se já foi importada
+					Integer countJaImp = 0;
+					for(HashMap<String, Object> cda : listArq){
+						Long ncdaArq = Long.parseLong(FormatUtils.onlyNumbers(cda.get("cda").toString()));
+						Long ncdaReg = Long.parseLong(FormatUtils.onlyNumbers(reg.get("cda").toString()));
+						if(ncdaArq.equals(ncdaReg) && cda.get("msg") != null && cda.get("msg").toString().equalsIgnoreCase("OK")){
+							countJaImp++;
+							break;
+						}
+					}
+					if(countJaImp > 0){
+						reg.put("msg", "CDA já cadastrada");
+						reg.put("style", "background:RGB(205, 213, 69);color:white;");
+						listCdas.add(reg);
+					} else {
+						reg.put("msg", "OK");
+						reg.put("style", "background:none;");
+						qtdOK++;
+					}
+				} else {
+					reg.put("msg", "CDA não encontrada");
+					reg.put("style", "background:RGB(180, 0, 0);color:white;");
+					listCdas.add(reg);
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		vincular();
+		Messagebox.show("Análise concluída! " + qtdOK + " CDAs válidas. " + listCdas.size() + " registro(s) com erro.","Importação de Arquivo",Messagebox.OK, Messagebox.INFORMATION);
+	}
+	
+	public void baixarModelo() {
+		HashMap<String, String> param = new HashMap<String, String>();
+		session.setAttribute("codsis", 125);
+		new WinUtils().abrirBirt("modelo_cdas.rptdesign", param);
+	}
+	
+	private File criaArquivo(Media arquivo) {
+		// escreve arquivo no HD
+		File file = null;
+		try {
+			byte[] b;
+			b = UploadUtils.getBinaryData(arquivo);
+			String tipo = arquivo.getFormat();
+			String fileName = "";
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+			String data = sdf.format(WinUtils.getDataBanco());
+			if (tipo.equals("xls")) {
+				fileName = data + this.getLogin() + ".xls";
+			}
+			String tDir = System.getProperty("java.io.tmpdir");
+			file = new File(tDir + File.separator + fileName);
+			FileOutputStream fos = new FileOutputStream(file);
+			fos.write(b);
+			fos.flush();
+			fos.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		// FIM escreve arquivo no HD
+		return file;
+
+	}
+	
+	public String getLabelResultado(){
+		if(listCdas != null && listCdas.size() > 0){
+			return "Log ERROS/Alertas ( " + listCdas.size() + " registros)";
+		} else {
+			return "Log ERROS/Alertas";
+		}
+	}
+	
+	public String getLabelConteudo(){
+		if(listArq != null && listArq.size() > 0){
+			return "Conteúdo do Arquivo ( " + listArq.size() + " registros)";
+		} else {
+			return "Conteúdo do Arquivo";
+		}
+	}
+	
+	public void gerar() throws InterruptedException{
+		if (Messagebox.show("Tem certeza que deseja gerar a remessa de " + qtdOK +" CDAs?","Aviso!!!", Messagebox.YES | Messagebox.NO, Messagebox.QUESTION) == Messagebox.YES) {
+			//Gerar o registro da remessa -> TBLREMECOCDA
+			try {
+				new EcoDAO().getSqlMap().startTransaction();
+				new EcoDAO().insRemEcoCda();
+				HashMap<String, Object> rem = new EcoDAO().getUltRemEcoCda();
+				Integer codrem = rem != null && rem.get("CODREMECOCDA") != null? Integer.parseInt(rem.get("CODREMECOCDA").toString()):null;
+				Integer numrem = rem != null && rem.get("NUMREM") != null? Integer.parseInt(rem.get("NUMREM").toString()):null;
+				if(codrem != null && codrem > 0){
+					//Gerar os registros detalhe da remessa (CDAs/Parcelas) -> TBLECOCDATMP
+					for(HashMap<String, Object> reg : listArq){
+						if(reg.get("msg").toString().equalsIgnoreCase("OK")){
+							HashMap<String, Object> ect = new HashMap<String, Object>();
+							ect.put("codctd", reg.get("cda").toString());
+							ect.put("codrem", codrem);
+							new EcoDAO().insEcoCdaTmp(ect);
+							
+							//Atualizar NR PROCESSO e TRANSITO JULGADO das certidões com base no arquivo
+							ect.put("transito_julgado", FormatUtils.onlyNumbers(reg.get("transito_julgado").toString()));
+							new EcoDAO().updTransitoJulgado(ect);
+							ect.put("processo", reg.get("processo").toString());
+							new EcoDAO().updProcesso(ect);
+							
+							//Atualizar o valor dos débitos
+							new EcoDAO().updValatuJurmorCtd(codrem.toString());
+							new EcoDAO().updValtotCtd(codrem.toString());
+						}
+					}
+				}
+				
+				new EcoDAO().getSqlMap().commitTransaction();
+				Messagebox.show("Remessa nr " + numrem + " gerada com sucesso! Utilize este código no SIAT para gerar os PDFs (CDA e Guia)." ,"Geração de Remessa",Messagebox.OK, Messagebox.INFORMATION);
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				try {
+					new EcoDAO().getSqlMap().endTransaction();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		this.vincular();
+	}
+	
+	public static String valorMonetario(Double numero) {
+		  if(numero != null){
+			  return String.format("%1$,.2f", numero);
+		  } else {
+			  return "0,00";
+		  }
+	}
+	
+	@Override
+	public void apagar() throws InterruptedException {
+		
+	}
+
+	@Override
+	public void imprimir() throws InterruptedException {
+		
+	}
+
+	@Override
+	public void incluir() throws InterruptedException {
+		
+	}
+
+	@Override
+	public void limpar() throws InterruptedException {
+		
+	}
+
+	@Override
+	public void pesquisar() throws InterruptedException {
+		
+	}
+
+	@Override
+	public void sair() throws InterruptedException {
+		this.detach();
+	}
+
+	@Override
+	public void salvar() throws InterruptedException {
+		
+	}
+}

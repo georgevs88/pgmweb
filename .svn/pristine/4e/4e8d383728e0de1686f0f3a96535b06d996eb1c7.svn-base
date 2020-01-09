@@ -1,0 +1,30 @@
+<?page id="wCadFunZul" title="Processar Arquivos IMO" cacheable="false" language="xul/html" zscriptLanguage="Java" contentType="text/html;charset=UTF-8"?>
+<zk xmlns="http://www.zkoss.org/2005/zul"
+	xmlns:h="http://www.w3.org/1999/xhtml"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-infabnce"
+	xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
+	<window use="pmcg.imti.view.Prcarq" id="wPrc" title="Processamento de Arquivos IMO" border="normal" shadow="false"
+		width="550px" position="center" mode="overlapped" sizable="false" closable="false" onCreate="wPrc.initComponentes()">
+		<separator height="5px" />
+
+		<grid width="97%" align="center">
+			<columns>
+				<column label="" align="right" width="150px" />
+				<column label="" align="left" />
+			</columns>
+			<rows>
+				<row>
+					<label value="Código Remessa:" />
+					<textbox value="@{wPrc.codrem}"/>
+				</row>
+				<row>
+					<button label="Processar" width="140px" onClick="wPrc.processar()" />
+				</row>
+				<row spans="2">
+					<button label="Processar Remessa antiga" width="190px" onClick="wPrc.atualizaRemessa()" />
+				</row>
+			</rows>
+		</grid>
+		<separator height="10px" />
+	</window>
+</zk>

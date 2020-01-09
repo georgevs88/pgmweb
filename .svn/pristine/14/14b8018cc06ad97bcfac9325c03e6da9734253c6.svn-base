@@ -1,0 +1,92 @@
+package pmcg.imti.domain;
+
+import java.util.Date;
+
+import gerador.annotation.ZKEntity;
+import gerador.annotation.ZKField;
+import gerador.annotation.ZKId;
+
+@ZKEntity(label = "Deb", sequence = "seqdeb")
+public class AdebVO {
+	@ZKId
+	@ZKField(label = "Código", artigo = "o", readonly = true, maxsize = 80, tooltip = "Código incremental!")
+	private Long codimp;
+	private Date datimp;
+	private String codcad; //codcad
+	private String numcad; //numcad
+	private String coddeb; //coddeb
+	private String datven; //AAAAMMDD
+	private String valcor; //10,2
+	private String valjur; //10,2
+	private String valmul; //10,2
+	private String valtot; //10,2
+	private String datcal; //AAAAMMDD
+	
+	public Long getCodimp() {
+		return codimp;
+	}
+	public void setCodimp(Long codimp) {
+		this.codimp = codimp;
+	}
+	public Date getDatimp() {
+		return datimp;
+	}
+	public void setDatimp(Date datimp) {
+		this.datimp = datimp;
+	}
+	public String getCodcad() {
+		return codcad;
+	}
+	public void setCodcad(String codcad) {
+		this.codcad = codcad;
+	}
+	public String getNumcad() {
+		return numcad;
+	}
+	public void setNumcad(String numcad) {
+		this.numcad = numcad;
+	}
+	public String getCoddeb() {
+		return coddeb;
+	}
+	public void setCoddeb(String coddeb) {
+		this.coddeb = coddeb;
+	}
+	public String getDatven() {
+		return datven;
+	}
+	public void setDatven(String datven) {
+		this.datven = datven;
+	}
+	public String getValcor() {
+		return valcor;
+	}
+	public void setValcor(String valcor) {
+		this.valcor = valcor;
+	}
+	public String getValjur() {
+		return valjur;
+	}
+	public void setValjur(String valjur) {
+		this.valjur = valjur;
+	}
+	public String getValmul() {
+		return valmul;
+	}
+	public void setValmul(String valmul) {
+		this.valmul = valmul;
+	}
+	public String getValtot() {
+		return valtot;
+	}
+	public void setValtot(String valtot) {
+		this.valtot = valtot;
+	}
+	public String getDatcal() {
+		return datcal;
+	}
+	public void setDatcal(String datcal) {
+		this.datcal = datcal;
+	}
+
+}

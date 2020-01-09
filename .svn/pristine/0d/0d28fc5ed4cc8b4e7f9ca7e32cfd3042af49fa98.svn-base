@@ -1,0 +1,106 @@
+package pmcg.imti.dao.ibatis; 
+  
+ import java.sql.SQLException;
+import java.util.List;
+
+import pmcg.framework.dao.ibatis.DAOConcorrencia;
+import pmcg.imti.domain.Projex_DivVO; 
+   /** 
+    * Projex_DivDAO  
+    * Responsável pela Manipulação de registros 
+    * @author Gerador ZK 
+    */ 
+ public class Projex_DivDAO extends DAOConcorrencia<Projex_DivVO, Long> { 
+ 	public Projex_DivDAO() { 
+ 		super("Projex_Div"); 
+ 	} 
+ 	  
+ 	public List<Projex_DivVO> getRegByCriterioComplex(Projex_DivVO obj) { 
+ 		String nameSpace = getNameSpaceMap(); 
+ 		if (nameSpace == null) 
+ 			setNameSpaceMap("Projex_Div"); 
+ 		try { 
+ 			return sqlMap.queryForList(nameSpace + ".getRegByCriterioComplex", 
+ 					obj); 
+ 		} catch (SQLException e) { 
+ 			e.printStackTrace(); 
+ 		} 
+ 		return null; 
+ 	} 
+   
+ 	public Projex_DivVO getRegByCodComplex(Long cod) { 
+ 		String nameSpace = getNameSpaceMap(); 
+ 		if (nameSpace == null) 
+ 			setNameSpaceMap("Projex_Div"); 
+ 		try { 
+ 			return (Projex_DivVO) sqlMap.queryForObject(nameSpace 
+ 					+ ".getRegByCodComplex", cod); 
+ 		} catch (SQLException e) { 
+ 			e.printStackTrace(); 
+ 		} 
+ 		return null; 
+ 	} 
+  	  
+ 	public Integer delByCodigos(String codigos) { 
+ 		String nameSpace = getNameSpaceMap(); 
+ 		if (nameSpace == null) 
+ 			setNameSpaceMap("Projex_Div"); 
+ 		try { 
+ 			return sqlMap.delete(nameSpace + ".delByCodigos", codigos); 
+ 		} catch (Exception e) { 
+ 			e.printStackTrace(); 
+ 		} 
+ 		return null; 
+ 	} 
+ 	  
+ 	public Integer 	getCountByCriterio(Projex_DivVO  obj) {  
+  		String nameSpace = getNameSpaceMap();  
+  		if (nameSpace == null)  
+  			setNameSpaceMap("Projex_Div");  
+  		try {  
+  			return (Integer) sqlMap.queryForObject(nameSpace + ".getCountByCriterio", obj);  
+  		} catch (Exception e) {  
+  			e.printStackTrace();  
+  		}  
+  		return 0;  
+  	}  
+  	  
+  	public List<Projex_DivVO> 	getByCriterioLimit(Projex_DivVO obj,Integer inicial, Integer maximoPermitido) {  
+  		String nameSpace = getNameSpaceMap();  
+  		if (nameSpace == null)  
+  			setNameSpaceMap("Projex_Div");  
+  		try {  
+  			return sqlMap.queryForList(nameSpace + ".getRegByCriterioComplex",obj,inicial,maximoPermitido);  
+  		} catch (SQLException e) {  
+  			e.printStackTrace();  
+  		}  
+  		return null;  
+  	} 
+  	
+  	public Integer delImportacao(Long codimp) { 
+ 		try { 
+ 			return sqlMap.delete(getNameSpaceMap() + ".delImportacao", codimp); 
+ 		} catch (Exception e) { 
+ 			e.printStackTrace(); 
+ 		} 
+ 		return null; 
+ 	}
+  	
+  	public List<Projex_DivVO> getDivByProcesso(Long id_processo) { 
+ 		try { 
+ 			return sqlMap.queryForList(getNameSpaceMap() + ".getDivByProcesso", id_processo); 
+ 		} catch (SQLException e) { 
+ 			e.printStackTrace(); 
+ 		} 
+ 		return null; 
+ 	}
+  	
+  	public Integer updDivida(Projex_DivVO obj) throws SQLException {
+		return (Integer) sqlMap.update(getNameSpaceMap() + ".updDivida", obj);
+	}
+  	
+  	public Integer updDividaAntiga(Projex_DivVO obj) throws SQLException {
+		return (Integer) sqlMap.update(getNameSpaceMap() + ".updDividaAntiga", obj);
+	}
+ } 
+ 

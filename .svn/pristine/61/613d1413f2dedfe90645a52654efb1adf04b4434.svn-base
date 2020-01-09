@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+ <!DOCTYPE sqlMap PUBLIC "//iBATIS.com//DTD SQL Map 2.0//EN" "HTTP://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="Mov">
+	<typeAlias alias="MovVO" type="pmcg.imti.domain.MovVO" />
+
+
+
+	<resultMap id="mapComplexQuery" class="MovVO">
+		<result property="idmov" column="idmov" />
+		<result property="datemov" column="datemov" />
+		<result property="promov" column="promov" />
+		<result property="desmov" column="desmov" />
+		<result property="usualt" column="usualt" />
+		<result property="datalt" column="datalt" />
+		<result property="orimov" column="orimov" />
+		<result property="destmov" column="destmov" />
+		<result property="datsmov" column="datsmov" />
+		<result property="conmov" column="conmov" />
+		<result property="funOrigemVO" select="Fun.getRegByCod" column="iddfun" />
+		<result property="funDestinoVO" select="Fun.getRegByCod" column="iddfun" />
+	</resultMap>
+
+	<select id="getRegByCod" parameterClass="Long" resultClass="MovVO">
+		SELECT
+		* FROM pgm.pgmmov WHERE idmov = #value:NUMERIC#
+	</select>
+	<select id="getRegByCodPro" parameterClass="Long" resultMap="mapComplexQuery">
+		SELECT
+		* FROM pgm.pgmmov WHERE promov = #value:NUMERIC#
+	</select>
+
+	<select id="getRegByCodComplex" parameterClass="Long" resultMap="mapComplexQuery">
+		SELECT * FROM pgm.pgmmov WHERE idmov = #value:NUMERIC#
+	</select>
+
+	<select id="getRegByCriterio" parameterClass="MovVO"
+		resultMap="mapComplexQuerySimple">
+		SELECT * FROM pgm.pgmmov
+		<dynamic prepend=" WHERE ">
+			<isNotNull property="idmov" prepend=" AND ">
+				idmov = #idmov:NUMERIC#
+			</isNotNull>
+			<isNotNull property="datemov" prepend=" AND ">
+				to_char(datemov,'dd/MM/yyyy') =
+				to_char(#datemov:TIMESTAMP#,'dd/MM/yyyy')
+			</isNotNull>
+			<isNotNull property="promov" prepend=" AND ">
+				promov =
+				#promov:NUMERIC#
+			</isNotNull>
+			<isNotNull property="desmov" prepend=" AND ">
+				desmov ILIKE '%' ||
+				#desmov:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="usualt" prepend=" AND ">
+				usualt ILIKE '%' ||
+				#usualt:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="datalt" prepend=" AND ">
+				to_char(datalt,'dd/MM/yyyy') =
+				to_char(#datalt:TIMESTAMP#,'dd/MM/yyyy')
+			</isNotNull>
+			<isNotNull property="orimov" prepend=" AND ">
+				orimov =
+				#orimov:NUMERIC#
+			</isNotNull>
+			<isNotNull property="destmov" prepend=" AND ">
+				destmov =
+				#destmov:NUMERIC#
+			</isNotNull>
+			<isNotNull property="datsmov" prepend=" AND ">
+				to_char(datsmov,'dd/MM/yyyy') =
+				to_char(#datsmov:TIMESTAMP#,'dd/MM/yyyy')
+			</isNotNull>
+			<isNotNull property="conmov" prepend=" AND ">
+				conmov
+				=#conmov:Boolean#
+
+			</isNotNull>
+		</dynamic>
+	</select>
+
+	<select id="getRegByCriterioComplex" parameterClass="MovVO"
+		resultMap="mapComplexQuery">
+		SELECT * FROM pgm.pgmmov
+		<dynamic prepend=" WHERE ">
+			<isNotNull property="idmov" prepend=" AND "> idmov =
+				#idmov:NUMERIC#
+			</isNotNull>
+			<isNotNull property="datemov" prepend=" AND ">
+				to_char(datemov,'dd/MM/yyyy') =
+				to_char(#datemov:TIMESTAMP#,'dd/MM/yyyy')
+			</isNotNull>
+			<isNotNull property="promov" prepend=" AND "> promov =
+				#promov:NUMERIC#
+			</isNotNull>
+			<isNotNull property="desmov" prepend=" AND ">
+				desmov ILIKE '%' ||
+				#desmov:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="usualt" prepend=" AND ">
+				usualt ILIKE '%' ||
+				#usualt:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="datalt" prepend=" AND ">
+				to_char(datalt,'dd/MM/yyyy') =
+				to_char(#datalt:TIMESTAMP#,'dd/MM/yyyy')
+			</isNotNull>
+			<isNotNull property="orimov" prepend=" AND "> orimov =
+				#orimov:NUMERIC#
+			</isNotNull>
+			<isNotNull property="destmov" prepend=" AND "> destmov =
+				#destmov:NUMERIC#
+			</isNotNull>
+			<isNotNull property="datsmov" prepend=" AND ">
+				to_char(datsmov,'dd/MM/yyyy') =
+				to_char(#datsmov:TIMESTAMP#,'dd/MM/yyyy')
+			</isNotNull>
+			<isNotNull property="conmov" prepend=" AND ">
+				conmov
+				=#conmov:BOOLEAN#
+
+			</isNotNull>
+		</dynamic>
+	</select>
+
+	<select id="getTodos" resultMap="mapComplexQuerySimple">
+		SELECT * FROM pgm.pgmmov
+	</select>
+
+	<insert id="insReg" parameterClass="MovVO">
+		<selectKey keyProperty="idmov" resultClass="Long">
+			SELECT
+			NEXTVAL('pgm.seqmov')
+		</selectKey>
+		INSERT INTO
+		pgm.pgmmov(idmov,datemov,promov,desmov,usualt,datalt,orimov,destmov,datsmov,conmov)
+		VALUES (#idmov:NUMERIC#,#datemov:TIMESTAMP#,#promov:NUMERIC#,
+		UPPER(#desmov:VARCHAR#),
+		UPPER(#usualt:VARCHAR#),now(),#orimov:NUMERIC#,#destmov:NUMERIC#,#datsmov:TIMESTAMP#,#conmov:BOOLEAN#
+		)
+	</insert>
+
+	<update id="updRegByCod" parameterClass="MovVO">
+		UPDATE pgm.pgmmov SET
+		datemov= #datemov:TIMESTAMP#,promov=
+		#promov:NUMERIC#,desmov=
+		UPPER(#desmov:VARCHAR#),usualt=
+		UPPER(#usualt:VARCHAR#),datalt=
+		now(),orimov=
+		#orimov:NUMERIC#,destmov= #destmov:NUMERIC#,datsmov=
+		#datsmov:TIMESTAMP#,conmov=#conmov:BOOLEAN# WHERE idmov =
+		#idmov:NUMERIC#
+	</update>
+	<delete id="delByCod" parameterClass="Long">
+		DELETE FROM pgm.pgmmov WHERE
+		idmov = #value:NUMERIC#
+	</delete>
+	<delete id="delByCodigos" parameterClass="String">
+		DELETE FROM pgm.pgmmov
+		WHERE idmov in ($value$)
+	</delete>
+
+	<select id="getCountByCriterio" parameterClass="MovVO"
+		resultClass="Integer">
+		SELECT count(idmov) FROM pgm.pgmmov
+		<dynamic prepend=" WHERE ">
+			<isNotNull property="idmov" prepend=" AND "> idmov =
+				#idmov:NUMERIC#
+			</isNotNull>
+			<isNotNull property="datemov" prepend=" AND ">
+				to_char(datemov,'dd/MM/yyyy') =
+				to_char(#datemov:TIMESTAMP#,'dd/MM/yyyy')
+			</isNotNull>
+			<isNotNull property="promov" prepend=" AND "> promov =
+				#promov:NUMERIC#
+			</isNotNull>
+			<isNotNull property="desmov" prepend=" AND ">
+				desmov ILIKE '%' ||
+				#desmov:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="usualt" prepend=" AND ">
+				usualt ILIKE '%' ||
+				#usualt:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="datalt" prepend=" AND ">
+				to_char(datalt,'dd/MM/yyyy') =
+				to_char(#datalt:TIMESTAMP#,'dd/MM/yyyy')
+			</isNotNull>
+			<isNotNull property="orimov" prepend=" AND "> orimov =
+				#orimov:NUMERIC#
+			</isNotNull>
+			<isNotNull property="destmov" prepend=" AND "> destmov =
+				#destmov:NUMERIC#
+			</isNotNull>
+			<isNotNull property="datsmov" prepend=" AND ">
+				to_char(datsmov,'dd/MM/yyyy') =
+				to_char(#datsmov:TIMESTAMP#,'dd/MM/yyyy')
+			</isNotNull>
+			<isNotNull property="conmov" prepend=" AND ">
+				conmov
+				=#conmov:BOOLEAN#
+
+			</isNotNull>
+		</dynamic>
+	</select>
+</sqlMap> 
+ 

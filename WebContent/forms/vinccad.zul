@@ -1,0 +1,64 @@
+<?page id="wCadVincZul" title="Cadastro de Vinc" cacheable="false" language="xul/html" zscriptLanguage="Java" contentType="text/html;charset=UTF-8"?>
+<zk xmlns="http://www.zkoss.org/2005/zul"
+	xmlns:h="http://www.w3.org/1999/xhtml"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-infabnce"
+	xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
+	<window use="pmcg.imti.view.Vinccad" id="wCadVinc"
+		title="Cadastro de Vinculos" border="normal" shadow="false" width="550px"
+		position="center" mode="overlapped" sizable="false" closable="false"
+		onCreate="wCadVinc.initComponentes()">
+		<separator height="5px" />
+
+		<grid width="97%" align="center">
+			<columns>
+				<column label="" align="right" width="150px" />
+				<column label="" align="left" />
+			</columns>
+			<rows>
+
+				<row>
+					<hbox>
+						<label value="*" style="color:red" />
+						<label value="Funcionário::" />
+					</hbox>
+					<hbox>
+						<intbox id="funvinc"
+							value="@{wCadVinc.vincVO.funVO.iddfun}" width="35px"
+							onChange='wCadVinc.buscaFun(new String[]{"iddfun"}, new String[]{"iddfun"}, 2, false)' />
+						<textbox id="nomfun" width="175px"
+							value="@{wCadVinc.vincVO.funVO.nomfun}"
+							onChange='wCadVinc.buscaFun(new String[]{"nomfun"}, new String[]{"nomfun"}, 2, false)' />
+
+						<image id="lupafun" src="/images/imgBuscar.png"
+							tooltiptext="Pesquisar Funcionário"
+							onClick='wCadVinc.buscaFun(null, new String[]{}, 1, false)' />
+					</hbox>
+				</row>
+				<row>
+					<hbox>
+						<label value="*" style="color:red" />
+						<label value="Vinculado:" />
+					</hbox>
+					<hbox>
+						<intbox id="paivinc"
+							value="@{wCadVinc.vincVO.paiVO.iddfun}" width="35px"
+							onChange='wCadVinc.buscaPai(new String[]{"iddfun"}, new String[]{"iddfun"}, 2, false)' />
+						<textbox id="nompai" width="175px"
+							value="@{wCadVinc.vincVO.paiVO.nomfun}"
+							onChange='wCadVinc.buscaPai(new String[]{"nomfun"}, new String[]{"nomfun"}, 2, false)' />
+
+						<image id="lupapai" src="/images/imgBuscar.png"
+							tooltiptext="Pesquisar Vinculo"
+							onClick='wCadVinc.buscaPai(null, new String[]{}, 1, false)' />
+					</hbox>
+				</row>
+				
+				<row spans="2" style="text-align:left">
+					<label style="color:red; font-size: 10px;"
+						value="* Campos de Preenchimento Obrigatório." />
+				</row>
+			</rows>
+		</grid>
+		<separator height="10px" />
+	</window>
+</zk>

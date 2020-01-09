@@ -1,0 +1,63 @@
+<?page id="wImpconf" title="Importar Arquivo de Confirmação/Retorno" cacheable="false" language="xul/html" zscriptLanguage="Java" contentType="text/html;charset=UTF-8"?>
+<zk xmlns="http://www.zkoss.org/2005/zul"
+	xmlns:h="http://www.w3.org/1999/xhtml"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-infabnce"
+	xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
+	<window use="pmcg.imti.view.Impconf" id="wImpconf" title="Importar Arquivo de Confirmação/Retorno" border="normal" shadow="false"
+		width="800px" position="center" mode="overlapped" sizable="false" closable="false" onCreate="wImpconf.initComponentes()">
+		<separator height="5px" />
+		<div style="background:#BF5858;padding:5px;">
+			<label value="Arquivos Processados" style="color:white;font-weight:bold;font-size:14px;" />
+		</div>
+		<listbox id="listArq" model="@{wImpconf.listArq}" height="190px">
+			<listhead>
+				<listheader width="70px" label="Número" align="center"/>
+				<listheader width="130px" label="Tipo" align="center"/>
+				<listheader width="120px" label="Nome" align="center"/>
+				<listheader width="85px" label="Qtd Linhas" align="center"/>
+				<listheader width="180px" label="Usuário" align="center"/>
+				<listheader width="140px" label="Data" align="center"/>
+				<listheader />
+			</listhead>
+			<listitem self="@{each=r}" value="@{r}">
+				<listcell label="@{r.iddarq}"/>
+				<listcell label="@{r.tipo}"/>
+				<listcell label="@{r.nomarq}"/>
+				<listcell label="@{r.qtlarq}"/>
+				<listcell label="@{r.usualt}"/>
+				<listcell label="@{r.datalt}"/>
+				<listcell style="padding:0px;">
+					<button image="/images/icon_print2.png" onClick="wImpconf.imprimirRel(self.parent.parent)" width="34px" height="24px" style="padding:0px;"/>
+				</listcell>
+			</listitem>
+		</listbox>
+		<separator height="20px" />
+		<groupbox>
+			<caption label="Importação"/>
+			<grid align="center">
+				<columns>
+					<column label="" align="right" width="120px" />
+					<column label="" align="left" width="250px"/>
+					<column label=""/>
+				</columns>
+				<rows>
+					<row>
+						<hbox>
+							<label value="Arquivo:" />
+							<label value="*" style="font-weight:bold;color:red;"/>
+						</hbox>
+						<hbox>
+							<fileupload number="1" width="200px" id="imageDeb" maxsize="-1"
+								onUpload='wImpconf.uploadDOX(event)' image="/images/down.png" label="Selecionar Arquivo..." tooltiptext="Selecionar Arquivo" />
+							<!-- <label value="@{wImpconf.nomeDoArquivoDeb}"
+								id="imageDeb" /> -->
+						</hbox>
+						<button label="Processar" onClick="wImpconf.processar()" visible="@{wImpconf.visibleBtnProcessar}" width="140px" style="height: 29px;font-weight: bold;font-size: 17px;"/>
+					</row>
+				</rows>
+			</grid>
+		</groupbox>
+		<label style="color:red; font-size: 10px;" value="* Campos de Preenchimento Obrigatório." />
+		<separator height="10px" />
+	</window>
+</zk>

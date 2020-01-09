@@ -1,0 +1,9 @@
+<Context docBase="pgmweb" path="/pgmweb" reloadable="false">
+	<ResourceLink name="jdbc/jndiacessos" global="jdbc/jndiacessos" type="javax.sql.DataSource" />
+	<ResourceLink name="jdbc/jndipgm" global="jdbc/jndipgm" type="javax.sql.DataSource" /> 
+	<ResourceLink name="jdbc/jndiadmsat" global="jdbc/jndiadmsat" type="javax.sql.DataSource" /> 
+	<ResourceLink name="jdbc/jndiTIQU" global="jdbc/jndiTIQU" type="javax.sql.DataSource" /> 
+	<ResourceLink name="jdbc/jndiTIQPM" global="jdbc/jndiTIQPM" type="javax.sql.DataSource" /> 
+	<ResourceLink name="jdbc/jndiprojex" global="jdbc/jndiprojex" type="javax.sql.DataSource" /> 
+	
+</Context>

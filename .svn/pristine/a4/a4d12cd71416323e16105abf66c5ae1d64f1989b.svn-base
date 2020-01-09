@@ -1,0 +1,233 @@
+package pmcg.imti.view;
+
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+
+import org.zkoss.zul.ListModelList;
+import org.zkoss.zul.Messagebox;
+
+import pmcg.framework.ui.WindowCrud;
+import pmcg.framework.util.WinUtils;
+
+import org.zkoss.zk.ui.event.Events;
+import org.zkoss.zk.ui.Executions;
+import org.zkoss.zk.ui.WrongValueException;
+
+import pmcg.framework.domain.WebprfVO;
+import pmcg.framework.exception.ConcorrenciaException;
+import pmcg.imti.autenticador.dominio.impl.Usuario;
+import pmcg.imti.dao.ibatis.FunDAO;
+import pmcg.imti.domain.FunVO;
+import pmcg.imti.util.SessionUtil;
+
+/**
+ * View de Cadastro de Fun
+ **/
+public class Funcad extends WindowCrud {
+	private WebprfVO webprfVO;
+	private static final long serialVersionUID = 1L;
+
+	public FunVO funVO = new FunVO();
+	Boolean abertoPeloMenu = Boolean.TRUE;
+
+	@SuppressWarnings("unchecked")
+	public Funcad() {
+		super("funcad.zul");
+		Map<String, String> map = Executions.getCurrent().getArg();
+		if (map.get("pageName") != null) {
+			abertoPeloMenu = Boolean.FALSE;
+		}
+	}
+
+	/**
+	 * Metodo initComponentes() - para inicializar a view.
+	 **/
+	public void initComponentes() {
+
+		ctrlBotoesIncAltDel(false);
+		this.funVO.setPerfun(WinUtils.getCodprf());
+		this.funVO.setNomfun(this.getUsuario());
+		this.vincular();
+	}
+
+	/**
+	 * Metodo incluir()- Metodo responsável pela incluir o registro.
+	 **/
+	@Override
+	public void incluir() {
+		try {
+			if (this.validarForm() && this.trataVO()) {
+
+				FunDAO funDAO = new FunDAO();
+				Long cod = new Long(funDAO.insReg(this.funVO).toString());
+				if (cod > 0) {
+					this.funVO.setIddfun(cod);
+					if (this.abertoPeloMenu) {
+						Messagebox.show("O Registro foi incluído com sucesso!");
+					} else {
+						this.sair();
+					}
+					ctrlBotoesIncAltDel(true);
+					this.vincular();
+				} else {
+					Messagebox.show("O registro não pode ser incluído!",
+							"Erro:", Messagebox.OK, Messagebox.ERROR);
+				}
+			}
+		} catch (WrongValueException e) {
+			throw e;
+		} catch (Exception e) {
+			try {
+				Messagebox.show(
+						"O registro não pode ser incluído: " + e.getMessage(),
+						"Erro:", Messagebox.OK, Messagebox.ERROR);
+			} catch (InterruptedException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * Metodo salvar()-Metodo responsável em salvar o registro.
+	 **/
+	@Override
+	public void salvar() {
+		try {
+			if (this.validarForm() && this.trataVO()
+					&& this.funVO.getIddfun() != null) {
+
+				FunDAO funDAO = new FunDAO();
+				if (funDAO.updRegByCod(this.funVO) > 0) {
+					if (this.abertoPeloMenu) {
+						Messagebox.show("Registro Salvo com sucesso!");
+					} else {
+						this.sair();
+					}
+					this.vincular();
+				} else {
+					Messagebox.show("O registro não pode ser salvo!", "Erro:",
+							Messagebox.OK, Messagebox.ERROR);
+				}
+			}
+		} catch (WrongValueException e) {
+			throw e;
+		} catch (Exception e) {
+			try {
+				Messagebox.show("O registro não pode ser salvo!", "Erro:",
+						Messagebox.OK, Messagebox.ERROR);
+			} catch (InterruptedException e1) {
+				e1.printStackTrace();
+			}
+
+			e.printStackTrace();
+		}
+		this.limpar();
+	}
+
+	/**
+	 * Metodo apagar()-Metodo responsável em apagar o registro.
+	 **/
+	@Override
+	public void apagar() {
+		try {
+			if (Messagebox.show("Deseja realmente excluir?", "Confirmação",
+					Messagebox.YES | Messagebox.NO, Messagebox.QUESTION) == Messagebox.YES) {
+				Integer qtd = new FunDAO().delReg(funVO.getIddfun());
+				Messagebox.show("Registro excluido com sucesso!");
+			}
+		} catch (Exception ex) {
+
+		}
+		this.limpar();
+
+	}
+
+	/**
+	 * Metodo limpar()- Metodo reponsável por limpar os campos da tela.
+	 **/
+	@Override
+	public void limpar() {
+
+		this.funVO = new FunVO();
+
+		ctrlBotoesIncAltDel(false);
+		this.vincular();
+	}
+
+	/**
+	 * Metodo pesquisar()- Metodo responsável pela pesquisa.
+	 **/
+	@Override
+	public void pesquisar() {
+
+		Map<String, String> param = new HashMap<String, String>();
+		new WinUtils().abrirLis("/forms/funlis.zul", param, this, "retFunVO");
+	}
+
+	/**
+	 * Metodo retFunVO()- Metodo de retorno do pesquisar
+	 **/
+	public void retFunVO(Object ret) {
+		if (ret != null) {
+
+			this.funVO = (FunVO) ret;
+			ctrlBotoesIncAltDel(true);
+
+			this.vincular();
+		}
+	}
+
+	/**
+	 * Metodo imprimir()-Metodo responsável em chamar o relatório.
+	 **/
+	@Override
+	public void imprimir() {
+	}
+
+	/**
+	 * Metodo trataVO()- Metodo responsável pela validação de alguns campos
+	 * existentes na tela.
+	 **/
+	public boolean trataVO() {
+
+		if (this.funVO != null) {
+			this.funVO.setUsualt(this.getLogin());
+			this.funVO.setDatalt(WinUtils.getDataBanco());
+			this.funVO.setUsuariofun(this.getLogin());
+			this.funVO.setNomfun(this.getUsuario());
+		   this.funVO.setPerfun(WinUtils.getCodprf());
+			this.funVO.setCpffun(this.funVO.getCpffun() == null ? null : funVO
+					.getCpffun().toUpperCase());
+
+			this.funVO.setOabfun(this.funVO.getOabfun() == null ? null : funVO
+					.getOabfun().toUpperCase());
+
+			this.funVO.setUsualt(this.funVO.getUsualt() == null ? null : funVO
+					.getUsualt().toUpperCase());
+
+			this.funVO.setEmafun(this.funVO.getEmafun() == null ? null : funVO
+					.getEmafun().toUpperCase());
+
+			this.funVO.setUsuariofun(this.funVO.getUsuariofun() == null ? null
+					: funVO.getUsuariofun().toUpperCase());
+
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Metodo sair()- Metodo responsável por fechar a tela.
+	 **/
+	@Override
+	public void sair() {
+		if (this.abertoPeloMenu) {
+			this.detach();
+		} else {
+			Events.postEvent("onClose", this, this.funVO);
+		}
+	}
+
+}

@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE sqlMap PUBLIC "//iBATIS.com//DTD SQL Map 2.0//EN" "HTTP://ibatis.apache.org/dtd/sql-map-2.dtd" >
+
+<sqlMap namespace="Webusu">
+    <typeAlias alias="WebusuVO" type="pmcg.imti.domain.WebusuVO"/>
+    <typeAlias alias="AceatdVO" type="pmcg.imti.domain.AceatdVO"/>
+
+	<resultMap id="mapComplexQuery" class="WebusuVO">
+		<result property="codusu" column="codusu"/>
+		<result property="nomusu" column="nomusu"/>
+		<result property="emausu" column="emausu"/>
+		<result property="desuni" column="desuni"/>
+		<result property="desprf" column="desprf"/>
+	</resultMap>
+	<select id="getRegByCodSisCoduni" resultClass="WebusuVO" parameterClass="WebusuVO">
+			SELECT distinct usu.codusu, usu.logusu, usu.nomusu, usu.emausu, usu.atvusu, usu.obsusu, 
+			ups.codsis, ups.codprf, ups.codusu, ups.urmups, ups.dtmups, ups.habups ,pr.desprf,uni.desuni
+		FROM docs.webups  ups
+		INNER JOIN docs.webusu usu ON usu.codusu = ups.codusu
+		
+		
+		<!-- and  usu.logusu in ( select usu.logusu  from docs.usuariousu usu
+						inner join docs.grupotragtr gtr on usu.codigogtr=gtr.codigogtr
+						 where  codigoorg=(cast(trim(#coduni:VARCHAR#) as integer)) )
+		  -->
+		  INNER JOIN docs.webprf pr ON pr.codprf=ups.codprf  
+		INNER JOIN docs.webuni uni ON uni.coduni=ups.coduni
+		WHERE 	ups.codsis = 57  
+		
+		 and trim(ups.coduni) in  
+		(select codigoaru||''  from docs.areauniaru where codigoorg in(
+		select codigoorg from docs.areauniaru
+		 where codigoaru=cast(trim(#coduni:VARCHAR#)  as integer) ))
+		
+			<isNotNull property="codusu" prepend="AND">
+				usu.codusu = #codusu:NUMBER#
+			</isNotNull>
+			<isNotNull property="nomusu" prepend="AND">
+				to_ascii(usu.nomusu) ILIKE '%' || to_ascii(#nomusu:VARCHAR#) || '%'
+			</isNotNull>
+			<isNotNull property="emausu" prepend="AND">
+				UPPER(usu.emausu) LIKE '%' || UPPER(#emausu:VARCHAR#) || '%'
+			</isNotNull>
+			<isNotNull property="desuni" prepend="AND">
+				UPPER(desuni) LIKE '%' || UPPER(#desuni:VARCHAR#) || '%'
+			</isNotNull>
+		ORDER BY usu.nomusu ASC
+	</select>
+	
+ 
+  
+	<select id="getRegByCodSis" resultClass="WebusuVO" parameterClass="WebusuVO">
+		SELECT DISTINCT usu.codusu, usu.logusu, usu.nomusu, usu.emausu, usu.atvusu, usu.obsusu, 
+						ups.codsis, ups.codprf, ups.codusu, ups.urmups, ups.dtmups, ups.habups, 
+						pr.desprf, uni.desuni
+		FROM 
+			docs.webups ups 
+		INNER JOIN  docs.webusu usu ON usu.codusu = ups.codusu  
+		INNER JOIN docs.webprf pr ON pr.codprf=ups.codprf  
+		INNER JOIN docs.webuni uni ON uni.coduni=ups.coduni
+		WHERE  ups.codsis = 57
+			<isNotNull property="codusu" prepend=" AND ">
+				codusu = #codusu:NUMERIC#
+			</isNotNull>
+			<isNotNull property="nomusu" prepend=" AND ">
+				to_ascii(nomusu) ILIKE '%' || to_ascii(#nomusu:VARCHAR#) || '%'
+			</isNotNull>
+			<isNotNull property="emausu" prepend=" AND" >
+				UPPER(emausu) LIKE '%' || UPPER(#emausu:VARCHAR#) || '%'
+			</isNotNull>
+			<isNotNull property="desuni" prepend=" AND ">
+				UPPER(desuni) LIKE '%' || UPPER(#desuni:VARCHAR#) || '%'
+			</isNotNull>
+			<isNotNull property="desprf" prepend=" AND ">
+				UPPER(desprf) LIKE '%' || UPPER(#desprf:VARCHAR#) || '%'
+			</isNotNull>
+		ORDER BY nomusu ASC
+	</select>
+  
+	<select id="getRegByCod" parameterClass="Integer" resultClass="WebusuVO">
+		SELECT * FROM docs.webusu WHERE codusu = #value:NUMBER#
+	</select>
+	
+	<select id="getTodos" resultClass="WebusuVO">
+		SELECT * FROM docs.webusu ORDER BY nomusu
+	</select>
+	
+     <select id="getRegByCriterio" parameterClass="WebusuVO" resultClass="WebusuVO">
+     	SELECT * FROM docs.webusu
+     	
+     	<dynamic prepend="WHERE">
+			<isNotNull property="codusu" prepend="AND">
+				codusu = #codusu:NUMBER#
+			</isNotNull>
+			<isNotNull property="nomusu" prepend="AND">
+				to_ascii(nomusu) ILIKE '%' || to_ascii(#nomusu:VARCHAR#) || '%'
+			</isNotNull>
+			<isNotNull property="logusu" prepend="AND">
+				UPPER(logusu) LIKE '%' || UPPER(#logusu:VARCHAR#) || '%'
+			</isNotNull>
+		</dynamic>
+		ORDER BY nomusu
+		limit 300
+     </select>
+     
+     
+     <select id="getLogUsuByUsu" resultClass="AceatdVO" parameterClass="AceatdVO">
+		SELECT u.codusu, u.logusu, u.nomusu, u.senusu, u.obsusu, u.emausu,
+		       p.coduni, p.codprf, p.codups,
+		       n.desuni
+		FROM 
+			docs.webusu u
+		  	LEFT OUTER JOIN docs.webups p ON ( p.codusu = u.codusu AND p.codsis = 57 )
+			LEFT OUTER JOIN docs.webuni n ON ( n.coduni = p.coduni AND n.codsis = 57 )
+		<dynamic prepend="WHERE">
+			<isNotNull property="codusu" prepend="AND">
+				u.codusu = #codusu:NUMBER#
+			</isNotNull>
+			<isNotNull property="nomusu" prepend="AND">
+				UPPER(nomusu) Ilike UPPER '%' || UPPER(#nomusu:VARCHAR#) || '%'
+			</isNotNull>
+			<isNotNull property="emausu" prepend="AND">
+				emausu ilike #emausu:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="logusu" prepend="AND">
+				logusu ilike #logusu:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="desprf" prepend="AND">
+				UPPER(desprf) like UPPER '%' || UPPER(#desprf:VARCHAR#) || '%'
+			</isNotNull>
+		</dynamic>
+		ORDER BY u.nomusu
+		LIMIT 300
+	</select>
+	
+	<select id="getLogUsuByUsuSimple" resultClass="AceatdVO" parameterClass="AceatdVO">
+		SELECT 
+			u.codusu, u.logusu, u.nomusu
+		FROM 
+			docs.webusu u
+		  	LEFT OUTER JOIN docs.webups p ON ( p.codusu = u.codusu AND p.codsis = 57 )
+			LEFT OUTER JOIN docs.webuni n ON ( n.coduni = p.coduni AND n.codsis = 57 )
+		<dynamic prepend="WHERE">
+			<isNotNull property="codusu" prepend="AND">
+				u.codusu = #codusu:NUMBER#
+			</isNotNull>
+			<isNotNull property="nomusu" prepend="AND">
+				to_ascii(nomusu) ILIKE '%' || to_ascii(#nomusu:VARCHAR#) || '%'
+			</isNotNull>
+			<isNotNull property="emausu" prepend="AND">
+				emausu ilike '%' || #emausu:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="logusu" prepend="AND">
+				logusu ilike '%' || #logusu:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="desprf" prepend="AND">
+				UPPER(desprf) like UPPER '%' || UPPER(#desprf:VARCHAR#) || '%'
+			</isNotNull>
+		</dynamic>
+		GROUP BY u.codusu, u.logusu, u.nomusu
+		ORDER BY u.nomusu
+		LIMIT 300
+	</select>
+	
+	 <select id="getRegByLogusu" parameterClass="String" resultClass="WebusuVO">
+		 	select * from docs.webusu usu
+			where usu.logusu = #logusu:VARCHAR#
+	 </select>
+	 
+	 
+	 
+	
+</sqlMap>

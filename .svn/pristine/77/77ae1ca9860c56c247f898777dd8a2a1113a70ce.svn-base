@@ -1,0 +1,331 @@
+<?page id="wCadEdrZul" title="Cadastro de Edr" cacheable="false" language="xul/html" zscriptLanguage="Java" contentType="text/html;charset=UTF-8"?> 
+ <zk xmlns="http://www.zkoss.org/2005/zul" 
+ 	xmlns:h="http://www.w3.org/1999/xhtml" 
+ 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-infabnce" 
+ 	xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd"> 
+ 	<window use="pmcg.imti.view.Edrcad" id="wCadEdr" title="Atualização de Endereçamento - PROJEX" border="normal" shadow="false" 
+ 		width="900px" height="670px" position="center" mode="overlapped" sizable="false"  closable="false" onCreate="wCadEdr.initComponentes()"> 
+ 		<vbox>
+	 		<separator height="5px" /> 
+	 		<div align="center" height="18px" width="875x" style="width:880px">
+				<label value="@{wCadEdr.estatistica}" style="font-weight:bold;font-size:14px;"/>
+			</div>
+	 		<listbox model="@{wCadEdr.listProc}" width="886px" height="270px" selectedItem="@{wCadEdr.procSel}" onSelect="wCadEdr.selecionar()">
+				<listhead>
+					<listheader label="ID PROCESSO" width="90px"/>
+					<listheader label="INSCRIÇÃO" width="90px" align="center"/>
+					<listheader label="CPF/CNPJ" width="115px" align="center"/>
+					<listheader label="ENDEREÇO" align="left"/>
+<!-- 					<listheader label="TIPO LOGRAD." width="100px" align="center"/> -->
+<!-- 					<listheader label="LOGRADOURO" width="150px"/> -->
+<!-- 					<listheader label="NÚMERO" width="60px" align="center"/> -->
+<!-- 					<listheader label="COMPLEMENTO" width="120px"/> -->
+<!-- 					<listheader label="TIPO BAIRRO" width="100px" align="center"/> -->
+<!-- 					<listheader label="BAIRRO" width="150px"/> -->
+<!-- 					<listheader label="CEP" width="70px" align="center"/> -->
+<!-- 					<listheader label="MUNICÍPIO" width="120px"/> -->
+<!-- 					<listheader label="UF" width="60px" align="center"/> -->
+				</listhead>
+				<listitem self="@{each=a}" value="@{a}">
+					<listcell label="@{a.ID_PROCESSO}" style="text-align:center;font-size:11px;"/>
+					<listcell label="@{a.INSCRICAO}" style="text-align:center;font-size:11px;" />
+					<listcell label="@{a.CPFCNPJ}" style="text-align:center;font-size:11px;" />
+					<listcell label="@{a.ENDERECO}" style="text-align:left;font-size:11px;"/>
+<!-- 					<listcell label="@{a.TIPO_LOGRADOURO}" style="text-align:center;font-size:11px;"/> -->
+<!-- 					<listcell label="@{a.NOME_LOGRADOURO}" style="text-align:left;font-size:11px;"/> -->
+<!-- 					<listcell label="@{a.NUMERO}" style="text-align:center;font-size:11px;" /> -->
+<!-- 					<listcell label="@{a.COMPLEMENTO}" style="text-align:left;font-size:11px;"/> -->
+<!-- 					<listcell label="@{a.TIPO_BAIRRO}" style="text-align:center;font-size:11px;"/> -->
+<!-- 					<listcell label="@{a.NOME_BAIRRO}" style="text-align:left;font-size:11px;"/> -->
+<!-- 					<listcell label="@{a.CEP}" style="text-align:center;font-size:11px;"/> -->
+<!-- 					<listcell label="@{a.NOME_MUNICIPIO}" style="text-align:left;font-size:11px;"/> -->
+<!-- 					<listcell label="@{a.UF}" style="text-align:center;font-size:11px;"/> -->
+				</listitem>
+			</listbox> 
+			<div align="left" height="13px" width="875x">
+				<label value="Endereço à corrigir" style="font-weight:bold;font-size:14px;"/>
+			</div>
+			<div align="center" height="35px" width="875x" style="width:880px">
+				<label value="@{wCadEdr.procSel.ENDERECO}" style="font-weight:bold;font-size:16px;color:rgb(185, 0, 0);"/>
+			</div>
+	 		<grid> 
+	 			<columns> 
+	 				<column label="" align="right" width="140px" /> 
+	 				<column label="" align="left" width="170px"/>
+	 				<column label="" align="right" width="100px" /> 
+	 				<column label="" align="left" width="170px"/>
+	 				<column label="" align="right" width="120px" /> 
+	 				<column label="" align="left" width="170px"/>				 
+	 			</columns> 
+	 			<rows>
+	 				<row>
+						<label value="ID PROCESSO" />
+						<textbox id="id_processo" value="@{wCadEdr.edrVO.id_processo}" readonly="true" maxlength="80" width="80px" style="text-align:center;"/>
+						<label value="INSCRIÇÃO" />
+						<textbox id="inscricao" value="@{wCadEdr.edrVO.inscricao}" readonly="true" width="90px" style="font-weight:bold;font-size:14px;text-align:center;"/>
+					</row>
+					<row>
+						<label value="TIPO LOGRAD." />
+						<combobox id="tipo_logradouro" readonly="true" width="155px" selectedItem="@{wCadEdr.edrVO.tipo_logradouro}">
+							<comboitem value="ACAMPAMENTO" label="ACAMPAMENTO" />
+							<comboitem value="ACESSO" label="ACESSO" />
+							<comboitem value="ACESSO LOCAL" label="ACESSO LOCAL" />
+							<comboitem value="ADRO" label="ADRO" />
+							<comboitem value="AEROPORTO" label="AEROPORTO" />
+							<comboitem value="ALAMEDA" label="ALAMEDA" />
+							<comboitem value="ALTO" label="ALTO" />
+							<comboitem value="AREA" label="AREA" />
+							<comboitem value="AREA ESPECIAL" label="AREA ESPECIAL" />
+							<comboitem value="ARTERIA" label="ARTERIA" />
+							<comboitem value="ATALHO" label="ATALHO" />
+							<comboitem value="AV CONTORNO" label="AV CONTORNO" />
+							<comboitem value="AV MARG DIREITA" label="AV MARG DIREITA" />
+							<comboitem value="AV MARG ESQUER" label="AV MARG ESQUER" />
+							<comboitem value="AV MARGINAL" label="AV MARGINAL" />
+							<comboitem value="AVENIDA" label="AVENIDA" />
+							<comboitem value="AVENIDA VELHA" label="AVENIDA VELHA" />
+							<comboitem value="BAIXA" label="BAIXA" />
+							<comboitem value="BALAO" label="BALAO" />
+							<comboitem value="BALNEARIO" label="BALNEARIO" />
+							<comboitem value="BECO" label="BECO" />
+							<comboitem value="BELVEDERE" label="BELVEDERE" />
+							<comboitem value="BLOCO" label="BLOCO" />
+							<comboitem value="BOSQUE" label="BOSQUE" />
+							<comboitem value="BOULEVARD" label="BOULEVARD" />
+							<comboitem value="BULEVAR" label="BULEVAR" />
+							<comboitem value="BURACO" label="BURACO" />
+							<comboitem value="CAIS" label="CAIS" />
+							<comboitem value="CALCADA" label="CALCADA" />
+							<comboitem value="CAMINHO" label="CAMINHO" />
+							<comboitem value="CAMPO" label="CAMPO" />
+							<comboitem value="CANAL" label="CANAL" />
+							<comboitem value="CHACARA" label="CHACARA" />
+							<comboitem value="CHAPADAO" label="CHAPADAO" />
+							<comboitem value="CICLOVIA" label="CICLOVIA" />
+							<comboitem value="CIRCULAR" label="CIRCULAR" />
+							<comboitem value="COLONIA" label="COLONIA" />
+							<comboitem value="COMPLEXO VIARIO" label="COMPLEXO VIARIO" />
+							<comboitem value="CONDOMINIO" label="CONDOMINIO" />
+							<comboitem value="CONJ MUTIRAO" label="CONJ MUTIRAO" />
+							<comboitem value="CONJUNTO" label="CONJUNTO" />
+							<comboitem value="CONTORNO" label="CONTORNO" />
+							<comboitem value="CORREDOR" label="CORREDOR" />
+							<comboitem value="CORREGO" label="CORREGO" />
+							<comboitem value="DESCIDA" label="DESCIDA" />
+							<comboitem value="DESVIO" label="DESVIO" />
+							<comboitem value="DISTRITO" label="DISTRITO" />
+							<comboitem value="DIVISAO" label="DIVISAO" />
+							<comboitem value="ELEVADA" label="ELEVADA" />
+							<comboitem value="ENSEADA" label="ENSEADA" />
+							<comboitem value="ENTRADA PART" label="ENTRADA PART" />
+							<comboitem value="ENTRONCAM." label="ENTRONCAM." />
+							<comboitem value="ESCADA" label="ESCADA" />
+							<comboitem value="ESCADARIA" label="ESCADARIA" />
+							<comboitem value="ESPLANADA" label="ESPLANADA" />
+							<comboitem value="ESTACAO" label="ESTACAO" />
+							<comboitem value="ESTACIONAMENTO" label="ESTACIONAMENTO" />
+							<comboitem value="ESTADIO" label="ESTADIO" />
+							<comboitem value="ESTANCIA" label="ESTANCIA" />
+							<comboitem value="ESTIVA" label="ESTIVA" />
+							<comboitem value="ESTR DE LIGACAO" label="ESTR DE LIGACAO" />
+							<comboitem value="ESTR DE SERVID" label="ESTR DE SERVID" />
+							<comboitem value="ESTR ESTADUAL" label="ESTR ESTADUAL" />
+							<comboitem value="ESTR INTERMUN" label="ESTR INTERMUN" />
+							<comboitem value="ESTR MUNICIPAL" label="ESTR MUNICIPAL" />
+							<comboitem value="ESTR PARTICULAR" label="ESTR PARTICULAR" />
+							<comboitem value="ESTRADA" label="ESTRADA" />
+							<comboitem value="ESTRADA ANTIGA" label="ESTRADA ANTIGA" />
+							<comboitem value="ESTRADA VELHA" label="ESTRADA VELHA" />
+							<comboitem value="ESTRADA VICINAL" label="ESTRADA VICINAL" />
+							<comboitem value="FAVELA" label="FAVELA" />
+							<comboitem value="FAZENDA" label="FAZENDA" />
+							<comboitem value="FEIRA" label="FEIRA" />
+							<comboitem value="FERROVIA" label="FERROVIA" />
+							<comboitem value="FIM" label="FIM" />
+							<comboitem value="FONTE" label="FONTE" />
+							<comboitem value="FORTE" label="FORTE" />
+							<comboitem value="GALERIA" label="GALERIA" />
+							<comboitem value="GRANJA" label="GRANJA" />
+							<comboitem value="HABITACIONAL" label="HABITACIONAL" />
+							<comboitem value="ILHA" label="ILHA" />
+							<comboitem value="ILHOTA" label="ILHOTA" />
+							<comboitem value="JARDIM" label="JARDIM" />
+							<comboitem value="JARDINETE" label="JARDINETE" />
+							<comboitem value="LADEIRA" label="LADEIRA" />
+							<comboitem value="LAGO" label="LAGO" />
+							<comboitem value="LAGOA" label="LAGOA" />
+							<comboitem value="LARGO" label="LARGO" />
+							<comboitem value="LOTEAMENTO" label="LOTEAMENTO" />
+							<comboitem value="MARGEM" label="MARGEM" />
+							<comboitem value="MARINA" label="MARINA" />
+							<comboitem value="MODULO" label="MODULO" />
+							<comboitem value="MONTE" label="MONTE" />
+							<comboitem value="MORRO" label="MORRO" />
+							<comboitem value="NAO CARREGADO" label="NAO CARREGADO" />
+							<comboitem value="NUCLEO" label="NUCLEO" />
+							<comboitem value="PARADA" label="PARADA" />
+							<comboitem value="PARADOURO" label="PARADOURO" />
+							<comboitem value="PARALELA" label="PARALELA" />
+							<comboitem value="PARQ MUNICIPAL" label="PARQ MUNICIPAL" />
+							<comboitem value="PARQ RESIDEN" label="PARQ RESIDEN" />
+							<comboitem value="PARQUE" label="PARQUE" />
+							<comboitem value="PAS DE PEDEST" label="PAS DE PEDEST" />
+							<comboitem value="PAS SUBTER" label="PAS SUBTER" />
+							<comboitem value="PASSAGEM" label="PASSAGEM" />
+							<comboitem value="PASSARELA" label="PASSARELA" />
+							<comboitem value="PASSEIO" label="PASSEIO" />
+							<comboitem value="PATIO" label="PATIO" />
+							<comboitem value="PONTA" label="PONTA" />
+							<comboitem value="PONTE" label="PONTE" />
+							<comboitem value="PORTO" label="PORTO" />
+							<comboitem value="PRACA" label="PRACA" />
+							<comboitem value="PRAIA" label="PRAIA" />
+							<comboitem value="PRÇ DE ESPORTES" label="PRÇ DE ESPORTES" />
+							<comboitem value="PROLONGAMENTO" label="PROLONGAMENTO" />
+							<comboitem value="QUADRA" label="QUADRA" />
+							<comboitem value="QUINTA" label="QUINTA" />
+							<comboitem value="RAMAL" label="RAMAL" />
+							<comboitem value="RAMPA" label="RAMPA" />
+							<comboitem value="RECANTO" label="RECANTO" />
+							<comboitem value="RECREIO" label="RECREIO" />
+							<comboitem value="RESIDENCIAL" label="RESIDENCIAL" />
+							<comboitem value="RETA" label="RETA" />
+							<comboitem value="RETIRO" label="RETIRO" />
+							<comboitem value="RETORNO" label="RETORNO" />
+							<comboitem value="RIO" label="RIO" />
+							<comboitem value="RODO ANEL" label="RODO ANEL" />
+							<comboitem value="RODOVIA" label="RODOVIA" />
+							<comboitem value="ROTATORIA" label="ROTATORIA" />
+							<comboitem value="ROTULA" label="ROTULA" />
+							<comboitem value="RUA" label="RUA" />
+							<comboitem value="RUA INTEGRACAO" label="RUA INTEGRACAO" />
+							<comboitem value="RUA PARTICULAR" label="RUA PARTICULAR" />
+							<comboitem value="RUA PRINCIPAL" label="RUA PRINCIPAL" />
+							<comboitem value="RUA PROJETADA" label="RUA PROJETADA" />
+							<comboitem value="RUA VELHA" label="RUA VELHA" />
+							<comboitem value="RUAZINHA" label="RUAZINHA" />
+							<comboitem value="RUELA" label="RUELA" />
+							<comboitem value="SERVIDAO" label="SERVIDAO" />
+							<comboitem value="SETOR" label="SETOR" />
+							<comboitem value="SITIO" label="SITIO" />
+							<comboitem value="SUBIDA" label="SUBIDA" />
+							<comboitem value="SUP QUADRA" label="SUP QUADRA" />
+							<comboitem value="TERMINAL" label="TERMINAL" />
+							<comboitem value="TRAV DA RODOVIA" label="TRAV DA RODOVIA" />
+							<comboitem value="TRAVESSA" label="TRAVESSA" />
+							<comboitem value="TRECHO" label="TRECHO" />
+							<comboitem value="TREVO" label="TREVO" />
+							<comboitem value="TRINCHEIRA" label="TRINCHEIRA" />
+							<comboitem value="TUNEL" label="TUNEL" />
+							<comboitem value="UNIDADE" label="UNIDADE" />
+							<comboitem value="VALA" label="VALA" />
+							<comboitem value="VALE" label="VALE" />
+							<comboitem value="VARGEM" label="VARGEM" />
+							<comboitem value="VARIANTE" label="VARIANTE" />
+							<comboitem value="VEREDA" label="VEREDA" />
+							<comboitem value="VIA" label="VIA" />
+							<comboitem value="VIA COLETORA" label="VIA COLETORA" />
+							<comboitem value="VIA COSTEIRA" label="VIA COSTEIRA" />
+							<comboitem value="VIA DE ACESSO" label="VIA DE ACESSO" />
+							<comboitem value="VIA DE PEDESTRE" label="VIA DE PEDESTRE" />
+							<comboitem value="VIA ELEVADO" label="VIA ELEVADO" />
+							<comboitem value="VIA EXPRESSA" label="VIA EXPRESSA" />
+							<comboitem value="VIA LITORANEA" label="VIA LITORANEA" />
+							<comboitem value="VIA LOCAL" label="VIA LOCAL" />
+							<comboitem value="VIADUTO" label="VIADUTO" />
+							<comboitem value="VIELA" label="VIELA" />
+							<comboitem value="VILA" label="VILA" />
+							<comboitem value="ZIGUE-ZAGUE" label="ZIGUE-ZAGUE" />
+						</combobox>
+						<label value="LOGRADOURO" />
+						<textbox id="nome_logradouro" value="@{wCadEdr.edrVO.nome_logradouro}" width="150px" style="text-transform:uppercase;"/>
+						<label value="NÚMERO" />
+						<intbox id="numero" value="@{wCadEdr.edrVO.numero}" width="80px" style="text-align:center;"/>
+					</row>
+					<row>
+						<label value="COMPLEMENTO" />
+						<textbox id="complemento" value="@{wCadEdr.edrVO.complemento}" width="150px" style="text-transform:uppercase;"/>
+						<label value="TIPO BAIRRO" />
+						<combobox id="tipo_bairro" readonly="true" width="155px" selectedItem="@{wCadEdr.edrVO.tipo_bairro}">
+							<comboitem value="BAIRRO" label="BAIRRO" />
+							<comboitem value="BOSQUE" label="BOSQUE" />
+							<comboitem value="CANTEIRO" label="CANTEIRO" />
+							<comboitem value="CHACARA" label="CHACARA" />
+							<comboitem value="CONJUNTO" label="CONJUNTO" />
+							<comboitem value="DESMEMBRAMENTO" label="DESMEMBRAMENTO" />
+							<comboitem value="DISTRITO" label="DISTRITO" />
+							<comboitem value="EDIFICIO" label="EDIFICIO" />
+							<comboitem value="FAVELA" label="FAVELA" />
+							<comboitem value="FAZENDA" label="FAZENDA" />
+							<comboitem value="GLEBA" label="GLEBA" />
+							<comboitem value="GRANJA" label="GRANJA" />
+							<comboitem value="HORTO" label="HORTO" />
+							<comboitem value="JARDIM" label="JARDIM" />
+							<comboitem value="LOTEAMENTO" label="LOTEAMENTO" />
+							<comboitem value="NAO CARREGADO" label="NAO CARREGADO" />
+							<comboitem value="NUCLEO" label="NUCLEO" />
+							<comboitem value="PARQUE" label="PARQUE" />
+							<comboitem value="PARTE" label="PARTE" />
+							<comboitem value="PROXIMO" label="PROXIMO" />
+							<comboitem value="RESIDENC." label="RESIDENC." />
+							<comboitem value="SETOR" label="SETOR" />
+							<comboitem value="SITIO" label="SITIO" />
+							<comboitem value="TROPICAL" label="TROPICAL" />
+							<comboitem value="VILA" label="VILA" />
+							<comboitem value="VIVENDAS" label="VIVENDAS" />
+							<comboitem value="ZONA RURAL" label="ZONA RURAL" />
+						</combobox>								
+						<label value="BAIRRO" />
+						<textbox id="nome_bairro" value="@{wCadEdr.edrVO.nome_bairro}" width="150px" style="text-transform:uppercase;"/>
+						<label value="CEP" />
+						<textbox id="cep" value="@{wCadEdr.edrVO.cep}" width="65px" style="text-transform:uppercase;text-align:center;"/>
+					</row>
+					<row>
+						<label value="MUNICÍPIO" />
+						<textbox id="nome_municipio" value="@{wCadEdr.edrVO.nome_municipio}" width="150px" style="text-transform:uppercase;"/>
+						<label value="UF" />
+						<combobox id="uf" readonly="true" width="70px" selectedItem="@{wCadEdr.edrVO.uf}">
+							<comboitem value="AC" label="AC" />
+							<comboitem value="AL" label="AL" />
+							<comboitem value="AM" label="AM" />
+							<comboitem value="AP" label="AP" />
+							<comboitem value="BA" label="BA" />
+							<comboitem value="CE" label="CE" />
+							<comboitem value="DF" label="DF" />
+							<comboitem value="ES" label="ES" />
+							<comboitem value="GO" label="GO" />
+							<comboitem value="MA" label="MA" />
+							<comboitem value="MG" label="MG" />
+							<comboitem value="MS" label="MS" />
+							<comboitem value="MT" label="MT" />
+							<comboitem value="PA" label="PA" />
+							<comboitem value="PB" label="PB" />
+							<comboitem value="PE" label="PE" />
+							<comboitem value="PI" label="PI" />
+							<comboitem value="PR" label="PR" />
+							<comboitem value="RJ" label="RJ" />
+							<comboitem value="RN" label="RN" />
+							<comboitem value="RO" label="RO" />
+							<comboitem value="RR" label="RR" />
+							<comboitem value="RS" label="RS" />
+							<comboitem value="SC" label="SC" />
+							<comboitem value="SE" label="SE" />
+							<comboitem value="SP" label="SP" />
+							<comboitem value="TO" label="TO" />
+						</combobox>								
+					</row>
+	 			</rows> 
+	 		</grid> 
+	 		<div align="left" height="13px" width="875x">
+				<label value="Endereço alterado" style="font-weight:bold;font-size:14px;"/>
+			</div>
+			<div align="center" height="45px" width="875x" style="width:880px">
+				<label value="@{wCadEdr.edrVO.endereco}" style="font-weight:bold;font-size:16px;color:rgb(0, 116, 1);"/>
+			</div>
+			<div align="center" height="35px" width="875x" style="width:880px">
+				<button label="Salvar" onClick="wCadEdr.salvar()" style="width: 150px;height: 30px;font-size: 16px;border-radius: 5px;border-color: navy;font-weight: bold;"/>
+			</div>
+ 		</vbox>
+ 	</window> 
+ </zk> 
+ 

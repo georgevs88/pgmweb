@@ -1,0 +1,125 @@
+package pmcg.imti.dao.ibatis; 
+  
+ import pmcg.framework.dao.ibatis.DAOConcorrencia; 
+ import pmcg.imti.domain.Projex_ProVO;
+
+import java.util.HashMap;
+import java.util.List; 
+ import java.sql.SQLException; 
+   /** 
+    * Projex_ProDAO  
+    * Responsável pela Manipulação de registros 
+    * @author Gerador ZK 
+    */ 
+ public class Projex_ProDAO extends DAOConcorrencia<Projex_ProVO, Long> { 
+ 	public Projex_ProDAO() { 
+ 		super("Projex_Pro"); 
+ 	} 
+ 	  
+ 	public List<Projex_ProVO> getRegByCriterioComplex(Projex_ProVO obj) { 
+ 		String nameSpace = getNameSpaceMap(); 
+ 		if (nameSpace == null) 
+ 			setNameSpaceMap("Projex_Pro"); 
+ 		try { 
+ 			return sqlMap.queryForList(nameSpace + ".getRegByCriterioComplex", 
+ 					obj); 
+ 		} catch (SQLException e) { 
+ 			e.printStackTrace(); 
+ 		} 
+ 		return null; 
+ 	} 
+   
+ 	public Projex_ProVO getRegByCodComplex(Long cod) { 
+ 		String nameSpace = getNameSpaceMap(); 
+ 		if (nameSpace == null) 
+ 			setNameSpaceMap("Projex_Pro"); 
+ 		try { 
+ 			return (Projex_ProVO) sqlMap.queryForObject(nameSpace 
+ 					+ ".getRegByCodComplex", cod); 
+ 		} catch (SQLException e) { 
+ 			e.printStackTrace(); 
+ 		} 
+ 		return null; 
+ 	} 
+  	  
+ 	public Integer delByCodigos(String codigos) { 
+ 		String nameSpace = getNameSpaceMap(); 
+ 		if (nameSpace == null) 
+ 			setNameSpaceMap("Projex_Pro"); 
+ 		try { 
+ 			return sqlMap.delete(nameSpace + ".delByCodigos", codigos); 
+ 		} catch (Exception e) { 
+ 			e.printStackTrace(); 
+ 		} 
+ 		return null; 
+ 	} 
+ 	  
+ 	public Integer 	getCountByCriterio(Projex_ProVO  obj) {  
+  		String nameSpace = getNameSpaceMap();  
+  		if (nameSpace == null)  
+  			setNameSpaceMap("Projex_Pro");  
+  		try {  
+  			return (Integer) sqlMap.queryForObject(nameSpace + ".getCountByCriterio", obj);  
+  		} catch (Exception e) {  
+  			e.printStackTrace();  
+  		}  
+  		return 0;  
+  	}  
+  	  
+  	public List<Projex_ProVO> 	getByCriterioLimit(Projex_ProVO obj,Integer inicial, Integer maximoPermitido) {  
+  		String nameSpace = getNameSpaceMap();  
+  		if (nameSpace == null)  
+  			setNameSpaceMap("Projex_Pro");  
+  		try {  
+  			return sqlMap.queryForList(nameSpace + ".getRegByCriterioComplex",obj,inicial,maximoPermitido);  
+  		} catch (SQLException e) {  
+  			e.printStackTrace();  
+  		}  
+  		return null;  
+  	} 
+  	
+  	public Integer delImportacao(Long codimp) { 
+ 		try { 
+ 			return sqlMap.delete(getNameSpaceMap() + ".delImportacao", codimp); 
+ 		} catch (Exception e) { 
+ 			e.printStackTrace(); 
+ 		} 
+ 		return null; 
+ 	} 
+  	
+  	public List<Projex_ProVO> getProcByImportacao(Projex_ProVO obj, Integer inicial, Integer maximoPermitido) { 
+ 		try { 
+ 			return sqlMap.queryForList(getNameSpaceMap() + ".getProcByImportacao", obj, inicial,maximoPermitido); 
+ 		} catch (SQLException e) { 
+ 			e.printStackTrace(); 
+ 		} 
+ 		return null; 
+ 	}
+  	
+  	public Integer countProcByImportacao(Projex_ProVO obj) { 
+ 		try { 
+ 			return (Integer) sqlMap.queryForObject(getNameSpaceMap() + ".countProcByImportacao", obj); 
+ 		} catch (SQLException e) { 
+ 			e.printStackTrace(); 
+ 		} 
+ 		return null; 
+ 	}
+  	
+  	public Integer updProcesso(Projex_ProVO obj) throws SQLException {
+		return (Integer) sqlMap.update(getNameSpaceMap() + ".updProcesso", obj);
+	}
+  	
+  	public Integer updProcVerificado(Projex_ProVO obj) throws SQLException {
+		return (Integer) sqlMap.update(getNameSpaceMap() + ".updProcVerificado", obj);
+	}
+  	
+  	public HashMap<String, Object> getTotaisProc(Projex_ProVO obj) { 
+ 		try { 
+ 			return (HashMap<String, Object>) sqlMap.queryForObject(getNameSpaceMap() + ".getTotaisProc", obj); 
+ 		} catch (SQLException e) { 
+ 			e.printStackTrace(); 
+ 		} 
+ 		return null; 
+ 	}
+ } 
+ 

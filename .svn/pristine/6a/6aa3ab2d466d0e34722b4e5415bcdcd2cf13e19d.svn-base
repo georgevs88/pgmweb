@@ -1,0 +1,582 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+ <!DOCTYPE sqlMap PUBLIC "//iBATIS.com//DTD SQL Map 2.0//EN" "HTTP://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="Projex_Pro">
+	<typeAlias alias="Projex_ProVO" type="pmcg.imti.domain.Projex_ProVO" />
+
+	<resultMap id="mapComplexQuerySimple" class="Projex_ProVO">
+		<result property="codrem" column="codrem" />
+		<result property="id_processo" column="id_processo" />
+		<result property="inscricao" column="inscricao" />
+		<result property="id_imovel" column="id_imovel" />
+		<result property="id_pessoa" column="id_pessoa" />
+		<result property="cpf_cnpj" column="cpf_cnpj" />
+		<result property="numero_certidao" column="numero_certidao" />
+		<result property="data_envio_forum" column="data_envio_forum" />
+		<result property="numero_processo" column="numero_processo" />
+		<result property="data_processo" column="data_processo" />
+		<result property="id_modelo_processo" column="id_modelo_processo" />
+		<result property="id_razao_social" column="id_razao_social" />
+		<result property="razao_social" column="razao_social" />
+		<result property="nome_fantasia" column="nome_fantasia" />
+		<result property="tipo_empresa" column="tipo_empresa" />
+		<result property="orgao_doc_ident" column="orgao_doc_ident" />
+		<result property="doc_ident_insc_estadual" column="doc_ident_insc_estadual" />
+		<result property="uf_doc_ident" column="uf_doc_ident" />
+		<result property="tipo_logradouro" column="tipo_logradouro" />
+		<result property="cod_logradouro" column="cod_logradouro" />
+		<result property="id_logradouro" column="id_logradouro" />
+		<result property="nome_logradouro" column="nome_logradouro" />
+		<result property="numero" column="numero" />
+		<result property="complemento" column="complemento" />
+		<result property="cod_bairro" column="cod_bairro" />
+		<result property="tipo_bairro" column="tipo_bairro" />
+		<result property="nome_bairro" column="nome_bairro" />
+		<result property="cep" column="cep" />
+		<result property="id_municipio" column="id_municipio" />
+		<result property="cod_municipio" column="cod_municipio" />
+		<result property="nome_municipio" column="nome_municipio" />
+		<result property="uf" column="uf" />
+		<result property="seq" column="seq" />
+		<result property="serie" column="serie" />
+		<result property="data_ajuizamento" column="data_ajuizamento" />
+		<result property="vara" column="vara" />
+		<result property="ajuizado" column="ajuizado" />
+		<result property="datalt" column="datalt" />
+		<result property="cpfcnpj_valido" column="cpfcnpj_valido" />
+		<result property="protocolo" column="protocolo" />
+		<result property="verificado" column="verificado" />
+	</resultMap>
+
+	<resultMap id="mapComplexQuery" class="Projex_ProVO">
+		<result property="codrem" column="codrem" />
+		<result property="id_processo" column="id_processo" />
+		<result property="inscricao" column="inscricao" />
+		<result property="id_imovel" column="id_imovel" />
+		<result property="id_pessoa" column="id_pessoa" />
+		<result property="cpf_cnpj" column="cpf_cnpj" />
+		<result property="numero_certidao" column="numero_certidao" />
+		<result property="data_envio_forum" column="data_envio_forum" />
+		<result property="numero_processo" column="numero_processo" />
+		<result property="data_processo" column="data_processo" />
+		<result property="id_modelo_processo" column="id_modelo_processo" />
+		<result property="id_razao_social" column="id_razao_social" />
+		<result property="razao_social" column="razao_social" />
+		<result property="nome_fantasia" column="nome_fantasia" />
+		<result property="tipo_empresa" column="tipo_empresa" />
+		<result property="orgao_doc_ident" column="orgao_doc_ident" />
+		<result property="doc_ident_insc_estadual" column="doc_ident_insc_estadual" />
+		<result property="uf_doc_ident" column="uf_doc_ident" />
+		<result property="tipo_logradouro" column="tipo_logradouro" />
+		<result property="cod_logradouro" column="cod_logradouro" />
+		<result property="id_logradouro" column="id_logradouro" />
+		<result property="nome_logradouro" column="nome_logradouro" />
+		<result property="numero" column="numero" />
+		<result property="complemento" column="complemento" />
+		<result property="cod_bairro" column="cod_bairro" />
+		<result property="tipo_bairro" column="tipo_bairro" />
+		<result property="nome_bairro" column="nome_bairro" />
+		<result property="cep" column="cep" />
+		<result property="id_municipio" column="id_municipio" />
+		<result property="cod_municipio" column="cod_municipio" />
+		<result property="nome_municipio" column="nome_municipio" />
+		<result property="uf" column="uf" />
+		<result property="seq" column="seq" />
+		<result property="serie" column="serie" />
+		<result property="data_ajuizamento" column="data_ajuizamento" />
+		<result property="vara" column="vara" />
+		<result property="ajuizado" column="ajuizado" />
+		<result property="datalt" column="datalt" />
+		<result property="cpfcnpj_valido" column="cpfcnpj_valido" />
+		<result property="protocolo" column="protocolo" />
+		<result property="verificado" column="verificado" />
+	</resultMap>
+
+	<select id="getRegByCod" parameterClass="Long" resultMap="mapComplexQuerySimple">
+		SELECT * FROM PGM.projex_processos WHERE id_processo = #value:NUMERIC#
+	</select>
+
+	<select id="getRegByCodComplex" parameterClass="Long" resultMap="mapComplexQuery">
+		SELECT * FROM PGM.projex_processos WHERE id_processo = #value:NUMERIC#
+	</select>
+
+	<select id="getRegByCriterio" parameterClass="Projex_ProVO" resultMap="mapComplexQuerySimple">
+		SELECT * FROM PGM.projex_processos
+		<dynamic prepend=" WHERE ">
+			<isNotNull property="id_processo" prepend=" AND ">
+				id_processo = #id_processo:NUMERIC#
+			</isNotNull>
+			<isNotNull property="inscricao" prepend=" AND ">
+				inscricao ILIKE '%' || #inscricao:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="cpf_cnpj" prepend=" AND ">
+				cpf_cnpj ILIKE '%' || #cpf_cnpj:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="numero_certidao" prepend=" AND ">
+				numero_certidao ILIKE '%' || #numero_certidao:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="id_pessoa" prepend=" AND ">
+				id_pessoa = #id_pessoa:NUMERIC#
+			</isNotNull>
+			<isNotNull property="data_envio_forum" prepend=" AND "> to_char(data_envio_forum,'dd/MM/yyyy') =
+				to_char(#data_envio_forum:TIMESTAMP#,'dd/MM/yyyy')
+			</isNotNull>
+			<isNotNull property="numero_processo" prepend=" AND ">
+				numero_processo ILIKE '%' || #numero_processo:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="data_processo" prepend=" AND "> to_char(data_processo,'dd/MM/yyyy') =
+				to_char(#data_processo:TIMESTAMP#,'dd/MM/yyyy')
+			</isNotNull>
+			<isNotNull property="id_modelo_processo" prepend=" AND ">
+				id_modelo_processo = #id_modelo_processo:NUMERIC#
+			</isNotNull>
+			<isNotNull property="id_razao_social" prepend=" AND ">
+				id_razao_social = #id_razao_social:NUMERIC#
+			</isNotNull>
+			<isNotNull property="razao_social" prepend=" AND ">
+				razao_social ILIKE '%' || #razao_social:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="nome_fantasia" prepend=" AND ">
+				nome_fantasia ILIKE '%' || #nome_fantasia:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="tipo_empresa" prepend=" AND ">
+				tipo_empresa ILIKE '%' || #tipo_empresa:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="orgao_doc_ident" prepend=" AND ">
+				orgao_doc_ident ILIKE '%' || #orgao_doc_ident:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="doc_ident_insc_estadual" prepend=" AND ">
+				doc_ident_insc_estadual ILIKE '%' || #doc_ident_insc_estadual:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="uf_doc_ident" prepend=" AND ">
+				uf_doc_ident ILIKE '%' || #uf_doc_ident:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="tipo_logradouro" prepend=" AND ">
+				tipo_logradouro ILIKE '%' || #tipo_logradouro:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="cod_logradouro" prepend=" AND ">
+				cod_logradouro = #cod_logradouro:NUMERIC#
+			</isNotNull>
+			<isNotNull property="id_logradouro" prepend=" AND ">
+				id_logradouro = #id_logradouro:NUMERIC#
+			</isNotNull>
+			<isNotNull property="nome_logradouro" prepend=" AND ">
+				nome_logradouro ILIKE '%' || #nome_logradouro:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="numero" prepend=" AND ">
+				numero = #numero:NUMERIC#
+			</isNotNull>
+			<isNotNull property="complemento" prepend=" AND ">
+				complemento ILIKE '%' || #complemento:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="cod_bairro" prepend=" AND ">
+				cod_bairro = #cod_bairro:NUMERIC#
+			</isNotNull>
+			<isNotNull property="tipo_bairro" prepend=" AND ">
+				tipo_bairro ILIKE '%' || #tipo_bairro:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="nome_bairro" prepend=" AND ">
+				nome_bairro ILIKE '%' || #nome_bairro:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="cep" prepend=" AND ">
+				cep ILIKE '%' || #cep:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="id_municipio" prepend=" AND ">
+				id_municipio ILIKE '%' || #id_municipio:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="cod_municipio" prepend=" AND ">
+				cod_municipio ILIKE '%' || #cod_municipio:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="nome_municipio" prepend=" AND ">
+				nome_municipio ILIKE '%' || #nome_municipio:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="uf" prepend=" AND ">
+				uf ILIKE '%' || #uf:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="seq" prepend=" AND ">
+				seq ILIKE '%' || #seq:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="serie" prepend=" AND ">
+				serie ILIKE '%' || #serie:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="data_ajuizamento" prepend=" AND "> to_char(data_ajuizamento,'dd/MM/yyyy') =
+				to_char(#data_ajuizamento:TIMESTAMP#,'dd/MM/yyyy')
+			</isNotNull>
+			<isNotNull property="vara" prepend=" AND ">
+				vara ILIKE '%' || #vara:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="ajuizado" prepend=" AND ">
+				ajuizado ILIKE '%' || #ajuizado:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="datalt" prepend=" AND ">
+				datalt ILIKE '%' || #datalt:VARCHAR# || '%'
+			</isNotNull>
+		</dynamic>
+	</select>
+
+	<select id="getRegByCriterioComplex" parameterClass="Projex_ProVO" resultMap="mapComplexQuery">
+		SELECT * FROM PGM.projex_processos
+		<dynamic prepend=" WHERE ">
+			<isNotNull property="id_processo" prepend=" AND "> id_processo = #id_processo:NUMERIC#
+			</isNotNull>
+			<isNotNull property="inscricao" prepend=" AND ">
+				inscricao ILIKE '%' || #inscricao:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="cpf_cnpj" prepend=" AND ">
+				cpf_cnpj ILIKE '%' || #cpf_cnpj:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="numero_certidao" prepend=" AND ">
+				numero_certidao ILIKE '%' || #numero_certidao:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="id_pessoa" prepend=" AND "> id_pessoa = #id_pessoa:NUMERIC#
+			</isNotNull>
+			<isNotNull property="data_envio_forum" prepend=" AND "> to_char(data_envio_forum,'dd/MM/yyyy') =
+				to_char(#data_envio_forum:TIMESTAMP#,'dd/MM/yyyy')
+			</isNotNull>
+			<isNotNull property="numero_processo" prepend=" AND ">
+				numero_processo ILIKE '%' || #numero_processo:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="data_processo" prepend=" AND "> to_char(data_processo,'dd/MM/yyyy') =
+				to_char(#data_processo:TIMESTAMP#,'dd/MM/yyyy')
+			</isNotNull>
+			<isNotNull property="id_modelo_processo" prepend=" AND "> id_modelo_processo = #id_modelo_processo:NUMERIC#
+			</isNotNull>
+			<isNotNull property="id_razao_social" prepend=" AND "> id_razao_social = #id_razao_social:NUMERIC#
+			</isNotNull>
+			<isNotNull property="razao_social" prepend=" AND ">
+				razao_social ILIKE '%' || #razao_social:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="nome_fantasia" prepend=" AND ">
+				nome_fantasia ILIKE '%' || #nome_fantasia:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="tipo_empresa" prepend=" AND ">
+				tipo_empresa ILIKE '%' || #tipo_empresa:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="orgao_doc_ident" prepend=" AND ">
+				orgao_doc_ident ILIKE '%' || #orgao_doc_ident:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="doc_ident_insc_estadual" prepend=" AND ">
+				doc_ident_insc_estadual ILIKE '%' || #doc_ident_insc_estadual:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="uf_doc_ident" prepend=" AND ">
+				uf_doc_ident ILIKE '%' || #uf_doc_ident:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="tipo_logradouro" prepend=" AND ">
+				tipo_logradouro ILIKE '%' || #tipo_logradouro:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="cod_logradouro" prepend=" AND "> cod_logradouro = #cod_logradouro:NUMERIC#
+			</isNotNull>
+			<isNotNull property="id_logradouro" prepend=" AND "> id_logradouro = #id_logradouro:NUMERIC#
+			</isNotNull>
+			<isNotNull property="nome_logradouro" prepend=" AND ">
+				nome_logradouro ILIKE '%' || #nome_logradouro:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="numero" prepend=" AND "> numero = #numero:NUMERIC#
+			</isNotNull>
+			<isNotNull property="complemento" prepend=" AND ">
+				complemento ILIKE '%' || #complemento:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="cod_bairro" prepend=" AND "> cod_bairro = #cod_bairro:NUMERIC#
+			</isNotNull>
+			<isNotNull property="tipo_bairro" prepend=" AND ">
+				tipo_bairro ILIKE '%' || #tipo_bairro:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="nome_bairro" prepend=" AND ">
+				nome_bairro ILIKE '%' || #nome_bairro:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="cep" prepend=" AND ">
+				cep ILIKE '%' || #cep:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="id_municipio" prepend=" AND ">
+				id_municipio ILIKE '%' || #id_municipio:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="cod_municipio" prepend=" AND ">
+				cod_municipio ILIKE '%' || #cod_municipio:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="nome_municipio" prepend=" AND ">
+				nome_municipio ILIKE '%' || #nome_municipio:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="uf" prepend=" AND ">
+				uf ILIKE '%' || #uf:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="seq" prepend=" AND ">
+				seq ILIKE '%' || #seq:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="serie" prepend=" AND ">
+				serie ILIKE '%' || #serie:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="data_ajuizamento" prepend=" AND "> to_char(data_ajuizamento,'dd/MM/yyyy') =
+				to_char(#data_ajuizamento:TIMESTAMP#,'dd/MM/yyyy')
+			</isNotNull>
+			<isNotNull property="vara" prepend=" AND ">
+				vara ILIKE '%' || #vara:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="ajuizado" prepend=" AND ">
+				ajuizado ILIKE '%' || #ajuizado:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="datalt" prepend=" AND ">
+				datalt ILIKE '%' || #datalt:VARCHAR# || '%'
+			</isNotNull>
+		</dynamic>
+	</select>
+
+	<select id="getTodos" resultMap="mapComplexQuerySimple">
+		SELECT * FROM PGM.projex_processos
+	</select>
+
+	<insert id="insReg" parameterClass="Projex_ProVO">
+		<selectKey keyProperty="id_processo" resultClass="Long">
+			SELECT NEXTVAL('pgm.seq_id_processo')
+		</selectKey>
+		INSERT INTO
+		PGM.projex_processos(codrem, id_processo,inscricao,cpf_cnpj,numero_certidao,id_imovel,id_pessoa,data_envio_forum,numero_processo,data_processo,id_modelo_processo,id_razao_social,razao_social,nome_fantasia,tipo_empresa,orgao_doc_ident,doc_ident_insc_estadual,uf_doc_ident,tipo_logradouro,cod_logradouro,id_logradouro,nome_logradouro,numero,complemento,cod_bairro,tipo_bairro,nome_bairro,cep,id_municipio,cod_municipio,nome_municipio,uf,seq,serie,data_ajuizamento,vara,ajuizado,datalt,cpfcnpj_valido,verificado)
+		VALUES (#codrem:NUMERIC#, #id_processo:NUMERIC#, UPPER(#inscricao:VARCHAR#), UPPER(#cpf_cnpj:VARCHAR#),
+		pgm.geraNrCDA(),#id_imovel:NUMERIC#,#id_pessoa:NUMERIC#,#data_envio_forum:TIMESTAMP#,
+		UPPER(#numero_processo:VARCHAR#),#data_processo:TIMESTAMP#,#id_modelo_processo:NUMERIC#,#id_razao_social:NUMERIC#,
+		UPPER(#razao_social:VARCHAR#), UPPER(#nome_fantasia:VARCHAR#), UPPER(#tipo_empresa:VARCHAR#),
+		UPPER(#orgao_doc_ident:VARCHAR#), UPPER(#doc_ident_insc_estadual:VARCHAR#), UPPER(#uf_doc_ident:VARCHAR#),
+		UPPER(#tipo_logradouro:VARCHAR#),#cod_logradouro:NUMERIC#,#id_logradouro:NUMERIC#,
+		UPPER(#nome_logradouro:VARCHAR#),#numero:NUMERIC#, UPPER(#complemento:VARCHAR#),#cod_bairro:NUMERIC#,
+		UPPER(#tipo_bairro:VARCHAR#), UPPER(#nome_bairro:VARCHAR#), UPPER(#cep:VARCHAR#), UPPER(#id_municipio:VARCHAR#),
+		UPPER(#cod_municipio:VARCHAR#), UPPER(#nome_municipio:VARCHAR#), UPPER(#uf:VARCHAR#), UPPER(#seq:VARCHAR#),
+		UPPER(#serie:VARCHAR#),#data_ajuizamento:TIMESTAMP#, UPPER(#vara:VARCHAR#), UPPER(#ajuizado:VARCHAR#),
+		now(),#cpfcnpj_valido:VARCHAR#,#verificado:VARCHAR# )
+	</insert>
+
+	<update id="updRegByCod" parameterClass="Projex_ProVO">
+		UPDATE PGM.projex_processos 
+		SET 
+		inscricao = UPPER(#inscricao:VARCHAR#),
+		cpf_cnpj = UPPER(#cpf_cnpj:VARCHAR#),
+		numero_certidao = UPPER(#numero_certidao:VARCHAR#),
+		id_imovel = #id_imovel:NUMERIC#,
+		id_pessoa = #id_pessoa:NUMERIC#,
+		data_envio_forum = #data_envio_forum:TIMESTAMP#,
+		numero_processo= UPPER(#numero_processo:VARCHAR#),data_processo=
+		#data_processo:TIMESTAMP#,id_modelo_processo= #id_modelo_processo:NUMERIC#,id_razao_social=
+		#id_razao_social:NUMERIC#,razao_social= UPPER(#razao_social:VARCHAR#),nome_fantasia=
+		UPPER(#nome_fantasia:VARCHAR#),tipo_empresa= UPPER(#tipo_empresa:VARCHAR#),orgao_doc_ident=
+		UPPER(#orgao_doc_ident:VARCHAR#),doc_ident_insc_estadual= UPPER(#doc_ident_insc_estadual:VARCHAR#),uf_doc_ident=
+		UPPER(#uf_doc_ident:VARCHAR#),tipo_logradouro= UPPER(#tipo_logradouro:VARCHAR#),cod_logradouro=
+		#cod_logradouro:NUMERIC#,id_logradouro= #id_logradouro:NUMERIC#,nome_logradouro=
+		UPPER(#nome_logradouro:VARCHAR#),numero= #numero:NUMERIC#,complemento= UPPER(#complemento:VARCHAR#),cod_bairro=
+		#cod_bairro:NUMERIC#,tipo_bairro= UPPER(#tipo_bairro:VARCHAR#),nome_bairro= UPPER(#nome_bairro:VARCHAR#),cep=
+		UPPER(#cep:VARCHAR#),id_municipio= UPPER(#id_municipio:VARCHAR#),cod_municipio=
+		UPPER(#cod_municipio:VARCHAR#),nome_municipio= UPPER(#nome_municipio:VARCHAR#),uf= UPPER(#uf:VARCHAR#),seq=
+		UPPER(#seq:VARCHAR#),serie= UPPER(#serie:VARCHAR#),data_ajuizamento= #data_ajuizamento:TIMESTAMP#,vara=
+		UPPER(#vara:VARCHAR#),ajuizado= UPPER(#ajuizado:VARCHAR#),
+		datalt= now(), protocolo = #protocolo:VARCHAR#
+		WHERE 
+			id_processo = #id_processo:NUMERIC#
+	</update>
+	
+	<delete id="delByCod" parameterClass="Long">
+		DELETE FROM PGM.projex_processos WHERE id_processo = #value:NUMERIC#
+	</delete>
+	
+	<delete id="delByCodigos" parameterClass="String">
+		DELETE FROM PGM.projex_processos WHERE id_processo in ($value$)
+	</delete>
+	
+	<delete id="delImportacao" parameterClass="Long">
+		DELETE FROM PGM.projex_processos WHERE codrem = #value:NUMERIC#
+	</delete>
+
+	<select id="getCountByCriterio" parameterClass="Projex_ProVO" resultClass="Integer">
+		SELECT count(id_processo) FROM PGM.projex_processos
+		<dynamic prepend=" WHERE ">
+			<isNotNull property="id_processo" prepend=" AND "> id_processo = #id_processo:NUMERIC#
+			</isNotNull>
+			<isNotNull property="inscricao" prepend=" AND ">
+				inscricao ILIKE '%' || #inscricao:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="cpf_cnpj" prepend=" AND ">
+				cpf_cnpj ILIKE '%' || #cpf_cnpj:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="numero_certidao" prepend=" AND ">
+				numero_certidao ILIKE '%' || #numero_certidao:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="id_pessoa" prepend=" AND "> id_pessoa = #id_pessoa:NUMERIC#
+			</isNotNull>
+			<isNotNull property="data_envio_forum" prepend=" AND "> to_char(data_envio_forum,'dd/MM/yyyy') =
+				to_char(#data_envio_forum:TIMESTAMP#,'dd/MM/yyyy')
+			</isNotNull>
+			<isNotNull property="numero_processo" prepend=" AND ">
+				numero_processo ILIKE '%' || #numero_processo:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="data_processo" prepend=" AND "> to_char(data_processo,'dd/MM/yyyy') =
+				to_char(#data_processo:TIMESTAMP#,'dd/MM/yyyy')
+			</isNotNull>
+			<isNotNull property="id_modelo_processo" prepend=" AND "> id_modelo_processo = #id_modelo_processo:NUMERIC#
+			</isNotNull>
+			<isNotNull property="id_razao_social" prepend=" AND "> id_razao_social = #id_razao_social:NUMERIC#
+			</isNotNull>
+			<isNotNull property="razao_social" prepend=" AND ">
+				razao_social ILIKE '%' || #razao_social:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="nome_fantasia" prepend=" AND ">
+				nome_fantasia ILIKE '%' || #nome_fantasia:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="tipo_empresa" prepend=" AND ">
+				tipo_empresa ILIKE '%' || #tipo_empresa:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="orgao_doc_ident" prepend=" AND ">
+				orgao_doc_ident ILIKE '%' || #orgao_doc_ident:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="doc_ident_insc_estadual" prepend=" AND ">
+				doc_ident_insc_estadual ILIKE '%' || #doc_ident_insc_estadual:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="uf_doc_ident" prepend=" AND ">
+				uf_doc_ident ILIKE '%' || #uf_doc_ident:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="tipo_logradouro" prepend=" AND ">
+				tipo_logradouro ILIKE '%' || #tipo_logradouro:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="cod_logradouro" prepend=" AND "> cod_logradouro = #cod_logradouro:NUMERIC#
+			</isNotNull>
+			<isNotNull property="id_logradouro" prepend=" AND "> id_logradouro = #id_logradouro:NUMERIC#
+			</isNotNull>
+			<isNotNull property="nome_logradouro" prepend=" AND ">
+				nome_logradouro ILIKE '%' || #nome_logradouro:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="numero" prepend=" AND "> numero = #numero:NUMERIC#
+			</isNotNull>
+			<isNotNull property="complemento" prepend=" AND ">
+				complemento ILIKE '%' || #complemento:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="cod_bairro" prepend=" AND "> cod_bairro = #cod_bairro:NUMERIC#
+			</isNotNull>
+			<isNotNull property="tipo_bairro" prepend=" AND ">
+				tipo_bairro ILIKE '%' || #tipo_bairro:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="nome_bairro" prepend=" AND ">
+				nome_bairro ILIKE '%' || #nome_bairro:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="cep" prepend=" AND ">
+				cep ILIKE '%' || #cep:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="id_municipio" prepend=" AND ">
+				id_municipio ILIKE '%' || #id_municipio:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="cod_municipio" prepend=" AND ">
+				cod_municipio ILIKE '%' || #cod_municipio:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="nome_municipio" prepend=" AND ">
+				nome_municipio ILIKE '%' || #nome_municipio:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="uf" prepend=" AND ">
+				uf ILIKE '%' || #uf:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="seq" prepend=" AND ">
+				seq ILIKE '%' || #seq:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="serie" prepend=" AND ">
+				serie ILIKE '%' || #serie:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="data_ajuizamento" prepend=" AND "> to_char(data_ajuizamento,'dd/MM/yyyy') =
+				to_char(#data_ajuizamento:TIMESTAMP#,'dd/MM/yyyy')
+			</isNotNull>
+			<isNotNull property="vara" prepend=" AND ">
+				vara ILIKE '%' || #vara:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="ajuizado" prepend=" AND ">
+				ajuizado ILIKE '%' || #ajuizado:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="datalt" prepend=" AND ">
+				datalt ILIKE '%' || #datalt:VARCHAR# || '%'
+			</isNotNull>
+		</dynamic>
+	</select>
+	
+	<select id="getProcByImportacao" parameterClass="Projex_ProVO" resultMap="mapComplexQuery">
+		SELECT * 
+		FROM 
+			PGM.projex_processos 
+		WHERE 
+			codrem = #codrem:NUMERIC#
+			<isNotNull property="inscricao" prepend=" AND ">
+				inscricao = #inscricao:VARCHAR#
+			</isNotNull>
+			<isNotNull property="cpf_cnpj" prepend=" AND ">
+				cpf_cnpj = #cpf_cnpj:VARCHAR#
+			</isNotNull>
+			<isNotNull property="numero_certidao" prepend=" AND ">
+				replace(replace(numero_certidao,'/',''),'-','') = #numero_certidao:VARCHAR#
+			</isNotNull>
+			<isNotNull property="vara" prepend=" AND ">
+				vara = #vara:VARCHAR#
+			</isNotNull>
+			<isNotNull property="verificado" prepend=" AND ">
+				verificado = #verificado:VARCHAR#
+			</isNotNull>
+	</select>
+	
+	<select id="countProcByImportacao" parameterClass="Projex_ProVO" resultClass="Integer">
+		SELECT count(0)
+		FROM 
+			PGM.projex_processos 
+		WHERE 
+			codrem = #codrem:NUMERIC#
+			<isNotNull property="inscricao" prepend=" AND ">
+				inscricao ILIKE '%' || #inscricao:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="cpf_cnpj" prepend=" AND ">
+				cpf_cnpj ILIKE '%' || #cpf_cnpj:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="numero_certidao" prepend=" AND ">
+				replace(replace(numero_certidao,'/',''),'-','') = #numero_certidao:VARCHAR#
+			</isNotNull>
+			<isNotNull property="vara" prepend=" AND ">
+				vara = #vara:VARCHAR#
+			</isNotNull>
+			<isNotNull property="verificado" prepend=" AND ">
+				verificado = #verificado:VARCHAR#
+			</isNotNull>
+	</select>
+	
+	<update id="updProcesso" parameterClass="Projex_ProVO">
+		UPDATE 
+			PGM.projex_processos 
+		SET 
+			vara = #vara:VARCHAR#,
+			razao_social = UPPER(#razao_social:VARCHAR#),
+			nome_fantasia = UPPER(#nome_fantasia:VARCHAR#),
+			tipo_logradouro = UPPER(#tipo_logradouro:VARCHAR#),
+			nome_logradouro = UPPER(#nome_logradouro:VARCHAR#),
+			numero = #numero:NUMERIC#,
+			complemento = UPPER(#complemento:VARCHAR#),
+			nome_bairro = UPPER(#nome_bairro:VARCHAR#),
+			cep = UPPER(#cep:VARCHAR#),
+			nome_municipio = UPPER(#nome_municipio:VARCHAR#),
+			uf = UPPER(#uf:VARCHAR#),
+			usualt = UPPER(#usualt:VARCHAR#),			
+			datalt = now()
+		WHERE 
+			id_processo = #id_processo:NUMERIC#
+	</update>
+	
+	<update id="updProcVerificado" parameterClass="Projex_ProVO">
+		UPDATE 
+			PGM.projex_processos 
+		SET 
+			verificado = 'S',
+			usualt = UPPER(#usualt:VARCHAR#),			
+			datalt = now()
+		WHERE 
+			id_processo = #id_processo:NUMERIC#
+	</update>
+	
+	<select id="getTotaisProc" parameterClass="Projex_ProVO" resultClass="hashmap">
+		SELECT 
+			TRIM(to_char(SUM(COALESCE(VALOR_CORRECAO_CALC,0)), '9G999G990D99')) AS ATU,
+			TRIM(to_char(SUM(COALESCE(VALOR_JUROS_CALC,0)), '9G999G990D99')) AS JUROS,
+			TRIM(to_char(SUM(COALESCE(VALOR_MULTA_CALC,0)), '9G999G990D99')) AS MULTA,
+			TRIM(to_char(SUM(COALESCE(VALOR_TOTAL_CALC,0)), '9G999G990D99')) AS TOTAL,
+			UPPER(fu_extenso_real(SUM(COALESCE(VALOR_TOTAL_CALC,0)))) as TOTAL_EXTENSO
+		FROM 
+			PGM.PROJEX_PROCESSOS P
+			JOIN PGM.PROJEX_DIVIDAS D ON P.ID_PROCESSO = D.ID_PROCESSO
+		WHERE 
+			P.id_processo = #id_processo:NUMERIC#
+	</select>
+</sqlMap> 
+ 

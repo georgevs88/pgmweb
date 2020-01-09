@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+ <!DOCTYPE sqlMap PUBLIC "//iBATIS.com//DTD SQL Map 2.0//EN" "HTTP://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="Arl">
+	<typeAlias alias="ArlVO" type="pmcg.imti.domain.ArlVO" />
+
+	<resultMap id="mapComplexQuerySimple" class="ArlVO">
+		<result property="iddarl" column="iddarl" />
+		<result property="arqarl" column="arqarl" />
+		<result property="desarl" column="desarl" />
+		<result property="numarl" column="numarl" />
+		<result property="usualt" column="usualt" />
+		<result property="datalt" column="datalt" />
+	</resultMap>
+
+	<resultMap id="mapComplexQuery" class="ArlVO">
+		<result property="iddarl" column="iddarl" />
+		<result property="arqarl" column="arqarl" />
+		<result property="desarl" column="desarl" />
+		<result property="numarl" column="numarl" />
+		<result property="usualt" column="usualt" />
+		<result property="datalt" column="datalt" />
+	</resultMap>
+
+	<select id="getRegByCod" parameterClass="Long" resultMap="mapComplexQuerySimple">
+		SELECT * FROM pgm.pgmarl WHERE iddarl = #value:NUMERIC#
+	</select>
+
+	<select id="getRegByCodComplex" parameterClass="Long" resultMap="mapComplexQuery">
+		SELECT * FROM pgm.pgmarl WHERE iddarl = #value:NUMERIC#
+	</select>
+
+	<select id="getRegByCriterio" parameterClass="ArlVO" resultMap="mapComplexQuerySimple">
+		SELECT * FROM pgm.pgmarl
+		<dynamic prepend=" WHERE ">
+			<isNotNull property="iddarl" prepend=" AND ">
+				iddarl = #iddarl:NUMERIC#
+			</isNotNull>
+			<isNotNull property="arqarl" prepend=" AND ">
+				arqarl = #arqarl:NUMERIC#
+			</isNotNull>
+			<isNotNull property="desarl" prepend=" AND ">
+				desarl ILIKE '%' || #desarl:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="numarl" prepend=" AND ">
+				numarl = #numarl:NUMERIC#
+			</isNotNull>
+			<isNotNull property="usualt" prepend=" AND ">
+				usualt ILIKE '%' || #usualt:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="datalt" prepend=" AND "> to_char(datalt,'dd/MM/yyyy') =
+				to_char(#datalt:TIMESTAMP#,'dd/MM/yyyy')
+			</isNotNull>
+		</dynamic>
+	</select>
+
+	<select id="getRegByCriterioComplex" parameterClass="ArlVO" resultMap="mapComplexQuery">
+		SELECT * FROM pgm.pgmarl
+		<dynamic prepend=" WHERE ">
+			<isNotNull property="iddarl" prepend=" AND "> iddarl = #iddarl:NUMERIC#
+			</isNotNull>
+			<isNotNull property="arqarl" prepend=" AND "> arqarl = #arqarl:NUMERIC#
+			</isNotNull>
+			<isNotNull property="desarl" prepend=" AND ">
+				desarl ILIKE '%' || #desarl:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="numarl" prepend=" AND "> numarl = #numarl:NUMERIC#
+			</isNotNull>
+			<isNotNull property="usualt" prepend=" AND ">
+				usualt ILIKE '%' || #usualt:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="datalt" prepend=" AND "> to_char(datalt,'dd/MM/yyyy') =
+				to_char(#datalt:TIMESTAMP#,'dd/MM/yyyy')
+			</isNotNull>
+		</dynamic>
+	</select>
+
+	<select id="getTodos" resultMap="mapComplexQuerySimple">
+		SELECT * FROM pgm.pgmarl
+	</select>
+
+	<insert id="insReg" parameterClass="ArlVO">
+		<selectKey keyProperty="iddarl" resultClass="Long">
+			SELECT NEXTVAL('pgm.seqarl')
+		</selectKey>
+		INSERT INTO pgm.pgmarl(iddarl,arqarl,desarl,numarl,usualt,datalt) VALUES (#iddarl:NUMERIC#,#arqarl:NUMERIC#,
+		UPPER(#desarl:VARCHAR#),#numarl:NUMERIC#, UPPER(#usualt:VARCHAR#),now() )
+	</insert>
+
+	<update id="updRegByCod" parameterClass="ArlVO">
+		UPDATE pgm.pgmarl SET arqarl= #arqarl:NUMERIC#,desarl= UPPER(#desarl:VARCHAR#),numarl= #numarl:NUMERIC#,usualt=
+		UPPER(#usualt:VARCHAR#),datalt= now() WHERE iddarl = #iddarl:NUMERIC#
+	</update>
+	
+	<delete id="delByCod" parameterClass="Long">
+		DELETE FROM pgm.pgmarl WHERE iddarl = #value:NUMERIC#
+	</delete>
+	
+	<delete id="delByCodigos" parameterClass="String">
+		DELETE FROM pgm.pgmarl WHERE iddarl in ($value$)
+	</delete>
+
+	<select id="getCountByCriterio" parameterClass="ArlVO" resultClass="Integer">
+		SELECT count(iddarl) FROM pgm.pgmarl
+		<dynamic prepend=" WHERE ">
+			<isNotNull property="iddarl" prepend=" AND "> iddarl = #iddarl:NUMERIC#
+			</isNotNull>
+			<isNotNull property="arqarl" prepend=" AND "> arqarl = #arqarl:NUMERIC#
+			</isNotNull>
+			<isNotNull property="desarl" prepend=" AND ">
+				desarl ILIKE '%' || #desarl:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="numarl" prepend=" AND "> numarl = #numarl:NUMERIC#
+			</isNotNull>
+			<isNotNull property="usualt" prepend=" AND ">
+				usualt ILIKE '%' || #usualt:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="datalt" prepend=" AND "> to_char(datalt,'dd/MM/yyyy') =
+				to_char(#datalt:TIMESTAMP#,'dd/MM/yyyy')
+			</isNotNull>
+		</dynamic>
+	</select>
+</sqlMap> 
+ 

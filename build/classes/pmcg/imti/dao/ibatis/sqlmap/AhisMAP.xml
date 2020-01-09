@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+ <!DOCTYPE sqlMap PUBLIC "//iBATIS.com//DTD SQL Map 2.0//EN" "HTTP://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="Ahis">
+	<typeAlias alias="AhisVO" type="pmcg.imti.domain.AhisVO" />
+
+	<resultMap id="mapComplexQuerySimple" class="AhisVO">
+		<result property="codrem" column="codrem" />
+		<result property="codcad" column="codcad" />
+		<result property="numcad" column="numcad" />
+		<result property="coddeb" column="coddeb" />
+		<result property="codpro" column="codpro" />
+		<result property="datpro" column="datpro" />
+		<result property="numaut" column="numaut" />
+		<result property="dataut" column="dataut" />
+	</resultMap>
+
+	<resultMap id="mapComplexQuery" class="AhisVO">
+		<result property="codrem" column="codrem" />
+		<result property="codcad" column="codcad" />
+		<result property="numcad" column="numcad" />
+		<result property="coddeb" column="coddeb" />
+		<result property="codpro" column="codpro" />
+		<result property="datpro" column="datpro" />
+		<result property="numaut" column="numaut" />
+		<result property="dataut" column="dataut" />
+	</resultMap>
+
+	<select id="getRegByCod" parameterClass="Long" resultMap="mapComplexQuerySimple">
+		SELECT * FROM imo.imohis WHERE codrem = #value:NUMERIC#
+	</select>
+
+	<select id="getRegByCodComplex" parameterClass="Long" resultMap="mapComplexQuery">
+		SELECT * FROM imo.imohis WHERE codrem = #value:NUMERIC#
+	</select>
+
+	<select id="getRegByCriterio" parameterClass="AhisVO" resultMap="mapComplexQuerySimple">
+		SELECT * FROM imo.imohis
+		<dynamic prepend=" WHERE ">
+			<isNotNull property="codrem" prepend=" AND ">
+				codrem = #codrem:NUMERIC#
+			</isNotNull>
+			<isNotNull property="codcad" prepend=" AND ">
+				codcad ILIKE '%' || #codcad:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="numcad" prepend=" AND ">
+				numcad ILIKE '%' || #numcad:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="coddeb" prepend=" AND ">
+				coddeb ILIKE '%' || #coddeb:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="codpro" prepend=" AND ">
+				codpro ILIKE '%' || #codpro:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="datpro" prepend=" AND ">
+				datpro ILIKE '%' || #datpro:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="numaut" prepend=" AND ">
+				numaut ILIKE '%' || #numaut:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="dataut" prepend=" AND ">
+				dataut ILIKE '%' || #dataut:VARCHAR# || '%'
+			</isNotNull>
+		</dynamic>
+	</select>
+
+	<select id="getRegByCriterioComplex" parameterClass="AhisVO" resultMap="mapComplexQuery">
+		SELECT * FROM imo.imohis
+		<dynamic prepend=" WHERE ">
+			<isNotNull property="codrem" prepend=" AND "> codrem = #codrem:NUMERIC#
+			</isNotNull>
+			<isNotNull property="codcad" prepend=" AND ">
+				codcad ILIKE '%' || #codcad:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="numcad" prepend=" AND ">
+				numcad ILIKE '%' || #numcad:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="coddeb" prepend=" AND ">
+				coddeb ILIKE '%' || #coddeb:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="codpro" prepend=" AND ">
+				codpro ILIKE '%' || #codpro:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="datpro" prepend=" AND ">
+				datpro ILIKE '%' || #datpro:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="numaut" prepend=" AND ">
+				numaut ILIKE '%' || #numaut:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="dataut" prepend=" AND ">
+				dataut ILIKE '%' || #dataut:VARCHAR# || '%'
+			</isNotNull>
+		</dynamic>
+	</select>
+
+	<select id="getTodos" resultMap="mapComplexQuerySimple">
+		SELECT * FROM imo.imohis
+	</select>
+
+	<insert id="insReg" parameterClass="AhisVO">
+		<!-- <selectKey keyProperty="codrem" resultClass="Long">
+			SELECT NEXTVAL('imo.seqhis')
+		</selectKey> -->
+		INSERT INTO imo.imohis(codrem,codcad,numcad,coddeb,codpro,datpro,numaut,dataut) VALUES
+		(#codrem:NUMERIC#, UPPER(#codcad:VARCHAR#), UPPER(#numcad:VARCHAR#), UPPER(#coddeb:VARCHAR#),
+		UPPER(#codpro:VARCHAR#), UPPER(#datpro:VARCHAR#), UPPER(#numaut:VARCHAR#), UPPER(#dataut:VARCHAR#) )
+	</insert>
+
+	<update id="updRegByCod" parameterClass="AhisVO">
+		UPDATE imo.imohis SET codcad= UPPER(#codcad:VARCHAR#),numcad= UPPER(#numcad:VARCHAR#),coddeb=
+		UPPER(#coddeb:VARCHAR#),codpro= UPPER(#codpro:VARCHAR#),datpro= UPPER(#datpro:VARCHAR#),numaut=
+		UPPER(#numaut:VARCHAR#),dataut= UPPER(#dataut:VARCHAR#) WHERE codrem = #codrem:NUMERIC#
+	</update>
+	
+	<delete id="delByCod" parameterClass="Long">
+		DELETE FROM imo.imohis WHERE codrem = #value:NUMERIC#
+	</delete>
+	
+	<delete id="delByCodigos" parameterClass="String">
+		DELETE FROM imo.imohis WHERE codrem in ($value$)
+	</delete>
+
+	<select id="getCountByCriterio" parameterClass="AhisVO" resultClass="Integer">
+		SELECT count(codrem) FROM imo.imohis
+		<dynamic prepend=" WHERE ">
+			<isNotNull property="codrem" prepend=" AND "> codrem = #codrem:NUMERIC#
+			</isNotNull>
+			<isNotNull property="codcad" prepend=" AND ">
+				codcad ILIKE '%' || #codcad:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="numcad" prepend=" AND ">
+				numcad ILIKE '%' || #numcad:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="coddeb" prepend=" AND ">
+				coddeb ILIKE '%' || #coddeb:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="codpro" prepend=" AND ">
+				codpro ILIKE '%' || #codpro:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="datpro" prepend=" AND ">
+				datpro ILIKE '%' || #datpro:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="numaut" prepend=" AND ">
+				numaut ILIKE '%' || #numaut:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="dataut" prepend=" AND ">
+				dataut ILIKE '%' || #dataut:VARCHAR# || '%'
+			</isNotNull>
+		</dynamic>
+	</select>
+	
+	<select id="getRegByCoddeb" parameterClass="AhisVO" resultMap="mapComplexQuerySimple">
+		SELECT * FROM imo.imohis 
+		WHERE coddeb = #coddeb:VARCHAR#
+		and codrem = #codrem:NUMERIC#
+		GROUP BY codrem,codcad,numcad,coddeb,codpro,datpro,numaut,dataut
+	</select>
+</sqlMap> 
+ 

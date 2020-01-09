@@ -1,0 +1,50 @@
+<?page id="wImpconf" title="Importação de Arquivos" cacheable="false" language="xul/html" zscriptLanguage="Java" contentType="text/html;charset=UTF-8"?>
+<zk xmlns="http://www.zkoss.org/2005/zul"
+	xmlns:h="http://www.w3.org/1999/xhtml"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-infabnce"
+	xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
+	<window use="pmcg.imti.view.Impconf" id="wImpconf" title="Importação de Arquivos" border="normal" shadow="false"
+		width="800px" position="center" mode="overlapped" sizable="false" closable="false" onCreate="wImpconf.initComponentes()">
+		<separator height="5px" />
+		<separator height="20px"/>
+		<groupbox>
+			<caption label="Gerar Nova Remessa"/>
+			<grid align="center">
+				<columns>
+					<column label="" align="right" width="120px" />
+					<column label="" align="left" width="120px"/>
+					<column label="" align="right" width="100px" />
+					<column label="" align="left" width="120px"/>
+					<column label="" align="right" width="105px" />
+					<column label="" align="left" />
+				</columns>
+				<rows>
+					<row spans="1,5">
+						<hbox>
+							<label value="Arquivo DEB:" />
+							<label value="*" style="font-weight:bold;color:red;"/>
+						</hbox>
+						<hbox>
+							<fileupload number="1" width="200px" id="imageDeb" maxsize="-1"
+								onUpload='wImpconf.uploadDOX(event)' image="/images/down.png" label="Selecionar Arquivo..." tooltiptext="Selecionar Arquivo" />
+							<!-- <label value="@{wImpconf.nomeDoArquivoDeb}"
+								id="imageDeb" /> -->
+						</hbox>
+					</row>
+				</rows>
+			</grid>
+			<grid>
+				<columns>
+					<column align="center" width="" />
+				</columns>
+				<rows>
+					<row>
+						<button label="Procesar" width="140px" onClick="wImpconf.processar()" />
+					</row>
+				</rows>
+			</grid>
+		</groupbox>
+		<label style="color:red; font-size: 10px;" value="* Campos de Preenchimento Obrigatório." />
+		<separator height="10px" />
+	</window>
+</zk>

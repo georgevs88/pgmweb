@@ -1,0 +1,88 @@
+package pmcg.imti.dao.ibatis; 
+  
+ import pmcg.framework.dao.ibatis.DAOConcorrencia; 
+ import pmcg.imti.domain.AhisVO; 
+ import java.util.List; 
+ import java.sql.SQLException; 
+   /** 
+    * AhisDAO  
+    * Responsável pela Manipulação de registros 
+    * @author Gerador ZK 
+    */ 
+ public class AhisDAO extends DAOConcorrencia<AhisVO, Long> { 
+ 	public AhisDAO() { 
+ 		super("Ahis"); 
+ 	} 
+ 	  
+ 	public List<AhisVO> getRegByCriterioComplex(AhisVO obj) { 
+ 		String nameSpace = getNameSpaceMap(); 
+ 		if (nameSpace == null) 
+ 			setNameSpaceMap("Ahis"); 
+ 		try { 
+ 			return sqlMap.queryForList(nameSpace + ".getRegByCriterioComplex", 
+ 					obj); 
+ 		} catch (SQLException e) { 
+ 			e.printStackTrace(); 
+ 		} 
+ 		return null; 
+ 	} 
+   
+ 	public AhisVO getRegByCodComplex(Long cod) { 
+ 		String nameSpace = getNameSpaceMap(); 
+ 		if (nameSpace == null) 
+ 			setNameSpaceMap("Ahis"); 
+ 		try { 
+ 			return (AhisVO) sqlMap.queryForObject(nameSpace 
+ 					+ ".getRegByCodComplex", cod); 
+ 		} catch (SQLException e) { 
+ 			e.printStackTrace(); 
+ 		} 
+ 		return null; 
+ 	} 
+  	  
+ 	public Integer delByCodigos(String codigos) { 
+ 		String nameSpace = getNameSpaceMap(); 
+ 		if (nameSpace == null) 
+ 			setNameSpaceMap("Ahis"); 
+ 		try { 
+ 			return sqlMap.delete(nameSpace + ".delByCodigos", codigos); 
+ 		} catch (Exception e) { 
+ 			e.printStackTrace(); 
+ 		} 
+ 		return null; 
+ 	} 
+ 	  
+ 	public Integer 	getCountByCriterio(AhisVO  obj) {  
+  		String nameSpace = getNameSpaceMap();  
+  		if (nameSpace == null)  
+  			setNameSpaceMap("Ahis");  
+  		try {  
+  			return (Integer) sqlMap.queryForObject(nameSpace + ".getCountByCriterio", obj);  
+  		} catch (Exception e) {  
+  			e.printStackTrace();  
+  		}  
+  		return 0;  
+  	}  
+  	  
+  	public List<AhisVO> 	getByCriterioLimit(AhisVO obj,Integer inicial, Integer maximoPermitido) {  
+  		String nameSpace = getNameSpaceMap();  
+  		if (nameSpace == null)  
+  			setNameSpaceMap("Ahis");  
+  		try {  
+  			return sqlMap.queryForList(nameSpace + ".getRegByCriterioComplex",obj,inicial,maximoPermitido);  
+  		} catch (SQLException e) {  
+  			e.printStackTrace();  
+  		}  
+  		return null;  
+  	} 
+  	
+  	public AhisVO getRegByCoddeb(AhisVO  obj) {  
+  		try {  
+  			return (AhisVO) sqlMap.queryForObject(getNameSpaceMap() + ".getRegByCoddeb",obj);  
+  		} catch (SQLException e) {  
+  			e.printStackTrace();  
+  		}  
+  		return null;  
+  	} 
+ } 
+ 

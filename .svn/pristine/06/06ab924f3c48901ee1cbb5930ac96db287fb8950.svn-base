@@ -1,0 +1,350 @@
+package pmcg.imti.domain;
+
+import java.util.Date;
+
+import gerador.annotation.ZKEntity;
+import gerador.annotation.ZKField;
+import gerador.annotation.ZKId;
+
+@ZKEntity(label = "Pro", sequence = "seq_id_processo")
+public class Projex_ProVO {
+	@ZKId
+	@ZKField(label = "Código", artigo = "o", readonly = true, maxsize = 80, tooltip = "Código incremental!")
+	public Long iddpro;
+	public Long codrem;
+	public Long id_processo;
+	public String inscricao;
+	public Long id_imovel;
+	public Long id_pessoa;
+	public String cpf_cnpj;
+	public String numero_certidao;
+	public Date data_envio_forum;
+	public String numero_processo;
+	public Date data_processo;
+	public Long id_modelo_processo;
+	public Long id_razao_social;
+	public String razao_social;
+	public String nome_fantasia;
+	public String tipo_empresa;
+	public String orgao_doc_ident;
+	public String doc_ident_insc_estadual;
+	public String uf_doc_ident;
+	public String tipo_logradouro;
+	public Long cod_logradouro;
+	public Long id_logradouro;
+	public String nome_logradouro;
+	public Long numero;
+	public String complemento;
+	public Long cod_bairro;
+	public String tipo_bairro;
+	public String nome_bairro;
+	public String cep;
+	public String id_municipio;
+	public String cod_municipio;
+	public String nome_municipio;
+	public String uf;
+	public String seq;
+	public String serie;
+	public Date data_ajuizamento;
+	public String vara;
+	public String ajuizado;
+	public String datalt;
+	public String cpfcnpj_valido;
+	public String protocolo;
+	public String verificado;
+	public String usualt;
+	
+	public Long getId_processo() {
+		return id_processo;
+	}
+	public void setId_processo(Long id_processo) {
+		this.id_processo = id_processo;
+	}
+	public String getInscricao() {
+		return inscricao;
+	}
+	public void setInscricao(String inscricao) {
+		this.inscricao = inscricao;
+	}
+	public String getCpf_cnpj() {
+		return cpf_cnpj;
+	}
+	public void setCpf_cnpj(String cpf_cnpj) {
+		this.cpf_cnpj = cpf_cnpj;
+	}
+	public String getNumero_certidao() {
+		return numero_certidao;
+	}
+	public void setNumero_certidao(String numero_certidao) {
+		this.numero_certidao = numero_certidao;
+	}
+	public Long getId_pessoa() {
+		return id_pessoa;
+	}
+	public void setId_pessoa(Long id_pessoa) {
+		this.id_pessoa = id_pessoa;
+	}
+	public Date getData_envio_forum() {
+		return data_envio_forum;
+	}
+	public void setData_envio_forum(Date data_envio_forum) {
+		this.data_envio_forum = data_envio_forum;
+	}
+	public String getNumero_processo() {
+		return numero_processo;
+	}
+	public void setNumero_processo(String numero_processo) {
+		this.numero_processo = numero_processo;
+	}
+	public Date getData_processo() {
+		return data_processo;
+	}
+	public void setData_processo(Date data_processo) {
+		this.data_processo = data_processo;
+	}
+	public Long getId_modelo_processo() {
+		return id_modelo_processo;
+	}
+	public void setId_modelo_processo(Long id_modelo_processo) {
+		this.id_modelo_processo = id_modelo_processo;
+	}
+	public Long getId_razao_social() {
+		return id_razao_social;
+	}
+	public void setId_razao_social(Long id_razao_social) {
+		this.id_razao_social = id_razao_social;
+	}
+	public String getRazao_social() {
+		return razao_social;
+	}
+	public void setRazao_social(String razao_social) {
+		this.razao_social = razao_social;
+	}
+	public String getNome_fantasia() {
+		return nome_fantasia;
+	}
+	public void setNome_fantasia(String nome_fantasia) {
+		this.nome_fantasia = nome_fantasia;
+	}
+	public String getTipo_empresa() {
+		return tipo_empresa;
+	}
+	public void setTipo_empresa(String tipo_empresa) {
+		this.tipo_empresa = tipo_empresa;
+	}
+	public String getOrgao_doc_ident() {
+		return orgao_doc_ident;
+	}
+	public void setOrgao_doc_ident(String orgao_doc_ident) {
+		this.orgao_doc_ident = orgao_doc_ident;
+	}
+	public String getDoc_ident_insc_estadual() {
+		return doc_ident_insc_estadual;
+	}
+	public void setDoc_ident_insc_estadual(String doc_ident_insc_estadual) {
+		this.doc_ident_insc_estadual = doc_ident_insc_estadual;
+	}
+	public String getUf_doc_ident() {
+		return uf_doc_ident;
+	}
+	public void setUf_doc_ident(String uf_doc_ident) {
+		this.uf_doc_ident = uf_doc_ident;
+	}
+	public String getTipo_logradouro() {
+		return tipo_logradouro;
+	}
+	public void setTipo_logradouro(String tipo_logradouro) {
+		this.tipo_logradouro = tipo_logradouro;
+	}
+	public Long getCod_logradouro() {
+		return cod_logradouro;
+	}
+	public void setCod_logradouro(Long cod_logradouro) {
+		this.cod_logradouro = cod_logradouro;
+	}
+	public Long getId_logradouro() {
+		return id_logradouro;
+	}
+	public void setId_logradouro(Long id_logradouro) {
+		this.id_logradouro = id_logradouro;
+	}
+	public String getNome_logradouro() {
+		return nome_logradouro;
+	}
+	public void setNome_logradouro(String nome_logradouro) {
+		this.nome_logradouro = nome_logradouro;
+	}
+	public Long getNumero() {
+		return numero;
+	}
+	public void setNumero(Long numero) {
+		this.numero = numero;
+	}
+	public String getComplemento() {
+		return complemento;
+	}
+	public void setComplemento(String complemento) {
+		this.complemento = complemento;
+	}
+	public Long getCod_bairro() {
+		return cod_bairro;
+	}
+	public void setCod_bairro(Long cod_bairro) {
+		this.cod_bairro = cod_bairro;
+	}
+	public String getTipo_bairro() {
+		return tipo_bairro;
+	}
+	public void setTipo_bairro(String tipo_bairro) {
+		this.tipo_bairro = tipo_bairro;
+	}
+	public String getNome_bairro() {
+		return nome_bairro;
+	}
+	public void setNome_bairro(String nome_bairro) {
+		this.nome_bairro = nome_bairro;
+	}
+	public String getCep() {
+		return cep;
+	}
+	public void setCep(String cep) {
+		this.cep = cep;
+	}
+	public String getId_municipio() {
+		return id_municipio;
+	}
+	public void setId_municipio(String id_municipio) {
+		this.id_municipio = id_municipio;
+	}
+	public String getCod_municipio() {
+		return cod_municipio;
+	}
+	public void setCod_municipio(String cod_municipio) {
+		this.cod_municipio = cod_municipio;
+	}
+	public String getNome_municipio() {
+		return nome_municipio;
+	}
+	public void setNome_municipio(String nome_municipio) {
+		this.nome_municipio = nome_municipio;
+	}
+	public String getUf() {
+		return uf;
+	}
+	public void setUf(String uf) {
+		this.uf = uf;
+	}
+	public String getSeq() {
+		return seq;
+	}
+	public void setSeq(String seq) {
+		this.seq = seq;
+	}
+	public String getSerie() {
+		return serie;
+	}
+	public void setSerie(String serie) {
+		this.serie = serie;
+	}
+	public Date getData_ajuizamento() {
+		return data_ajuizamento;
+	}
+	public void setData_ajuizamento(Date data_ajuizamento) {
+		this.data_ajuizamento = data_ajuizamento;
+	}
+	public String getVara() {
+		return vara;
+	}
+	public void setVara(String vara) {
+		this.vara = vara;
+	}
+	public String getAjuizado() {
+		return ajuizado;
+	}
+	public void setAjuizado(String ajuizado) {
+		this.ajuizado = ajuizado;
+	}
+	public String getDatalt() {
+		return datalt;
+	}
+	public void setDatalt(String datalt) {
+		this.datalt = datalt;
+	}
+	public Long getId_imovel() {
+		return id_imovel;
+	}
+	public void setId_imovel(Long id_imovel) {
+		this.id_imovel = id_imovel;
+	}
+	public Long getCodrem() {
+		return codrem;
+	}
+	public void setCodrem(Long codrem) {
+		this.codrem = codrem;
+	}
+	public String getCpfcnpj_valido() {
+		return cpfcnpj_valido;
+	}
+	public void setCpfcnpj_valido(String cpfcnpj_valido) {
+		this.cpfcnpj_valido = cpfcnpj_valido;
+	}
+	public String getProtocolo() {
+		return protocolo;
+	}
+	public void setProtocolo(String protocolo) {
+		this.protocolo = protocolo;
+	}
+	public String getVerificado() {
+		return verificado;
+	}
+	public void setVerificado(String verificado) {
+		this.verificado = verificado;
+	}
+	public String getVaraDesc(){
+		if(vara!=null){
+			if(vara.equalsIgnoreCase("E")){
+				return "ESTADUAL";
+			} else {
+				return "FEDERAL";
+			}
+		} else {
+			return "";
+		}
+	}
+	public String getInscricaoFormatada() {
+		if (inscricao != null){
+			return inscricao.substring(0, 10) + "-" + inscricao.substring(10, 11);
+		} else {
+			return "";
+		}
+	}
+	public String getCpfCnpjFormatado() {
+		if (cpf_cnpj != null){
+			Integer len = cpf_cnpj.length();
+			if(len == 11){
+				//CPF
+				return cpf_cnpj.substring(0, 3) + "." + cpf_cnpj.substring(3, 6) + "." + cpf_cnpj.substring(6, 9) + "-" + cpf_cnpj.substring(9, 11);
+			} else if(len == 14){
+				//CNPJ
+				return cpf_cnpj.substring(0, 2) + "." + cpf_cnpj.substring(2, 5) + "." + cpf_cnpj.substring(5, 8) + "/" + cpf_cnpj.substring(8, 12) + "-" + cpf_cnpj.substring(12, 14);
+			} else {
+				return cpf_cnpj;
+			}
+		} else {
+			return "";
+		}
+	}
+	public String getStyle(){
+		if(cpfcnpj_valido != null && cpfcnpj_valido.equalsIgnoreCase("FALSE")){
+			return "background:rgb(185, 0, 0);font-size:11px;color: white;font-weight: bold;";
+		} else {
+			return "text-align:center;font-size:11px;";
+		}
+	}
+	public String getUsualt() {
+		return usualt;
+	}
+	public void setUsualt(String usualt) {
+		this.usualt = usualt;
+	}
+}

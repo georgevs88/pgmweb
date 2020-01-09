@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE sqlMapConfig PUBLIC "//iBATIS.com/DTD SQL Map Config 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-config-2.dtd">
+<sqlMapConfig>
+	<settings cacheModelsEnabled="true" enhancementEnabled="true"
+		lazyLoadingEnabled="true" useStatementNamespaces="true" />
+
+	<transactionManager type="JDBC">
+		<dataSource type="JNDI">
+			<property name="DBJndiContext" value="java:comp/env/jdbc/jndipgm" />
+		</dataSource>
+	</transactionManager>
+	
+	<sqlMap resource="pmcg/imti/dao/ibatis/sqlmap/AdebMAP.xml" />
+	<sqlMap resource="pmcg/imti/dao/ibatis/sqlmap/AhisMAP.xml" />
+	<sqlMap resource="pmcg/imti/dao/ibatis/sqlmap/AlatMAP.xml" />
+	<sqlMap resource="pmcg/imti/dao/ibatis/sqlmap/funMAP.xml" />
+	<sqlMap resource="pmcg/imti/dao/ibatis/sqlmap/vincMAP.xml" />
+	<sqlMap resource="pmcg/imti/dao/ibatis/sqlmap/proMAP.xml" />
+	<sqlMap resource="pmcg/imti/dao/ibatis/sqlmap/movMAP.xml" />
+	
+	<sqlMap resource="pmcg/imti/dao/ibatis/sqlmap/projex_proMAP.xml" />
+	<sqlMap resource="pmcg/imti/dao/ibatis/sqlmap/projex_divMAP.xml" />
+
+</sqlMapConfig>

@@ -1,0 +1,82 @@
+package pmcg.imti.ws;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import java.sql.SQLException;
+
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.zkoss.zul.Messagebox;
+
+import pmcg.framework.util.WinUtils;
+import pmcg.imti.dao.ibatis.MovDAO;
+
+import pmcg.imti.domain.MovVO;
+import pmcg.imti.domain.ProVO;
+
+public class ImportacaoTJ extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+	public ImportacaoTJ() {
+		super();
+	}
+
+	protected void doGet(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
+		// TODO
+
+		try {
+			ProVO proVO = new ProVO();
+			proVO.setUsualt("1");// USUARIO LOGADO
+			proVO.setDatalt(WinUtils.getDataBanco());
+			proVO.setDimpro(WinUtils.getDataBanco());
+			proVO.setNumpro("123456");// NUMERO DO PROCESSO
+			proVO.setSitpro("SITUA플O DO PROCESSO");
+			proVO.setClapro("CLASSE DO PROCESSO");
+			proVO.setArepro("AREA DO PROCESSO");
+			proVO.setAsspro("ASSUNTO DO PROCESSO");
+			proVO.setConpro("45454");// CONTROLE DO PROCESSO
+			proVO.setJuipro("JUIZ DO PROCESSO");
+			proVO.setOripro("ORIGEM DO PROCESSO");
+			proVO.setNorpro("8488764");// NUMERO DA ORIGEM
+			proVO.setRelpro("RELATOR DO PROCESSO");
+			proVO.setVappro("26494");// VALOR DO PROCESSO
+			proVO.setOnrpro("79879878");// OUTROS NUMEROS
+			proVO.setObspro("OBSERVA플O DO PROCESSO");
+
+		//	new ProDAO().insReg(proVO);
+
+			MovVO movVO = new MovVO();
+			if (new MovDAO().getRegByCodPro(proVO.getIddpro()) == null) {
+				movVO.setUsualt("1");//USUARIO LOGADO
+				movVO.setDatalt(WinUtils.getDataBanco());//DATA DE ALTERA플O
+				movVO.setDatemov(WinUtils.getDataBanco());//DATA DE ENTRADA DO TRAMITE
+				movVO.setDesmov("TRAMITE INICIALIZADO");//DESCRI플O DO TRAMITE
+				movVO.setPromov(proVO.getIddpro());//CODIGO DO PROCESSO
+				movVO.setOrimov((long) 1);//ORIGEM DO MOVIMENTO
+				movVO.setDestmov((long) 2);//DESTINO DO MOVIMENTO
+				movVO.setDatsmov(null);//DATA DE SAIDA DO TRAMITE
+				movVO.setConmov(false);//CONFIRMA플O DE RECEBIMENTO
+				new MovDAO().insReg(movVO);
+			}else{
+				
+			}
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		// chamar metodo para criar tramite 0
+
+		PrintWriter saida = response.getWriter();
+		saida.println("<HTML><BODY>");
+		saida.println("<H1>OK</H1>");
+		saida.println("</BODY></HTML>");
+		saida.flush();
+		saida.close();
+	}
+
+}

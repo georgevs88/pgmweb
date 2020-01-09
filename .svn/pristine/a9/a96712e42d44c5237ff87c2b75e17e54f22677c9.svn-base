@@ -1,0 +1,16 @@
+package pmcg.imti.ws;
+
+public class Constantes {
+	public static class Certificados {
+    	//PRODUCAO
+    	public static String arquivo_pfx = new Constantes().getClass().getResource("").getPath() + "signerCert.pfx";
+		public static String senha_pfx = "03501509";
+    }
+	
+	public static class Servico {
+		private static String url_base = "https://www.tjms.jus.br/tjws/services/";
+		public static String url_servico = url_base + "ServicoPJ2";
+		
+    }
+	
+}

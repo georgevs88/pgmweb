@@ -1,0 +1,106 @@
+package pmcg.imti.util;
+
+import java.sql.SQLException;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
+import org.zkoss.zk.ui.Executions;
+import org.zkoss.zk.ui.http.ExecutionImpl;
+
+import pmcg.framework.domain.WebusuVO;
+import pmcg.imti.dao.ibatis.WebPrfDAO;
+import pmcg.imti.domain.WebPrfVO;
+
+
+@SuppressWarnings("rawtypes")
+public class SessionUtil {
+//novo
+	private static HttpSession getSession() {
+		HttpSession session = (HttpSession) Executions.getCurrent()
+				.getDesktop().getSession().getNativeSession();
+		return session;
+	}
+
+	public static String getSessionIntoString() {
+		String str = "";
+		HttpSession s = getSession();
+		Enumeration attrsName = getSession().getAttributeNames();
+		while (attrsName.hasMoreElements()) {
+			String attrName = (String) attrsName.nextElement();
+			Object attrValue = s.getAttribute(attrName);
+			str += " | " + attrName + ": " + attrValue.toString();
+		}
+		return str;
+	}
+	
+	public static String getHeaderIntoString() {
+		String str = "";
+		HttpServletRequest nativeRequest = (HttpServletRequest)Executions.getCurrent().getNativeRequest();
+		Enumeration headerNames = nativeRequest.getHeaderNames();
+		while (headerNames.hasMoreElements()) {
+			String headerName = (String) headerNames.nextElement();
+			
+			Object headerValue = nativeRequest.getHeader(headerName);
+			str += " | " + headerName + ": " + headerValue.toString();
+		}
+		return str;
+	}
+
+	public static Integer getCodigoaruUsuarioLogado() {
+		HashMap m = (HashMap) getSession().getAttribute("usumnu");
+		return Integer.parseInt((String) m.get("coduni"));
+	}
+
+
+	public static WebusuVO getUsuarioLoagado() {
+		HttpSession s = getSession();
+		return (WebusuVO) s.getAttribute("usuario");
+	}
+
+	public static String getLoginUsuarioLogado() {
+		if (getUsuarioLoagado() == null)
+			return null;
+		else
+			return getUsuarioLoagado().getLogusu();
+	}
+
+
+	public static boolean temPermissaoParaPagina(String pagina) {
+		HttpSession s = getSession();
+		HashMap paginas = (HashMap) s.getAttribute("permissoes");
+		Object permissaoPg = paginas.get(pagina);
+		if (permissaoPg == null) {
+			return false;
+		} else {
+			return true;
+		}
+	}
+	public static String perfilUsuarioLogado() {
+		HashMap m = (HashMap) getSession().getAttribute("usumnu");
+		Integer codprf = (Integer) m.get("codprf");
+		if (codprf != null) {
+			try {
+				WebPrfVO prf = new WebPrfDAO().getRegByCod(codprf);
+				return prf.getDesprf();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		return null;
+	}
+
+	public static String getHost() {
+		ExecutionImpl e = ((ExecutionImpl) Executions.getCurrent());
+		String nomctx = e.getContextPath();
+		String serverName = e.getServerName();
+		Integer serverPort = e.getServerPort();
+		return serverName + ":" + serverPort + "/" + nomctx;
+
+	}
+	
+}
+

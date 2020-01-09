@@ -1,0 +1,186 @@
+<?page id="wLisProZul" title="Lista de Pro" cacheable="false" language="xul/html" zscriptLanguage="Java" contentType="text/html;charset=UTF-8"?>
+	 
+ <zk xmlns="http://www.zkoss.org/2005/zul" 
+ 	xmlns:h="http://www.w3.org/1999/xhtml" 
+ 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-infabnce" 
+ 	xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
+		 
+ 	<window use="pmcg.imti.view.Prolis" id="wLisPro" 
+ 		title="Lista de Pro" border="normal" shadow="false" width="620px" 
+ 		height="460px" position="center" mode="overlapped" sizable="false" 
+ 		closable="true" onCreate="wLisPro.initComponentes()">
+			    
+ 		<paging id="pagPro" pageSize="20"  />
+					 
+ 		<listbox id="listPro" model="@{wLisPro.listmodel}" width="600px" 
+ 			height="340px" selectedItem="@{wLisPro.item}"    
+ 			onSelect="wLisPro.selecionar()" checkmark="true">
+				 
+ 		 
+ 			 <listhead>
+					 <listheader width="105px" >
+						<vbox>
+							<label value="iddpro"/>
+							 <longbox id="iddpro" value="@{wLisPro.proVO.iddpro}" maxlength="19"  tooltiptext="PK"  width="95px"  />
+							</vbox>
+						 </listheader>
+					<listheader width="135px" >
+						<vbox>
+							<label value="numpro"/>
+							<textbox id="numpro" value="@{wLisPro.proVO.numpro}"  onOK="wLisPro.pesquisar();"  maxlength="25"  tooltiptext="Número do Processo"  width="125px"  />
+							</vbox>
+						 </listheader>
+					<listheader width="135px" >
+						<vbox>
+							<label value="sitpro"/>
+							<textbox id="sitpro" value="@{wLisPro.proVO.sitpro}"  onOK="wLisPro.pesquisar();"  maxlength="25"  tooltiptext="Situação do Processo"  width="125px"  />
+							</vbox>
+						 </listheader>
+					<listheader width="260px" >
+						<vbox>
+							<label value="clapro"/>
+							<textbox id="clapro" value="@{wLisPro.proVO.clapro}"  onOK="wLisPro.pesquisar();"  maxlength="50"  tooltiptext="Classe"  width="250px"  />
+							</vbox>
+						 </listheader>
+					<listheader width="260px" >
+						<vbox>
+							<label value="arepro"/>
+							<textbox id="arepro" value="@{wLisPro.proVO.arepro}"  onOK="wLisPro.pesquisar();"  maxlength="50"  tooltiptext="�?rea"  width="250px"  />
+							</vbox>
+						 </listheader>
+					<listheader width="1010px" >
+						<vbox>
+							<label value="asspro"/>
+							<textbox id="asspro" value="@{wLisPro.proVO.asspro}"  onOK="wLisPro.pesquisar();"  maxlength="200"  tooltiptext="Assunto"  width="1000px"  />
+							</vbox>
+						 </listheader>
+					<listheader width="110px" >
+						<vbox>
+							<label value="conpro"/>
+							<textbox id="conpro" value="@{wLisPro.proVO.conpro}"  onOK="wLisPro.pesquisar();"  maxlength="20"  tooltiptext="Controle"  width="100px"  />
+							</vbox>
+						 </listheader>
+					<listheader width="1010px" >
+						<vbox>
+							<label value="juipro"/>
+							<textbox id="juipro" value="@{wLisPro.proVO.juipro}"  onOK="wLisPro.pesquisar();"  maxlength="200"  tooltiptext="Juiz"  width="1000px"  />
+							</vbox>
+						 </listheader>
+					<listheader width="85px" >
+						<vbox>
+							<label value="valpro"/>
+							<decimalbox id="valpro" value="@{wLisPro.proVO.valpro}"  maxlength="15"  tooltiptext="Valor da ação"  width="75px"  />
+							</vbox>
+						 </listheader>
+					<listheader width="1010px" >
+						<vbox>
+							<label value="oripro"/>
+							<textbox id="oripro" value="@{wLisPro.proVO.oripro}"  onOK="wLisPro.pesquisar();"  maxlength="200"  tooltiptext="Origem"  width="1000px"  />
+							</vbox>
+						 </listheader>
+					<listheader width="1010px" >
+						<vbox>
+							<label value="norpro"/>
+							<textbox id="norpro" value="@{wLisPro.proVO.norpro}"  onOK="wLisPro.pesquisar();"  maxlength="200"  tooltiptext="Números de Origem"  width="1000px"  />
+							</vbox>
+						 </listheader>
+					<listheader width="1010px" >
+						<vbox>
+							<label value="relpro"/>
+							<textbox id="relpro" value="@{wLisPro.proVO.relpro}"  onOK="wLisPro.pesquisar();"  maxlength="200"  tooltiptext="Relator"  width="1000px"  />
+							</vbox>
+						 </listheader>
+					<listheader width="110px" >
+						<vbox>
+							<label value="vappro"/>
+							<textbox id="vappro" value="@{wLisPro.proVO.vappro}"  onOK="wLisPro.pesquisar();"  maxlength="20"  tooltiptext="Volume/Apenso"  width="100px"  />
+							</vbox>
+						 </listheader>
+					<listheader width="1010px" >
+						<vbox>
+							<label value="onrpro"/>
+							<textbox id="onrpro" value="@{wLisPro.proVO.onrpro}"  onOK="wLisPro.pesquisar();"  maxlength="200"  tooltiptext="Outro numeros"  width="1000px"  />
+							</vbox>
+						 </listheader>
+					<listheader width="1010px" >
+						<vbox>
+							<label value="obspro"/>
+							<textbox id="obspro" value="@{wLisPro.proVO.obspro}"  onOK="wLisPro.pesquisar();"  maxlength="200"  tooltiptext="Observacoes"  width="1000px"  />
+							</vbox>
+						 </listheader>
+					<listheader width="110px" >
+						<vbox>
+							<label value="usualt"/>
+							<textbox id="usualt" value="@{wLisPro.proVO.usualt}"  onOK="wLisPro.pesquisar();"  maxlength="20"  width="100px"  />
+							</vbox>
+						 </listheader>
+					<listheader width="95px" >
+						<vbox>
+							<label value="datalt"/>
+							  <datebox id="datalt" value="@{wLisPro.proVO.datalt}"  maxlength="13"  format="dd/MM/yyyy"  width="65px"  />
+							</vbox>
+						 </listheader>
+					<listheader width="175px" >
+						<vbox>
+							<label value="dimpro"/>
+							  <datebox id="dimpro" value="@{wLisPro.proVO.dimpro}"  maxlength="29"  format="dd/MM/yyyy"  tooltiptext="Data importacao"  width="145px"  />
+							</vbox>
+						 </listheader>
+					<listheader width="175px" >
+						<vbox>
+							<label value="Disponibilização"/>
+							  <datebox id="dtdispopro" value="@{wLisPro.proVO.dtdispopro}"  maxlength="29"  format="dd/MM/yyyy"  tooltiptext="Data Disponibilização"  width="145px"  />
+							</vbox>
+						 </listheader>
+					<listheader width="105px" >
+						<vbox>
+							<label value="Prazo"/>
+							 <longbox id="prapro" value="@{wLisPro.proVO.prapro}" maxlength="19"  tooltiptext="Prazo"  width="95px"  />
+							</vbox>
+						 </listheader>
+					<listheader width="1010px" >
+						<vbox>
+							<label value="Natureza da Intimação:"/>
+							<textbox id="naipro" value="@{wLisPro.proVO.naipro}"  onOK="wLisPro.pesquisar();"  maxlength="200"  tooltiptext="Natureza da Intimação"  width="1000px"  />
+							</vbox>
+						 </listheader>
+					<listheader width="1010px" >
+						<vbox>
+							<label value="Teor da Intimação:"/>
+							<textbox id="tepro" value="@{wLisPro.proVO.tepro}"  onOK="wLisPro.pesquisar();"  maxlength="200"  tooltiptext="Teor da Intimação"  width="1000px"  />
+							</vbox>
+						 </listheader>
+					 </listhead>
+				  <listitem self="@{each=pro}">
+					    <listcell	  label="@{pro.iddpro}" />
+					    <listcell	  label="@{pro.numpro}" />
+					    <listcell	  label="@{pro.sitpro}" />
+					    <listcell	  label="@{pro.clapro}" />
+					    <listcell	  label="@{pro.arepro}" />
+					    <listcell	  label="@{pro.asspro}" />
+					    <listcell	  label="@{pro.conpro}" />
+					    <listcell	  label="@{pro.juipro}" />
+					    <listcell	  label="@{pro.valpro}" />
+					    <listcell	  label="@{pro.oripro}" />
+					    <listcell	  label="@{pro.norpro}" />
+					    <listcell	  label="@{pro.relpro}" />
+					    <listcell	  label="@{pro.vappro}" />
+					    <listcell	  label="@{pro.onrpro}" />
+					    <listcell	  label="@{pro.obspro}" />
+					    <listcell	  label="@{pro.usualt}" />
+					    <listcell	  label="@{pro.datalt}" />
+					    <listcell	  label="@{pro.dimpro}" />
+					    <listcell	  label="@{pro.dtdispopro}" />
+					    <listcell	  label="@{pro.prapro}" />
+					    <listcell	  label="@{pro.naipro}" />
+					    <listcell	  label="@{pro.tepro}" />
+					    </listitem>
+				 
+ 			 
+ 		</listbox>
+			 
+ 	</window>
+		 
+ </zk>
+	 
+ 

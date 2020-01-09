@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+ <!DOCTYPE sqlMap PUBLIC "//iBATIS.com//DTD SQL Map 2.0//EN" "HTTP://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="Fun">
+	<typeAlias alias="FunVO" type="pmcg.imti.domain.FunVO" />
+
+	<resultMap id="mapComplexQuery" class="FunVO">
+		<result property="iddfun" column="iddfun" />
+		<result property="nomfun" column="nomfun" />
+		<result property="cpffun" column="cpffun" />
+		<result property="oabfun" column="oabfun" />
+		<result property="usualt" column="usualt" />
+		<result property="datalt" column="datalt" />
+		<result property="emafun" column="emafun" />
+		<result property="usuariofun" column="usuariofun" />
+		<result property="perfun" column="perfun" />
+		<result property="mtcfun" column="mtcfun" />
+		<result property="cargfun" column="cargfun" />
+	</resultMap>
+
+	<select id="getRegByCod" parameterClass="Long" resultClass="FunVO">
+		SELECT * FROM pgm.pgmfun WHERE iddfun = #value:NUMERIC#
+	</select>
+
+	<select id="getRegByCodComplex" parameterClass="Long" resultMap="mapComplexQuery">
+		SELECT * FROM pgm.pgmfun WHERE iddfun = #value:NUMERIC#
+	</select>
+
+	<select id="getRegByCriterio" parameterClass="FunVO"
+		resultClass="FunVO">
+		SELECT * FROM pgm.pgmfun
+		<dynamic prepend=" WHERE ">
+			<isNotNull property="iddfun" prepend=" AND ">
+				iddfun =
+				#iddfun:NUMERIC#
+			</isNotNull>
+			<isNotNull property="nomfun" prepend=" AND ">
+				nomfun ILIKE '%' ||
+				#nomfun:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="cpffun" prepend=" AND ">
+				cpffun ILIKE '%' ||
+				#cpffun:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="oabfun" prepend=" AND ">
+				oabfun ILIKE '%' ||
+				#oabfun:VARCHAR# || '%'
+			</isNotNull>
+			
+			<isNotNull property="usualt" prepend=" AND ">
+				usualt ILIKE '%' ||
+				#usualt:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="datalt" prepend=" AND ">
+				to_char(datalt,'dd/MM/yyyy') =
+				to_char(#datalt:TIMESTAMP#,'dd/MM/yyyy')
+			</isNotNull>
+			<isNotNull property="emafun" prepend=" AND ">
+				emafun ILIKE '%' ||
+				#emafun:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="usuariofun" prepend=" AND ">
+				usuariofun ILIKE
+				'%' || #usuariofun:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="perfun" prepend=" AND ">
+				perfun =
+				#perfun:NUMERIC#
+			</isNotNull>
+		</dynamic>
+	</select>
+	<select id="getRegByNomeFun" parameterClass="String" resultMap="mapComplexQuery">
+		SELECT * FROM pgm.pgmfun
+		where
+		nomfun ILIKE '%' || #nomfun:VARCHAR# || '%'
+	</select>
+	<select id="getRegByCriterioComplex" parameterClass="FunVO"
+		resultMap="mapComplexQuery">
+		SELECT * FROM pgm.pgmfun
+		<dynamic prepend=" WHERE ">
+			<isNotNull property="iddfun" prepend=" AND "> iddfun =
+				#iddfun:NUMERIC#
+			</isNotNull>
+			<isNotNull property="nomfun" prepend=" AND ">
+				nomfun ILIKE '%' ||
+				#nomfun:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="cpffun" prepend=" AND ">
+				cpffun ILIKE '%' ||
+				#cpffun:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="oabfun" prepend=" AND ">
+				oabfun ILIKE '%' ||
+				#oabfun:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="usualt" prepend=" AND ">
+				usualt ILIKE '%' ||
+				#usualt:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="datalt" prepend=" AND ">
+				to_char(datalt,'dd/MM/yyyy') =
+				to_char(#datalt:TIMESTAMP#,'dd/MM/yyyy')
+			</isNotNull>
+			<isNotNull property="emafun" prepend=" AND ">
+				emafun ILIKE '%' ||
+				#emafun:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="usuariofun" prepend=" AND ">
+				usuariofun ILIKE
+				'%' || #usuariofun:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="perfun" prepend=" AND "> perfun =
+				#perfun:NUMERIC#
+			</isNotNull>
+		</dynamic>
+	</select>
+
+	<select id="getTodos" resultClass="FunVO">
+		SELECT * FROM pgm.pgmfun
+	</select>
+
+	<insert id="insReg" parameterClass="FunVO">
+		<selectKey keyProperty="iddfun" resultClass="Long">
+			SELECT
+			NEXTVAL('pgm.seqfun')
+		</selectKey>
+		INSERT INTO
+		pgm.pgmfun(iddfun,nomfun,cpffun,oabfun,usualt,datalt,emafun,usuariofun,perfun,mtcfun,cargfun)
+		VALUES (#iddfun:NUMERIC#, UPPER(#nomfun:VARCHAR#),
+		UPPER(#cpffun:VARCHAR#), UPPER(#oabfun:VARCHAR#),
+		UPPER(#usualt:VARCHAR#),now(), UPPER(#emafun:VARCHAR#),
+		UPPER(#usuariofun:VARCHAR#),#perfun:NUMERIC#,UPPER(#mtcfun:VARCHAR#),UPPER(#cargfun:VARCHAR#)
+		)
+	</insert>
+
+	<update id="updRegByCod" parameterClass="FunVO">
+		UPDATE pgm.pgmfun SET
+		nomfun= UPPER(#nomfun:VARCHAR#),cpffun=
+		UPPER(#cpffun:VARCHAR#),oabfun= UPPER(#oabfun:VARCHAR#),usualt=
+		UPPER(#usualt:VARCHAR#),datalt= now(),emafun=
+		UPPER(#emafun:VARCHAR#),usuariofun=
+		UPPER(#usuariofun:VARCHAR#),perfun= #perfun:NUMERIC# ,
+		mtcfun
+		=#mtcfun:VARCHAR#,cargfun = #cargfun:VARCHAR# WHERE iddfun =
+		#iddfun:NUMERIC#
+
+	</update>
+	
+	<delete id="delByCod" parameterClass="Long">
+		DELETE FROM pgm.pgmfun
+		WHERE iddfun = #value:NUMERIC#
+	</delete>
+	
+	<delete id="delByCodigos" parameterClass="String">
+		DELETE FROM pgm.pgmfun
+		WHERE iddfun in ($value$)
+	</delete>
+
+	<select id="getCountByCriterio" parameterClass="FunVO" resultClass="Integer">
+		SELECT count(iddfun) FROM pgm.pgmfun
+		<dynamic prepend=" WHERE ">
+			<isNotNull property="iddfun" prepend=" AND "> iddfun =
+				#iddfun:NUMERIC#
+			</isNotNull>
+			<isNotNull property="nomfun" prepend=" AND ">
+				nomfun ILIKE '%' ||
+				#nomfun:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="cpffun" prepend=" AND ">
+				cpffun ILIKE '%' ||
+				#cpffun:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="oabfun" prepend=" AND ">
+				oabfun ILIKE '%' ||
+				#oabfun:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="usualt" prepend=" AND ">
+				usualt ILIKE '%' ||
+				#usualt:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="datalt" prepend=" AND ">
+				to_char(datalt,'dd/MM/yyyy') =
+				to_char(#datalt:TIMESTAMP#,'dd/MM/yyyy')
+			</isNotNull>
+			<isNotNull property="emafun" prepend=" AND ">
+				emafun ILIKE '%' ||
+				#emafun:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="usuariofun" prepend=" AND ">
+				usuariofun ILIKE
+				'%' || #usuariofun:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="perfun" prepend=" AND "> perfun =
+				#perfun:NUMERIC#
+			</isNotNull>
+		</dynamic>
+	</select>
+</sqlMap> 
+ 

@@ -1,0 +1,38 @@
+package pmcg.imti.view;
+
+import pmcg.framework.ui.Window;
+import pmcg.imti.dao.ibatis.FunDAO;
+import pmcg.imti.domain.FunVO;
+import pmcg.imti.util.SessionUtil;
+
+@SuppressWarnings({ "rawtypes", "serial" })
+public class PgCentral extends Window {
+	public Boolean pgCentralVisivel;
+	FunVO funVO = new FunVO();
+
+	public void initComponentes() {
+
+		if (this.getCodUnidade().equals("0")) {
+			// FIXME chamar a tela de login
+		} else {
+			// se perfil pode ver a pagina pgCentral.zul
+
+			// // pgCentral <= visible true
+			this.funVO = new FunDAO().getRegByUsuarioComplex(getLogin());
+			if (this.funVO != null) {
+				if (SessionUtil.temPermissaoParaPagina("pgCentral.zul")) {
+					pgCentralVisivel = true;
+				} else {
+					
+					pgCentralVisivel = false;
+					this.vincular();
+				}
+
+			} else {
+
+			}
+
+		}
+	}
+
+}

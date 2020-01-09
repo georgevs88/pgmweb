@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+ <!DOCTYPE sqlMap PUBLIC "//iBATIS.com//DTD SQL Map 2.0//EN" "HTTP://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="Rem">
+	<typeAlias alias="RemVO" type="pmcg.imti.domain.RemVO" />
+
+	<resultMap id="mapComplexQuerySimple" class="RemVO">
+		<result property="codrem" column="codrem" />
+		<result property="desrem" column="desrem" />
+		<result property="datrem" column="datrem" />
+		<result property="dtcrem" column="dtcrem" />
+		<result property="tiprem" column="tiprem" />
+		<result property="debrem" column="debrem" />
+		<result property="hisrem" column="hisrem" />
+		<result property="latrem" column="latrem" />
+		<result property="usualt" column="usualt" />
+		<result property="datalt" column="datalt" />
+	</resultMap>
+
+	<resultMap id="mapComplexQuery" class="RemVO">
+		<result property="codrem" column="codrem" />
+		<result property="desrem" column="desrem" />
+		<result property="datrem" column="datrem" />
+		<result property="dtcrem" column="dtcrem" />
+		<result property="tiprem" column="tiprem" />
+		<result property="debrem" column="debrem" />
+		<result property="hisrem" column="hisrem" />
+		<result property="latrem" column="latrem" />
+		<result property="usualt" column="usualt" />
+		<result property="datalt" column="datalt" />
+	</resultMap>
+
+	<select id="getRegByCod" parameterClass="Long" resultMap="mapComplexQuerySimple">
+		SELECT * FROM imo.imorem WHERE codrem = #value:NUMERIC#
+	</select>
+
+	<select id="getRegByCodComplex" parameterClass="Long" resultMap="mapComplexQuery">
+		SELECT * FROM imo.imorem WHERE codrem = #value:NUMERIC#
+	</select>
+
+	<select id="getRegByCriterio" parameterClass="RemVO" resultMap="mapComplexQuerySimple">
+		SELECT * FROM imo.imorem
+		<dynamic prepend=" WHERE ">
+			<isNotNull property="codrem" prepend=" AND ">
+				codrem = #codrem:NUMERIC#
+			</isNotNull>
+			<isNotNull property="datrem" prepend=" AND "> to_char(datrem,'dd/MM/yyyy') =
+				to_char(#datrem:TIMESTAMP#,'dd/MM/yyyy')
+			</isNotNull>
+			<isNotNull property="dtcrem" prepend=" AND "> to_char(dtcrem,'dd/MM/yyyy') =
+				to_char(#dtcrem:TIMESTAMP#,'dd/MM/yyyy')
+			</isNotNull>
+			<isNotNull property="tiprem" prepend=" AND ">
+				tiprem ILIKE '%' || #tiprem:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="debrem" prepend=" AND ">
+				debrem ILIKE '%' || #debrem:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="hisrem" prepend=" AND ">
+				hisrem ILIKE '%' || #hisrem:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="latrem" prepend=" AND ">
+				latrem ILIKE '%' || #latrem:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="usualt" prepend=" AND ">
+				usualt ILIKE '%' || #usualt:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="datalt" prepend=" AND "> to_char(datalt,'dd/MM/yyyy') =
+				to_char(#datalt:TIMESTAMP#,'dd/MM/yyyy')
+			</isNotNull>
+		</dynamic>
+	</select>
+
+	<select id="getRegByCriterioComplex" parameterClass="RemVO" resultMap="mapComplexQuery">
+		SELECT * FROM imo.imorem
+		<dynamic prepend=" WHERE ">
+			<isNotNull property="codrem" prepend=" AND "> codrem = #codrem:NUMERIC#
+			</isNotNull>
+			<isNotNull property="datrem" prepend=" AND "> to_char(datrem,'dd/MM/yyyy') =
+				to_char(#datrem:TIMESTAMP#,'dd/MM/yyyy')
+			</isNotNull>
+			<isNotNull property="dtcrem" prepend=" AND "> to_char(dtcrem,'dd/MM/yyyy') =
+				to_char(#dtcrem:TIMESTAMP#,'dd/MM/yyyy')
+			</isNotNull>
+			<isNotNull property="tiprem" prepend=" AND ">
+				tiprem ILIKE '%' || #tiprem:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="debrem" prepend=" AND ">
+				debrem ILIKE '%' || #debrem:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="hisrem" prepend=" AND ">
+				hisrem ILIKE '%' || #hisrem:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="latrem" prepend=" AND ">
+				latrem ILIKE '%' || #latrem:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="usualt" prepend=" AND ">
+				usualt ILIKE '%' || #usualt:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="datalt" prepend=" AND "> to_char(datalt,'dd/MM/yyyy') =
+				to_char(#datalt:TIMESTAMP#,'dd/MM/yyyy')
+			</isNotNull>
+		</dynamic>
+	</select>
+
+	<select id="getTodos" resultMap="mapComplexQuerySimple">
+		SELECT * FROM imo.imorem order by codrem
+	</select>
+
+	<insert id="insReg" parameterClass="RemVO">
+		<selectKey keyProperty="codrem" resultClass="Long">
+			SELECT NEXTVAL('imo.seqrem')
+		</selectKey>
+		INSERT INTO imo.imorem(codrem,desrem,datrem,dtcrem,tiprem,debrem,hisrem,latrem,usualt,datalt) VALUES
+		(#codrem:NUMERIC#,UPPER(#desrem:VARCHAR#),#datrem:TIMESTAMP#,#dtcrem:TIMESTAMP#, UPPER(#tiprem:VARCHAR#), UPPER(#debrem:VARCHAR#),
+		UPPER(#hisrem:VARCHAR#), UPPER(#latrem:VARCHAR#), UPPER(#usualt:VARCHAR#),now() )
+	</insert>
+
+	<update id="updRegByCod" parameterClass="RemVO">
+		UPDATE imo.imorem SET desrem = #desrem:VARCHAR#, datrem= #datrem:TIMESTAMP#,dtcrem= #dtcrem:TIMESTAMP#,tiprem= UPPER(#tiprem:VARCHAR#),debrem=
+		UPPER(#debrem:VARCHAR#),hisrem= UPPER(#hisrem:VARCHAR#),latrem= UPPER(#latrem:VARCHAR#),usualt=
+		UPPER(#usualt:VARCHAR#),datalt= now() WHERE codrem = #codrem:NUMERIC#
+	</update>
+	
+	<delete id="delByCod" parameterClass="Long">
+		DELETE FROM imo.imorem WHERE codrem = #value:NUMERIC#
+	</delete>
+	
+	<delete id="delByCodigos" parameterClass="String">
+		DELETE FROM imo.imorem WHERE codrem in ($value$)
+	</delete>
+
+	<select id="getCountByCriterio" parameterClass="RemVO" resultClass="Integer">
+		SELECT count(codrem) FROM imo.imorem
+		<dynamic prepend=" WHERE ">
+			<isNotNull property="codrem" prepend=" AND "> codrem = #codrem:NUMERIC#
+			</isNotNull>
+			<isNotNull property="datrem" prepend=" AND "> to_char(datrem,'dd/MM/yyyy') =
+				to_char(#datrem:TIMESTAMP#,'dd/MM/yyyy')
+			</isNotNull>
+			<isNotNull property="dtcrem" prepend=" AND "> to_char(dtcrem,'dd/MM/yyyy') =
+				to_char(#dtcrem:TIMESTAMP#,'dd/MM/yyyy')
+			</isNotNull>
+			<isNotNull property="tiprem" prepend=" AND ">
+				tiprem ILIKE '%' || #tiprem:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="debrem" prepend=" AND ">
+				debrem ILIKE '%' || #debrem:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="hisrem" prepend=" AND ">
+				hisrem ILIKE '%' || #hisrem:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="latrem" prepend=" AND ">
+				latrem ILIKE '%' || #latrem:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="usualt" prepend=" AND ">
+				usualt ILIKE '%' || #usualt:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="datalt" prepend=" AND "> to_char(datalt,'dd/MM/yyyy') =
+				to_char(#datalt:TIMESTAMP#,'dd/MM/yyyy')
+			</isNotNull>
+		</dynamic>
+	</select>
+</sqlMap> 
+ 

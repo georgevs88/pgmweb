@@ -1,0 +1,788 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+ <!DOCTYPE sqlMap PUBLIC "//iBATIS.com//DTD SQL Map 2.0//EN" "HTTP://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="Projex_Div">
+	<typeAlias alias="Projex_DivVO" type="pmcg.imti.domain.Projex_DivVO" />
+
+	<resultMap id="mapComplexQuerySimple" class="Projex_DivVO">
+		<result property="codrem" column="codrem" />
+		<result property="id_processo" column="id_processo" />
+		<result property="codigo_trdeb" column="codigo_trdeb" />
+		<result property="id_lancto" column="id_lancto" />
+		<result property="tipo_lancamento" column="tipo_lancamento" />
+		<result property="data_lancamento" column="data_lancamento" />
+		<result property="tipo_cadastro" column="tipo_cadastro" />
+		<result property="id_cadastro" column="id_cadastro" />
+		<result property="exercicio" column="exercicio" />
+		<result property="periodo" column="periodo" />
+		<result property="id_tipo_debito" column="id_tipo_debito" />
+		<result property="cod_tipo_debito" column="cod_tipo_debito" />
+		<result property="sigla_debito" column="sigla_debito" />
+		<result property="descricao_tipo_debito" column="descricao_tipo_debito" />
+		<result property="tipo_debito" column="tipo_debito" />
+		<result property="tipo_periodo" column="tipo_periodo" />
+		<result property="valor_total" column="valor_total" />
+		<result property="sigla_moeda" column="sigla_moeda" />
+		<result property="parcelas" column="parcelas" />
+		<result property="tipo_composicao" column="tipo_composicao" />
+		<result property="id_contrato_parcto" column="id_contrato_parcto" />
+		<result property="parcela" column="parcela" />
+		<result property="coddla_trdeb" column="coddla_trdeb" />
+		<result property="seqlan_trdeb" column="seqlan_trdeb" />
+		<result property="digito_trdeb" column="digito_trdeb" />
+		<result property="data_vencimento" column="data_vencimento" />
+		<result property="valor_parcela" column="valor_parcela" />
+		<result property="id_baixa" column="id_baixa" />
+		<result property="id_arrecadador" column="id_arrecadador" />
+		<result property="nome_arrecadador" column="nome_arrecadador" />
+		<result property="id_tipo_baixa" column="id_tipo_baixa" />
+		<result property="descricao_tipo_baixa" column="descricao_tipo_baixa" />
+		<result property="tipo_baixa" column="tipo_baixa" />
+		<result property="data_baixa" column="data_baixa" />
+		<result property="sigla_moeda_baixa" column="sigla_moeda_baixa" />
+		<result property="valor_parcela_baixa" column="valor_parcela_baixa" />
+		<result property="valor_correcao_baixa" column="valor_correcao_baixa" />
+		<result property="valor_multa_baixa" column="valor_multa_baixa" />
+		<result property="valor_juros_baixa" column="valor_juros_baixa" />
+		<result property="valor_outros_acrescimos_baixa" column="valor_outros_acrescimos_baixa" />
+		<result property="valor_desconto_baixa" column="valor_desconto_baixa" />
+		<result property="valor_total_baixa" column="valor_total_baixa" />
+		<result property="cobrar_taxa_expediente" column="cobrar_taxa_expediente" />
+		<result property="suspende_execucao" column="suspende_execucao" />
+		<result property="numero_processo_adm" column="numero_processo_adm" />
+		<result property="data_processo_adm" column="data_processo_adm" />
+		<result property="numero_livro" column="numero_livro" />
+		<result property="numero_folha" column="numero_folha" />
+		<result property="id_inscricao" column="id_inscricao" />
+		<result property="numero_auto_infracao" column="numero_auto_infracao" />
+		<result property="data_auto_infracao" column="data_auto_infracao" />
+		<result property="valor_parcela_calc" column="valor_parcela_calc" />
+		<result property="valor_correcao_calc" column="valor_correcao_calc" />
+		<result property="valor_multa_calc" column="valor_multa_calc" />
+		<result property="valor_outros_acrescimos_calc" column="valor_outros_acrescimos_calc" />
+		<result property="valor_desconto_calc" column="valor_desconto_calc" />
+		<result property="valor_total_calc" column="valor_total_calc" />
+		<result property="indice_correcao_calc" column="indice_correcao_calc" />
+		<result property="indice_multa_calc" column="indice_multa_calc" />
+		<result property="indice_juros_calc" column="indice_juros_calc" />
+		<result property="ninsc" column="ninsc" />
+		<result property="origem" column="origem" />
+		<result property="codtrb" column="codtrb" />
+		<result property="valor_juros_calc" column="valor_juros_calc" />
+		<result property="valores" column="valores" />
+		<result property="datalt" column="datalt" />
+	</resultMap>
+
+	<resultMap id="mapComplexQuery" class="Projex_DivVO">
+		<result property="codrem" column="codrem" />
+		<result property="id_processo" column="id_processo" />
+		<result property="codigo_trdeb" column="codigo_trdeb" />
+		<result property="id_lancto" column="id_lancto" />
+		<result property="tipo_lancamento" column="tipo_lancamento" />
+		<result property="data_lancamento" column="data_lancamento" />
+		<result property="tipo_cadastro" column="tipo_cadastro" />
+		<result property="id_cadastro" column="id_cadastro" />
+		<result property="exercicio" column="exercicio" />
+		<result property="periodo" column="periodo" />
+		<result property="id_tipo_debito" column="id_tipo_debito" />
+		<result property="cod_tipo_debito" column="cod_tipo_debito" />
+		<result property="sigla_debito" column="sigla_debito" />
+		<result property="descricao_tipo_debito" column="descricao_tipo_debito" />
+		<result property="tipo_debito" column="tipo_debito" />
+		<result property="tipo_periodo" column="tipo_periodo" />
+		<result property="valor_total" column="valor_total" />
+		<result property="sigla_moeda" column="sigla_moeda" />
+		<result property="parcelas" column="parcelas" />
+		<result property="tipo_composicao" column="tipo_composicao" />
+		<result property="id_contrato_parcto" column="id_contrato_parcto" />
+		<result property="parcela" column="parcela" />
+		<result property="coddla_trdeb" column="coddla_trdeb" />
+		<result property="seqlan_trdeb" column="seqlan_trdeb" />
+		<result property="digito_trdeb" column="digito_trdeb" />
+		<result property="data_vencimento" column="data_vencimento" />
+		<result property="valor_parcela" column="valor_parcela" />
+		<result property="id_baixa" column="id_baixa" />
+		<result property="id_arrecadador" column="id_arrecadador" />
+		<result property="nome_arrecadador" column="nome_arrecadador" />
+		<result property="id_tipo_baixa" column="id_tipo_baixa" />
+		<result property="descricao_tipo_baixa" column="descricao_tipo_baixa" />
+		<result property="tipo_baixa" column="tipo_baixa" />
+		<result property="data_baixa" column="data_baixa" />
+		<result property="sigla_moeda_baixa" column="sigla_moeda_baixa" />
+		<result property="valor_parcela_baixa" column="valor_parcela_baixa" />
+		<result property="valor_correcao_baixa" column="valor_correcao_baixa" />
+		<result property="valor_multa_baixa" column="valor_multa_baixa" />
+		<result property="valor_juros_baixa" column="valor_juros_baixa" />
+		<result property="valor_outros_acrescimos_baixa" column="valor_outros_acrescimos_baixa" />
+		<result property="valor_desconto_baixa" column="valor_desconto_baixa" />
+		<result property="valor_total_baixa" column="valor_total_baixa" />
+		<result property="cobrar_taxa_expediente" column="cobrar_taxa_expediente" />
+		<result property="suspende_execucao" column="suspende_execucao" />
+		<result property="numero_processo_adm" column="numero_processo_adm" />
+		<result property="data_processo_adm" column="data_processo_adm" />
+		<result property="numero_livro" column="numero_livro" />
+		<result property="numero_folha" column="numero_folha" />
+		<result property="id_inscricao" column="id_inscricao" />
+		<result property="numero_auto_infracao" column="numero_auto_infracao" />
+		<result property="data_auto_infracao" column="data_auto_infracao" />
+		<result property="valor_parcela_calc" column="valor_parcela_calc" />
+		<result property="valor_correcao_calc" column="valor_correcao_calc" />
+		<result property="valor_multa_calc" column="valor_multa_calc" />
+		<result property="valor_outros_acrescimos_calc" column="valor_outros_acrescimos_calc" />
+		<result property="valor_desconto_calc" column="valor_desconto_calc" />
+		<result property="valor_total_calc" column="valor_total_calc" />
+		<result property="indice_correcao_calc" column="indice_correcao_calc" />
+		<result property="indice_multa_calc" column="indice_multa_calc" />
+		<result property="indice_juros_calc" column="indice_juros_calc" />
+		<result property="ninsc" column="ninsc" />
+		<result property="origem" column="origem" />
+		<result property="codtrb" column="codtrb" />
+		<result property="valor_juros_calc" column="valor_juros_calc" />
+		<result property="valores" column="valores" />
+		<result property="datalt" column="datalt" />
+	</resultMap>
+
+	<select id="getRegByCod" parameterClass="Long" resultMap="mapComplexQuerySimple">
+		SELECT * FROM pgm.projex_dividas WHERE codrem = #value:NUMERIC#
+	</select>
+
+	<select id="getRegByCodComplex" parameterClass="Long" resultMap="mapComplexQuery">
+		SELECT * FROM pgm.projex_dividas WHERE codrem = #value:NUMERIC#
+	</select>
+
+	<select id="getRegByCriterio" parameterClass="Projex_DivVO" resultMap="mapComplexQuerySimple">
+		SELECT * FROM pgm.projex_dividas
+		<dynamic prepend=" WHERE ">
+			<isNotNull property="codrem" prepend=" AND ">
+				codrem = #codrem:NUMERIC#
+			</isNotNull>
+			<isNotNull property="id_processo" prepend=" AND ">
+				id_processo = #id_processo:NUMERIC#
+			</isNotNull>
+			<isNotNull property="codigo_trdeb" prepend=" AND ">
+				codigo_trdeb = #codigo_trdeb:NUMERIC#
+			</isNotNull>
+			<isNotNull property="id_lancto" prepend=" AND ">
+				id_lancto = #id_lancto:NUMERIC#
+			</isNotNull>
+			<isNotNull property="tipo_lancamento" prepend=" AND ">
+				tipo_lancamento = #tipo_lancamento:NUMERIC#
+			</isNotNull>
+			<isNotNull property="data_lancamento" prepend=" AND "> to_char(data_lancamento,'dd/MM/yyyy') =
+				to_char(#data_lancamento:TIMESTAMP#,'dd/MM/yyyy')
+			</isNotNull>
+			<isNotNull property="tipo_cadastro" prepend=" AND ">
+				tipo_cadastro = #tipo_cadastro:NUMERIC#
+			</isNotNull>
+			<isNotNull property="id_cadastro" prepend=" AND ">
+				id_cadastro = #id_cadastro:NUMERIC#
+			</isNotNull>
+			<isNotNull property="exercicio" prepend=" AND ">
+				exercicio = #exercicio:NUMERIC#
+			</isNotNull>
+			<isNotNull property="periodo" prepend=" AND ">
+				periodo = #periodo:NUMERIC#
+			</isNotNull>
+			<isNotNull property="id_tipo_debito" prepend=" AND ">
+				id_tipo_debito = #id_tipo_debito:NUMERIC#
+			</isNotNull>
+			<isNotNull property="cod_tipo_debito" prepend=" AND ">
+				cod_tipo_debito = #cod_tipo_debito:NUMERIC#
+			</isNotNull>
+			<isNotNull property="sigla_debito" prepend=" AND ">
+				sigla_debito ILIKE '%' || #sigla_debito:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="descricao_tipo_debito" prepend=" AND ">
+				descricao_tipo_debito ILIKE '%' || #descricao_tipo_debito:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="tipo_debito" prepend=" AND ">
+				tipo_debito = #tipo_debito:NUMERIC#
+			</isNotNull>
+			<isNotNull property="tipo_periodo" prepend=" AND ">
+				tipo_periodo = #tipo_periodo:NUMERIC#
+			</isNotNull>
+			<isNotNull property="valor_total" prepend=" AND ">
+				valor_total = #valor_total:NUMERIC#
+			</isNotNull>
+			<isNotNull property="sigla_moeda" prepend=" AND ">
+				sigla_moeda ILIKE '%' || #sigla_moeda:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="parcelas" prepend=" AND ">
+				parcelas = #parcelas:NUMERIC#
+			</isNotNull>
+			<isNotNull property="tipo_composicao" prepend=" AND ">
+				tipo_composicao = #tipo_composicao:NUMERIC#
+			</isNotNull>
+			<isNotNull property="id_contrato_parcto" prepend=" AND ">
+				id_contrato_parcto = #id_contrato_parcto:NUMERIC#
+			</isNotNull>
+			<isNotNull property="parcela" prepend=" AND ">
+				parcela = #parcela:NUMERIC#
+			</isNotNull>
+			<isNotNull property="coddla_trdeb" prepend=" AND ">
+				coddla_trdeb = #coddla_trdeb:NUMERIC#
+			</isNotNull>
+			<isNotNull property="seqlan_trdeb" prepend=" AND ">
+				seqlan_trdeb = #seqlan_trdeb:NUMERIC#
+			</isNotNull>
+			<isNotNull property="digito_trdeb" prepend=" AND ">
+				digito_trdeb = #digito_trdeb:NUMERIC#
+			</isNotNull>
+			<isNotNull property="data_vencimento" prepend=" AND "> to_char(data_vencimento,'dd/MM/yyyy') =
+				to_char(#data_vencimento:TIMESTAMP#,'dd/MM/yyyy')
+			</isNotNull>
+			<isNotNull property="valor_parcela" prepend=" AND ">
+				valor_parcela = #valor_parcela:NUMERIC#
+			</isNotNull>
+			<isNotNull property="id_baixa" prepend=" AND ">
+				id_baixa ILIKE '%' || #id_baixa:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="id_arrecadador" prepend=" AND ">
+				id_arrecadador ILIKE '%' || #id_arrecadador:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="nome_arrecadador" prepend=" AND ">
+				nome_arrecadador ILIKE '%' || #nome_arrecadador:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="id_tipo_baixa" prepend=" AND ">
+				id_tipo_baixa ILIKE '%' || #id_tipo_baixa:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="descricao_tipo_baixa" prepend=" AND ">
+				descricao_tipo_baixa ILIKE '%' || #descricao_tipo_baixa:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="tipo_baixa" prepend=" AND ">
+				tipo_baixa ILIKE '%' || #tipo_baixa:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="data_baixa" prepend=" AND ">
+				data_baixa ILIKE '%' || #data_baixa:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="sigla_moeda_baixa" prepend=" AND ">
+				sigla_moeda_baixa ILIKE '%' || #sigla_moeda_baixa:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="valor_parcela_baixa" prepend=" AND ">
+				valor_parcela_baixa ILIKE '%' || #valor_parcela_baixa:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="valor_correcao_baixa" prepend=" AND ">
+				valor_correcao_baixa ILIKE '%' || #valor_correcao_baixa:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="valor_multa_baixa" prepend=" AND ">
+				valor_multa_baixa ILIKE '%' || #valor_multa_baixa:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="valor_juros_baixa" prepend=" AND ">
+				valor_juros_baixa ILIKE '%' || #valor_juros_baixa:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="valor_outros_acrescimos_baixa" prepend=" AND ">
+				valor_outros_acrescimos_baixa ILIKE '%' || #valor_outros_acrescimos_baixa:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="valor_desconto_baixa" prepend=" AND ">
+				valor_desconto_baixa ILIKE '%' || #valor_desconto_baixa:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="valor_total_baixa" prepend=" AND ">
+				valor_total_baixa ILIKE '%' || #valor_total_baixa:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="cobrar_taxa_expediente" prepend=" AND ">
+				cobrar_taxa_expediente ILIKE '%' || #cobrar_taxa_expediente:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="suspende_execucao" prepend=" AND ">
+				suspende_execucao ILIKE '%' || #suspende_execucao:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="numero_processo_adm" prepend=" AND ">
+				numero_processo_adm ILIKE '%' || #numero_processo_adm:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="data_processo_adm" prepend=" AND "> to_char(data_processo_adm,'dd/MM/yyyy') =
+				to_char(#data_processo_adm:TIMESTAMP#,'dd/MM/yyyy')
+			</isNotNull>
+			<isNotNull property="numero_livro" prepend=" AND ">
+				numero_livro ILIKE '%' || #numero_livro:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="numero_folha" prepend=" AND ">
+				numero_folha ILIKE '%' || #numero_folha:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="id_inscricao" prepend=" AND ">
+				id_inscricao ILIKE '%' || #id_inscricao:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="numero_auto_infracao" prepend=" AND ">
+				numero_auto_infracao ILIKE '%' || #numero_auto_infracao:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="data_auto_infracao" prepend=" AND "> to_char(data_auto_infracao,'dd/MM/yyyy') =
+				to_char(#data_auto_infracao:TIMESTAMP#,'dd/MM/yyyy')
+			</isNotNull>
+			<isNotNull property="valor_parcela_calc" prepend=" AND ">
+				valor_parcela_calc = #valor_parcela_calc:NUMERIC#
+			</isNotNull>
+			<isNotNull property="valor_correcao_calc" prepend=" AND ">
+				valor_correcao_calc = #valor_correcao_calc:NUMERIC#
+			</isNotNull>
+			<isNotNull property="valor_multa_calc" prepend=" AND ">
+				valor_multa_calc = #valor_multa_calc:NUMERIC#
+			</isNotNull>
+			<isNotNull property="valor_outros_acrescimos_calc" prepend=" AND ">
+				valor_outros_acrescimos_calc = #valor_outros_acrescimos_calc:NUMERIC#
+			</isNotNull>
+			<isNotNull property="valor_desconto_calc" prepend=" AND ">
+				valor_desconto_calc = #valor_desconto_calc:NUMERIC#
+			</isNotNull>
+			<isNotNull property="valor_total_calc" prepend=" AND ">
+				valor_total_calc = #valor_total_calc:NUMERIC#
+			</isNotNull>
+			<isNotNull property="indice_correcao_calc" prepend=" AND ">
+				indice_correcao_calc = #indice_correcao_calc:NUMERIC#
+			</isNotNull>
+			<isNotNull property="indice_multa_calc" prepend=" AND ">
+				indice_multa_calc = #indice_multa_calc:NUMERIC#
+			</isNotNull>
+			<isNotNull property="indice_juros_calc" prepend=" AND ">
+				indice_juros_calc = #indice_juros_calc:NUMERIC#
+			</isNotNull>
+			<isNotNull property="ninsc" prepend=" AND ">
+				ninsc = #ninsc:NUMERIC#
+			</isNotNull>
+			<isNotNull property="origem" prepend=" AND ">
+				origem ILIKE '%' || #origem:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="codtrb" prepend=" AND ">
+				codtrb = #codtrb:NUMERIC#
+			</isNotNull>
+			<isNotNull property="valor_juros_calc" prepend=" AND ">
+				valor_juros_calc = #valor_juros_calc:NUMERIC#
+			</isNotNull>
+			<isNotNull property="valores" prepend=" AND ">
+				valores ILIKE '%' || #valores:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="datalt" prepend=" AND "> to_char(datalt,'dd/MM/yyyy') =
+				to_char(#datalt:TIMESTAMP#,'dd/MM/yyyy')
+			</isNotNull>
+		</dynamic>
+	</select>
+
+	<select id="getRegByCriterioComplex" parameterClass="Projex_DivVO" resultMap="mapComplexQuery">
+		SELECT * FROM pgm.projex_dividas
+		<dynamic prepend=" WHERE ">
+			<isNotNull property="codrem" prepend=" AND "> codrem = #codrem:NUMERIC#
+			</isNotNull>
+			<isNotNull property="id_processo" prepend=" AND "> id_processo = #id_processo:NUMERIC#
+			</isNotNull>
+			<isNotNull property="codigo_trdeb" prepend=" AND "> codigo_trdeb = #codigo_trdeb:NUMERIC#
+			</isNotNull>
+			<isNotNull property="id_lancto" prepend=" AND "> id_lancto = #id_lancto:NUMERIC#
+			</isNotNull>
+			<isNotNull property="tipo_lancamento" prepend=" AND "> tipo_lancamento = #tipo_lancamento:NUMERIC#
+			</isNotNull>
+			<isNotNull property="data_lancamento" prepend=" AND "> to_char(data_lancamento,'dd/MM/yyyy') =
+				to_char(#data_lancamento:TIMESTAMP#,'dd/MM/yyyy')
+			</isNotNull>
+			<isNotNull property="tipo_cadastro" prepend=" AND "> tipo_cadastro = #tipo_cadastro:NUMERIC#
+			</isNotNull>
+			<isNotNull property="id_cadastro" prepend=" AND "> id_cadastro = #id_cadastro:NUMERIC#
+			</isNotNull>
+			<isNotNull property="exercicio" prepend=" AND "> exercicio = #exercicio:NUMERIC#
+			</isNotNull>
+			<isNotNull property="periodo" prepend=" AND "> periodo = #periodo:NUMERIC#
+			</isNotNull>
+			<isNotNull property="id_tipo_debito" prepend=" AND "> id_tipo_debito = #id_tipo_debito:NUMERIC#
+			</isNotNull>
+			<isNotNull property="cod_tipo_debito" prepend=" AND "> cod_tipo_debito = #cod_tipo_debito:NUMERIC#
+			</isNotNull>
+			<isNotNull property="sigla_debito" prepend=" AND ">
+				sigla_debito ILIKE '%' || #sigla_debito:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="descricao_tipo_debito" prepend=" AND ">
+				descricao_tipo_debito ILIKE '%' || #descricao_tipo_debito:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="tipo_debito" prepend=" AND "> tipo_debito = #tipo_debito:NUMERIC#
+			</isNotNull>
+			<isNotNull property="tipo_periodo" prepend=" AND "> tipo_periodo = #tipo_periodo:NUMERIC#
+			</isNotNull>
+			<isNotNull property="valor_total" prepend=" AND "> valor_total = #valor_total:NUMERIC#
+			</isNotNull>
+			<isNotNull property="sigla_moeda" prepend=" AND ">
+				sigla_moeda ILIKE '%' || #sigla_moeda:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="parcelas" prepend=" AND "> parcelas = #parcelas:NUMERIC#
+			</isNotNull>
+			<isNotNull property="tipo_composicao" prepend=" AND "> tipo_composicao = #tipo_composicao:NUMERIC#
+			</isNotNull>
+			<isNotNull property="id_contrato_parcto" prepend=" AND "> id_contrato_parcto = #id_contrato_parcto:NUMERIC#
+			</isNotNull>
+			<isNotNull property="parcela" prepend=" AND "> parcela = #parcela:NUMERIC#
+			</isNotNull>
+			<isNotNull property="coddla_trdeb" prepend=" AND "> coddla_trdeb = #coddla_trdeb:NUMERIC#
+			</isNotNull>
+			<isNotNull property="seqlan_trdeb" prepend=" AND "> seqlan_trdeb = #seqlan_trdeb:NUMERIC#
+			</isNotNull>
+			<isNotNull property="digito_trdeb" prepend=" AND "> digito_trdeb = #digito_trdeb:NUMERIC#
+			</isNotNull>
+			<isNotNull property="data_vencimento" prepend=" AND "> to_char(data_vencimento,'dd/MM/yyyy') =
+				to_char(#data_vencimento:TIMESTAMP#,'dd/MM/yyyy')
+			</isNotNull>
+			<isNotNull property="valor_parcela" prepend=" AND "> valor_parcela = #valor_parcela:NUMERIC#
+			</isNotNull>
+			<isNotNull property="id_baixa" prepend=" AND ">
+				id_baixa ILIKE '%' || #id_baixa:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="id_arrecadador" prepend=" AND ">
+				id_arrecadador ILIKE '%' || #id_arrecadador:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="nome_arrecadador" prepend=" AND ">
+				nome_arrecadador ILIKE '%' || #nome_arrecadador:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="id_tipo_baixa" prepend=" AND ">
+				id_tipo_baixa ILIKE '%' || #id_tipo_baixa:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="descricao_tipo_baixa" prepend=" AND ">
+				descricao_tipo_baixa ILIKE '%' || #descricao_tipo_baixa:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="tipo_baixa" prepend=" AND ">
+				tipo_baixa ILIKE '%' || #tipo_baixa:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="data_baixa" prepend=" AND ">
+				data_baixa ILIKE '%' || #data_baixa:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="sigla_moeda_baixa" prepend=" AND ">
+				sigla_moeda_baixa ILIKE '%' || #sigla_moeda_baixa:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="valor_parcela_baixa" prepend=" AND ">
+				valor_parcela_baixa ILIKE '%' || #valor_parcela_baixa:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="valor_correcao_baixa" prepend=" AND ">
+				valor_correcao_baixa ILIKE '%' || #valor_correcao_baixa:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="valor_multa_baixa" prepend=" AND ">
+				valor_multa_baixa ILIKE '%' || #valor_multa_baixa:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="valor_juros_baixa" prepend=" AND ">
+				valor_juros_baixa ILIKE '%' || #valor_juros_baixa:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="valor_outros_acrescimos_baixa" prepend=" AND ">
+				valor_outros_acrescimos_baixa ILIKE '%' || #valor_outros_acrescimos_baixa:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="valor_desconto_baixa" prepend=" AND ">
+				valor_desconto_baixa ILIKE '%' || #valor_desconto_baixa:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="valor_total_baixa" prepend=" AND ">
+				valor_total_baixa ILIKE '%' || #valor_total_baixa:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="cobrar_taxa_expediente" prepend=" AND ">
+				cobrar_taxa_expediente ILIKE '%' || #cobrar_taxa_expediente:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="suspende_execucao" prepend=" AND ">
+				suspende_execucao ILIKE '%' || #suspende_execucao:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="numero_processo_adm" prepend=" AND ">
+				numero_processo_adm ILIKE '%' || #numero_processo_adm:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="data_processo_adm" prepend=" AND "> to_char(data_processo_adm,'dd/MM/yyyy') =
+				to_char(#data_processo_adm:TIMESTAMP#,'dd/MM/yyyy')
+			</isNotNull>
+			<isNotNull property="numero_livro" prepend=" AND ">
+				numero_livro ILIKE '%' || #numero_livro:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="numero_folha" prepend=" AND ">
+				numero_folha ILIKE '%' || #numero_folha:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="id_inscricao" prepend=" AND ">
+				id_inscricao ILIKE '%' || #id_inscricao:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="numero_auto_infracao" prepend=" AND ">
+				numero_auto_infracao ILIKE '%' || #numero_auto_infracao:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="data_auto_infracao" prepend=" AND "> to_char(data_auto_infracao,'dd/MM/yyyy') =
+				to_char(#data_auto_infracao:TIMESTAMP#,'dd/MM/yyyy')
+			</isNotNull>
+			<isNotNull property="valor_parcela_calc" prepend=" AND "> valor_parcela_calc = #valor_parcela_calc:NUMERIC#
+			</isNotNull>
+			<isNotNull property="valor_correcao_calc" prepend=" AND "> valor_correcao_calc = #valor_correcao_calc:NUMERIC#
+			</isNotNull>
+			<isNotNull property="valor_multa_calc" prepend=" AND "> valor_multa_calc = #valor_multa_calc:NUMERIC#
+			</isNotNull>
+			<isNotNull property="valor_outros_acrescimos_calc" prepend=" AND "> valor_outros_acrescimos_calc =
+				#valor_outros_acrescimos_calc:NUMERIC#
+			</isNotNull>
+			<isNotNull property="valor_desconto_calc" prepend=" AND "> valor_desconto_calc = #valor_desconto_calc:NUMERIC#
+			</isNotNull>
+			<isNotNull property="valor_total_calc" prepend=" AND "> valor_total_calc = #valor_total_calc:NUMERIC#
+			</isNotNull>
+			<isNotNull property="indice_correcao_calc" prepend=" AND "> indice_correcao_calc = #indice_correcao_calc:NUMERIC#
+			</isNotNull>
+			<isNotNull property="indice_multa_calc" prepend=" AND "> indice_multa_calc = #indice_multa_calc:NUMERIC#
+			</isNotNull>
+			<isNotNull property="indice_juros_calc" prepend=" AND "> indice_juros_calc = #indice_juros_calc:NUMERIC#
+			</isNotNull>
+			<isNotNull property="ninsc" prepend=" AND "> ninsc = #ninsc:NUMERIC#
+			</isNotNull>
+			<isNotNull property="origem" prepend=" AND ">
+				origem ILIKE '%' || #origem:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="codtrb" prepend=" AND "> codtrb = #codtrb:NUMERIC#
+			</isNotNull>
+			<isNotNull property="valor_juros_calc" prepend=" AND "> valor_juros_calc = #valor_juros_calc:NUMERIC#
+			</isNotNull>
+			<isNotNull property="valores" prepend=" AND ">
+				valores ILIKE '%' || #valores:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="datalt" prepend=" AND "> to_char(datalt,'dd/MM/yyyy') =
+				to_char(#datalt:TIMESTAMP#,'dd/MM/yyyy')
+			</isNotNull>
+		</dynamic>
+	</select>
+
+	<select id="getTodos" resultMap="mapComplexQuerySimple">
+		SELECT * FROM pgm.projex_dividas
+	</select>
+
+	<insert id="insReg" parameterClass="Projex_DivVO">
+		INSERT INTO
+		pgm.projex_dividas(codrem,id_processo,codigo_trdeb,id_lancto,tipo_lancamento,data_lancamento,tipo_cadastro,id_cadastro,exercicio,periodo,id_tipo_debito,cod_tipo_debito,sigla_debito,descricao_tipo_debito,tipo_debito,tipo_periodo,valor_total,sigla_moeda,parcelas,tipo_composicao,id_contrato_parcto,parcela,coddla_trdeb,seqlan_trdeb,digito_trdeb,data_vencimento,valor_parcela,id_baixa,id_arrecadador,nome_arrecadador,id_tipo_baixa,descricao_tipo_baixa,tipo_baixa,data_baixa,sigla_moeda_baixa,valor_parcela_baixa,valor_correcao_baixa,valor_multa_baixa,valor_juros_baixa,valor_outros_acrescimos_baixa,valor_desconto_baixa,valor_total_baixa,cobrar_taxa_expediente,suspende_execucao,numero_processo_adm,data_processo_adm,numero_livro,numero_folha,id_inscricao,numero_auto_infracao,data_auto_infracao,valor_parcela_calc,valor_correcao_calc,valor_multa_calc,valor_outros_acrescimos_calc,valor_desconto_calc,valor_total_calc,indice_correcao_calc,indice_multa_calc,indice_juros_calc,ninsc,origem,codtrb,valor_juros_calc,valores,datalt)
+		VALUES
+		(#codrem:NUMERIC#,#id_processo:NUMERIC#,#codigo_trdeb:NUMERIC#,#id_lancto:NUMERIC#,#tipo_lancamento:NUMERIC#,#data_lancamento:TIMESTAMP#,#tipo_cadastro:NUMERIC#,#id_cadastro:NUMERIC#,#exercicio:NUMERIC#,#periodo:NUMERIC#,#id_tipo_debito:NUMERIC#,#cod_tipo_debito:NUMERIC#,
+		UPPER(#sigla_debito:VARCHAR#),
+		UPPER(#descricao_tipo_debito:VARCHAR#),#tipo_debito:NUMERIC#,#tipo_periodo:NUMERIC#,#valor_total:NUMERIC#,
+		UPPER(#sigla_moeda:VARCHAR#),#parcelas:NUMERIC#,#tipo_composicao:NUMERIC#,#id_contrato_parcto:NUMERIC#,#parcela:NUMERIC#,#coddla_trdeb:NUMERIC#,#seqlan_trdeb:NUMERIC#,#digito_trdeb:NUMERIC#,#data_vencimento:TIMESTAMP#,#valor_parcela:NUMERIC#,
+		UPPER(#id_baixa:VARCHAR#), UPPER(#id_arrecadador:VARCHAR#), UPPER(#nome_arrecadador:VARCHAR#),
+		UPPER(#id_tipo_baixa:VARCHAR#), UPPER(#descricao_tipo_baixa:VARCHAR#), UPPER(#tipo_baixa:VARCHAR#),
+		UPPER(#data_baixa:VARCHAR#), UPPER(#sigla_moeda_baixa:VARCHAR#), UPPER(#valor_parcela_baixa:VARCHAR#),
+		UPPER(#valor_correcao_baixa:VARCHAR#), UPPER(#valor_multa_baixa:VARCHAR#), UPPER(#valor_juros_baixa:VARCHAR#),
+		UPPER(#valor_outros_acrescimos_baixa:VARCHAR#), UPPER(#valor_desconto_baixa:VARCHAR#),
+		UPPER(#valor_total_baixa:VARCHAR#), UPPER(#cobrar_taxa_expediente:VARCHAR#), UPPER(#suspende_execucao:VARCHAR#),
+		UPPER(#numero_processo_adm:VARCHAR#),#data_processo_adm:TIMESTAMP#, UPPER(#numero_livro:VARCHAR#),
+		UPPER(#numero_folha:VARCHAR#), UPPER(#id_inscricao:VARCHAR#),
+		UPPER(#numero_auto_infracao:VARCHAR#),#data_auto_infracao:TIMESTAMP#,#valor_parcela_calc:NUMERIC#,#valor_correcao_calc:NUMERIC#,#valor_multa_calc:NUMERIC#,#valor_outros_acrescimos_calc:NUMERIC#,#valor_desconto_calc:NUMERIC#,#valor_total_calc:NUMERIC#,#indice_correcao_calc:NUMERIC#,#indice_multa_calc:NUMERIC#,#indice_juros_calc:NUMERIC#,#ninsc:NUMERIC#,
+		#origem:VARCHAR#,#codtrb:NUMERIC#,#valor_juros_calc:NUMERIC#, #valores:VARCHAR#,now() )
+	</insert>
+
+	<update id="updRegByCod" parameterClass="Projex_DivVO">
+		UPDATE pgm.projex_dividas SET id_processo= #id_processo:NUMERIC#,codigo_trdeb= #codigo_trdeb:NUMERIC#,id_lancto=
+		#id_lancto:NUMERIC#,tipo_lancamento= #tipo_lancamento:NUMERIC#,data_lancamento=
+		#data_lancamento:TIMESTAMP#,tipo_cadastro= #tipo_cadastro:NUMERIC#,id_cadastro= #id_cadastro:NUMERIC#,exercicio=
+		#exercicio:NUMERIC#,periodo= #periodo:NUMERIC#,id_tipo_debito= #id_tipo_debito:NUMERIC#,cod_tipo_debito=
+		#cod_tipo_debito:NUMERIC#,sigla_debito= UPPER(#sigla_debito:VARCHAR#),descricao_tipo_debito=
+		UPPER(#descricao_tipo_debito:VARCHAR#),tipo_debito= #tipo_debito:NUMERIC#,tipo_periodo=
+		#tipo_periodo:NUMERIC#,valor_total= #valor_total:NUMERIC#,sigla_moeda= UPPER(#sigla_moeda:VARCHAR#),parcelas=
+		#parcelas:NUMERIC#,tipo_composicao= #tipo_composicao:NUMERIC#,id_contrato_parcto=
+		#id_contrato_parcto:NUMERIC#,parcela= #parcela:NUMERIC#,coddla_trdeb= #coddla_trdeb:NUMERIC#,seqlan_trdeb=
+		#seqlan_trdeb:NUMERIC#,digito_trdeb= #digito_trdeb:NUMERIC#,data_vencimento=
+		#data_vencimento:TIMESTAMP#,valor_parcela= #valor_parcela:NUMERIC#,id_baixa= UPPER(#id_baixa:VARCHAR#),id_arrecadador=
+		UPPER(#id_arrecadador:VARCHAR#),nome_arrecadador= UPPER(#nome_arrecadador:VARCHAR#),id_tipo_baixa=
+		UPPER(#id_tipo_baixa:VARCHAR#),descricao_tipo_baixa= UPPER(#descricao_tipo_baixa:VARCHAR#),tipo_baixa=
+		UPPER(#tipo_baixa:VARCHAR#),data_baixa= UPPER(#data_baixa:VARCHAR#),sigla_moeda_baixa=
+		UPPER(#sigla_moeda_baixa:VARCHAR#),valor_parcela_baixa= UPPER(#valor_parcela_baixa:VARCHAR#),valor_correcao_baixa=
+		UPPER(#valor_correcao_baixa:VARCHAR#),valor_multa_baixa= UPPER(#valor_multa_baixa:VARCHAR#),valor_juros_baixa=
+		UPPER(#valor_juros_baixa:VARCHAR#),valor_outros_acrescimos_baixa=
+		UPPER(#valor_outros_acrescimos_baixa:VARCHAR#),valor_desconto_baixa=
+		UPPER(#valor_desconto_baixa:VARCHAR#),valor_total_baixa= UPPER(#valor_total_baixa:VARCHAR#),cobrar_taxa_expediente=
+		UPPER(#cobrar_taxa_expediente:VARCHAR#),suspende_execucao= UPPER(#suspende_execucao:VARCHAR#),numero_processo_adm=
+		UPPER(#numero_processo_adm:VARCHAR#),data_processo_adm= #data_processo_adm:TIMESTAMP#,numero_livro=
+		UPPER(#numero_livro:VARCHAR#),numero_folha= UPPER(#numero_folha:VARCHAR#),id_inscricao=
+		UPPER(#id_inscricao:VARCHAR#),numero_auto_infracao= UPPER(#numero_auto_infracao:VARCHAR#),data_auto_infracao=
+		#data_auto_infracao:TIMESTAMP#,valor_parcela_calc= #valor_parcela_calc:NUMERIC#,valor_correcao_calc=
+		#valor_correcao_calc:NUMERIC#,valor_multa_calc= #valor_multa_calc:NUMERIC#,valor_outros_acrescimos_calc=
+		#valor_outros_acrescimos_calc:NUMERIC#,valor_desconto_calc= #valor_desconto_calc:NUMERIC#,valor_total_calc=
+		#valor_total_calc:NUMERIC#,indice_correcao_calc= #indice_correcao_calc:NUMERIC#,indice_multa_calc=
+		#indice_multa_calc:NUMERIC#,indice_juros_calc= #indice_juros_calc:NUMERIC#,ninsc= #ninsc:NUMERIC#,origem=
+		UPPER(#origem:VARCHAR#),codtrb= #codtrb:NUMERIC#,valor_juros_calc= #valor_juros_calc:NUMERIC#,valores=
+		UPPER(#valores:VARCHAR#),datalt= now() WHERE codrem = #codrem:NUMERIC#
+	</update>
+	
+	<delete id="delByCod" parameterClass="Long">
+		DELETE FROM pgm.projex_dividas WHERE codrem = #value:NUMERIC#
+	</delete>
+	
+	<delete id="delByCodigos" parameterClass="String">
+		DELETE FROM pgm.projex_dividas WHERE codrem in ($value$)
+	</delete>
+
+	<select id="getCountByCriterio" parameterClass="Projex_DivVO" resultClass="Integer">
+		SELECT count(codrem) FROM pgm.projex_dividas
+		<dynamic prepend=" WHERE ">
+			<isNotNull property="codrem" prepend=" AND "> codrem = #codrem:NUMERIC#
+			</isNotNull>
+			<isNotNull property="id_processo" prepend=" AND "> id_processo = #id_processo:NUMERIC#
+			</isNotNull>
+			<isNotNull property="codigo_trdeb" prepend=" AND "> codigo_trdeb = #codigo_trdeb:NUMERIC#
+			</isNotNull>
+			<isNotNull property="id_lancto" prepend=" AND "> id_lancto = #id_lancto:NUMERIC#
+			</isNotNull>
+			<isNotNull property="tipo_lancamento" prepend=" AND "> tipo_lancamento = #tipo_lancamento:NUMERIC#
+			</isNotNull>
+			<isNotNull property="data_lancamento" prepend=" AND "> to_char(data_lancamento,'dd/MM/yyyy') =
+				to_char(#data_lancamento:TIMESTAMP#,'dd/MM/yyyy')
+			</isNotNull>
+			<isNotNull property="tipo_cadastro" prepend=" AND "> tipo_cadastro = #tipo_cadastro:NUMERIC#
+			</isNotNull>
+			<isNotNull property="id_cadastro" prepend=" AND "> id_cadastro = #id_cadastro:NUMERIC#
+			</isNotNull>
+			<isNotNull property="exercicio" prepend=" AND "> exercicio = #exercicio:NUMERIC#
+			</isNotNull>
+			<isNotNull property="periodo" prepend=" AND "> periodo = #periodo:NUMERIC#
+			</isNotNull>
+			<isNotNull property="id_tipo_debito" prepend=" AND "> id_tipo_debito = #id_tipo_debito:NUMERIC#
+			</isNotNull>
+			<isNotNull property="cod_tipo_debito" prepend=" AND "> cod_tipo_debito = #cod_tipo_debito:NUMERIC#
+			</isNotNull>
+			<isNotNull property="sigla_debito" prepend=" AND ">
+				sigla_debito ILIKE '%' || #sigla_debito:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="descricao_tipo_debito" prepend=" AND ">
+				descricao_tipo_debito ILIKE '%' || #descricao_tipo_debito:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="tipo_debito" prepend=" AND "> tipo_debito = #tipo_debito:NUMERIC#
+			</isNotNull>
+			<isNotNull property="tipo_periodo" prepend=" AND "> tipo_periodo = #tipo_periodo:NUMERIC#
+			</isNotNull>
+			<isNotNull property="valor_total" prepend=" AND "> valor_total = #valor_total:NUMERIC#
+			</isNotNull>
+			<isNotNull property="sigla_moeda" prepend=" AND ">
+				sigla_moeda ILIKE '%' || #sigla_moeda:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="parcelas" prepend=" AND "> parcelas = #parcelas:NUMERIC#
+			</isNotNull>
+			<isNotNull property="tipo_composicao" prepend=" AND "> tipo_composicao = #tipo_composicao:NUMERIC#
+			</isNotNull>
+			<isNotNull property="id_contrato_parcto" prepend=" AND "> id_contrato_parcto = #id_contrato_parcto:NUMERIC#
+			</isNotNull>
+			<isNotNull property="parcela" prepend=" AND "> parcela = #parcela:NUMERIC#
+			</isNotNull>
+			<isNotNull property="coddla_trdeb" prepend=" AND "> coddla_trdeb = #coddla_trdeb:NUMERIC#
+			</isNotNull>
+			<isNotNull property="seqlan_trdeb" prepend=" AND "> seqlan_trdeb = #seqlan_trdeb:NUMERIC#
+			</isNotNull>
+			<isNotNull property="digito_trdeb" prepend=" AND "> digito_trdeb = #digito_trdeb:NUMERIC#
+			</isNotNull>
+			<isNotNull property="data_vencimento" prepend=" AND "> to_char(data_vencimento,'dd/MM/yyyy') =
+				to_char(#data_vencimento:TIMESTAMP#,'dd/MM/yyyy')
+			</isNotNull>
+			<isNotNull property="valor_parcela" prepend=" AND "> valor_parcela = #valor_parcela:NUMERIC#
+			</isNotNull>
+			<isNotNull property="id_baixa" prepend=" AND ">
+				id_baixa ILIKE '%' || #id_baixa:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="id_arrecadador" prepend=" AND ">
+				id_arrecadador ILIKE '%' || #id_arrecadador:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="nome_arrecadador" prepend=" AND ">
+				nome_arrecadador ILIKE '%' || #nome_arrecadador:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="id_tipo_baixa" prepend=" AND ">
+				id_tipo_baixa ILIKE '%' || #id_tipo_baixa:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="descricao_tipo_baixa" prepend=" AND ">
+				descricao_tipo_baixa ILIKE '%' || #descricao_tipo_baixa:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="tipo_baixa" prepend=" AND ">
+				tipo_baixa ILIKE '%' || #tipo_baixa:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="data_baixa" prepend=" AND ">
+				data_baixa ILIKE '%' || #data_baixa:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="sigla_moeda_baixa" prepend=" AND ">
+				sigla_moeda_baixa ILIKE '%' || #sigla_moeda_baixa:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="valor_parcela_baixa" prepend=" AND ">
+				valor_parcela_baixa ILIKE '%' || #valor_parcela_baixa:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="valor_correcao_baixa" prepend=" AND ">
+				valor_correcao_baixa ILIKE '%' || #valor_correcao_baixa:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="valor_multa_baixa" prepend=" AND ">
+				valor_multa_baixa ILIKE '%' || #valor_multa_baixa:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="valor_juros_baixa" prepend=" AND ">
+				valor_juros_baixa ILIKE '%' || #valor_juros_baixa:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="valor_outros_acrescimos_baixa" prepend=" AND ">
+				valor_outros_acrescimos_baixa ILIKE '%' || #valor_outros_acrescimos_baixa:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="valor_desconto_baixa" prepend=" AND ">
+				valor_desconto_baixa ILIKE '%' || #valor_desconto_baixa:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="valor_total_baixa" prepend=" AND ">
+				valor_total_baixa ILIKE '%' || #valor_total_baixa:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="cobrar_taxa_expediente" prepend=" AND ">
+				cobrar_taxa_expediente ILIKE '%' || #cobrar_taxa_expediente:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="suspende_execucao" prepend=" AND ">
+				suspende_execucao ILIKE '%' || #suspende_execucao:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="numero_processo_adm" prepend=" AND ">
+				numero_processo_adm ILIKE '%' || #numero_processo_adm:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="data_processo_adm" prepend=" AND "> to_char(data_processo_adm,'dd/MM/yyyy') =
+				to_char(#data_processo_adm:TIMESTAMP#,'dd/MM/yyyy')
+			</isNotNull>
+			<isNotNull property="numero_livro" prepend=" AND ">
+				numero_livro ILIKE '%' || #numero_livro:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="numero_folha" prepend=" AND ">
+				numero_folha ILIKE '%' || #numero_folha:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="id_inscricao" prepend=" AND ">
+				id_inscricao ILIKE '%' || #id_inscricao:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="numero_auto_infracao" prepend=" AND ">
+				numero_auto_infracao ILIKE '%' || #numero_auto_infracao:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="data_auto_infracao" prepend=" AND "> to_char(data_auto_infracao,'dd/MM/yyyy') =
+				to_char(#data_auto_infracao:TIMESTAMP#,'dd/MM/yyyy')
+			</isNotNull>
+			<isNotNull property="valor_parcela_calc" prepend=" AND "> valor_parcela_calc = #valor_parcela_calc:NUMERIC#
+			</isNotNull>
+			<isNotNull property="valor_correcao_calc" prepend=" AND "> valor_correcao_calc = #valor_correcao_calc:NUMERIC#
+			</isNotNull>
+			<isNotNull property="valor_multa_calc" prepend=" AND "> valor_multa_calc = #valor_multa_calc:NUMERIC#
+			</isNotNull>
+			<isNotNull property="valor_outros_acrescimos_calc" prepend=" AND "> valor_outros_acrescimos_calc =
+				#valor_outros_acrescimos_calc:NUMERIC#
+			</isNotNull>
+			<isNotNull property="valor_desconto_calc" prepend=" AND "> valor_desconto_calc = #valor_desconto_calc:NUMERIC#
+			</isNotNull>
+			<isNotNull property="valor_total_calc" prepend=" AND "> valor_total_calc = #valor_total_calc:NUMERIC#
+			</isNotNull>
+			<isNotNull property="indice_correcao_calc" prepend=" AND "> indice_correcao_calc = #indice_correcao_calc:NUMERIC#
+			</isNotNull>
+			<isNotNull property="indice_multa_calc" prepend=" AND "> indice_multa_calc = #indice_multa_calc:NUMERIC#
+			</isNotNull>
+			<isNotNull property="indice_juros_calc" prepend=" AND "> indice_juros_calc = #indice_juros_calc:NUMERIC#
+			</isNotNull>
+			<isNotNull property="ninsc" prepend=" AND "> ninsc = #ninsc:NUMERIC#
+			</isNotNull>
+			<isNotNull property="origem" prepend=" AND ">
+				origem ILIKE '%' || #origem:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="codtrb" prepend=" AND "> codtrb = #codtrb:NUMERIC#
+			</isNotNull>
+			<isNotNull property="valor_juros_calc" prepend=" AND "> valor_juros_calc = #valor_juros_calc:NUMERIC#
+			</isNotNull>
+			<isNotNull property="valores" prepend=" AND ">
+				valores ILIKE '%' || #valores:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="datalt" prepend=" AND "> to_char(datalt,'dd/MM/yyyy') =
+				to_char(#datalt:TIMESTAMP#,'dd/MM/yyyy')
+			</isNotNull>
+		</dynamic>
+	</select>
+	
+	<delete id="delImportacao" parameterClass="Long">
+		DELETE FROM PGM.projex_dividas WHERE codrem = #value:NUMERIC#
+	</delete>
+	
+	<select id="getDivByProcesso" parameterClass="Long" resultMap="mapComplexQuery">
+		SELECT * FROM pgm.projex_dividas WHERE id_processo = #value:NUMERIC#
+	</select>
+	
+	<update id="updDivida" parameterClass="Projex_DivVO">
+		UPDATE 
+			pgm.projex_dividas 
+		SET 
+			numero_livro = UPPER(#numero_livro:VARCHAR#),
+			numero_folha = UPPER(#numero_folha:VARCHAR#),
+			id_inscricao = UPPER(#id_inscricao:VARCHAR#),
+			numero_processo_adm = UPPER(#numero_processo_adm:VARCHAR#),
+			numero_auto_infracao = UPPER(#numero_auto_infracao:VARCHAR#),
+			data_auto_infracao = #data_auto_infracao:TIMESTAMP#,
+			origem = UPPER(#origem:VARCHAR#)
+		WHERE 
+			codrem = #codrem:NUMERIC#
+			and id_processo = #id_processo:NUMERIC#
+			and codigo_trdeb= #codigo_trdeb:NUMERIC#
+	</update>
+</sqlMap> 
+ 

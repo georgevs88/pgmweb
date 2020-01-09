@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+ <!DOCTYPE sqlMap PUBLIC "//iBATIS.com//DTD SQL Map 2.0//EN" "HTTP://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="Edr">
+	<typeAlias alias="EdrVO" type="pmcg.imti.domain.EdrVO" />
+
+	<resultMap id="mapComplexQuerySimple" class="EdrVO">
+		<result property="id_processo" column="id_processo" />
+		<result property="inscricao" column="inscricao" />
+		<result property="tipo_logradouro" column="tipo_logradouro" />
+		<result property="nome_logradouro" column="nome_logradouro" />
+		<result property="numero" column="numero" />
+		<result property="complemento" column="complemento" />
+		<result property="tipo_bairro" column="tipo_bairro" />
+		<result property="nome_bairro" column="nome_bairro" />
+		<result property="cep" column="cep" />
+		<result property="nome_municipio" column="nome_municipio" />
+		<result property="uf" column="uf" />
+		<result property="usualt" column="usualt" />
+		<result property="datalt" column="datalt" />
+	</resultMap>
+
+	<resultMap id="mapComplexQuery" class="EdrVO">
+		<result property="id_processo" column="id_processo" />
+		<result property="inscricao" column="inscricao" />
+		<result property="tipo_logradouro" column="tipo_logradouro" />
+		<result property="nome_logradouro" column="nome_logradouro" />
+		<result property="numero" column="numero" />
+		<result property="complemento" column="complemento" />
+		<result property="tipo_bairro" column="tipo_bairro" />
+		<result property="nome_bairro" column="nome_bairro" />
+		<result property="cep" column="cep" />
+		<result property="nome_municipio" column="nome_municipio" />
+		<result property="uf" column="uf" />
+		<result property="usualt" column="usualt" />
+		<result property="datalt" column="datalt" />
+	</resultMap>
+
+	<select id="getRegByCod" parameterClass="Integer" resultMap="mapComplexQuerySimple">
+		SELECT * FROM ADMSAT.TMPROCESSO2015OK_EDR WHERE id_processo = #value:NUMERIC#
+	</select>
+
+	<select id="getRegByCodComplex" parameterClass="Integer" resultMap="mapComplexQuery">
+		SELECT * FROM ADMSAT.TMPROCESSO2015OK_EDR WHERE id_processo = #value:NUMERIC#
+	</select>
+
+	<select id="getRegByCriterio" parameterClass="EdrVO" resultMap="mapComplexQuerySimple">
+		SELECT * FROM ADMSAT.TMPROCESSO2015OK_EDR
+		<dynamic prepend=" WHERE ">
+			<isNotNull property="id_processo" prepend=" AND ">
+				id_processo = #id_processo:NUMERIC#
+			</isNotNull>
+			<isNotNull property="inscricao" prepend=" AND ">
+				UPPER(inscricao) LIKE '%' || UPPER(#inscricao:VARCHAR#) || '%'
+			</isNotNull>
+			<isNotNull property="tipo_logradouro" prepend=" AND ">
+				UPPER(tipo_logradouro) LIKE '%' || UPPER(#tipo_logradouro:VARCHAR#) || '%'
+			</isNotNull>
+			<isNotNull property="nome_logradouro" prepend=" AND ">
+				UPPER(nome_logradouro) LIKE '%' || UPPER(#nome_logradouro:VARCHAR#) || '%'
+			</isNotNull>
+			<isNotNull property="numero" prepend=" AND ">
+				numero = #numero:NUMERIC#
+			</isNotNull>
+			<isNotNull property="complemento" prepend=" AND ">
+				UPPER(complemento) LIKE '%' || UPPER(#complemento:VARCHAR#) || '%'
+			</isNotNull>
+			<isNotNull property="tipo_bairro" prepend=" AND ">
+				UPPER(tipo_bairro) LIKE '%' || UPPER(#tipo_bairro:VARCHAR#) || '%'
+			</isNotNull>
+			<isNotNull property="nome_bairro" prepend=" AND ">
+				UPPER(nome_bairro) LIKE '%' || UPPER(#nome_bairro:VARCHAR#) || '%'
+			</isNotNull>
+			<isNotNull property="cep" prepend=" AND ">
+				UPPER(cep) LIKE '%' || UPPER(#cep:VARCHAR#) || '%'
+			</isNotNull>
+			<isNotNull property="nome_municipio" prepend=" AND ">
+				UPPER(nome_municipio) LIKE '%' || UPPER(#nome_municipio:VARCHAR#) || '%'
+			</isNotNull>
+			<isNotNull property="uf" prepend=" AND ">
+				UPPER(uf) LIKE '%' || UPPER(#uf:VARCHAR#) || '%'
+			</isNotNull>
+		</dynamic>
+	</select>
+
+	<select id="getRegByCriterioComplex" parameterClass="EdrVO" resultMap="mapComplexQuery">
+		SELECT * FROM ADMSAT.TMPROCESSO2015OK_EDR
+		<dynamic prepend=" WHERE ">
+			<isNotNull property="id_processo" prepend=" AND "> id_processo = #id_processo:NUMERIC#
+			</isNotNull>
+			<isNotNull property="inscricao" prepend=" AND ">
+				UPPER(inscricao) LIKE '%' || UPPER(#inscricao:VARCHAR#) || '%'
+			</isNotNull>
+			<isNotNull property="tipo_logradouro" prepend=" AND ">
+				UPPER(tipo_logradouro) LIKE '%' || UPPER(#tipo_logradouro:VARCHAR#) || '%'
+			</isNotNull>
+			<isNotNull property="nome_logradouro" prepend=" AND ">
+				UPPER(nome_logradouro) LIKE '%' || UPPER(#nome_logradouro:VARCHAR#) || '%'
+			</isNotNull>
+			<isNotNull property="numero" prepend=" AND "> numero = #numero:NUMERIC#
+			</isNotNull>
+			<isNotNull property="complemento" prepend=" AND ">
+				UPPER(complemento) LIKE '%' || UPPER(#complemento:VARCHAR#) || '%'
+			</isNotNull>
+			<isNotNull property="tipo_bairro" prepend=" AND ">
+				UPPER(tipo_bairro) LIKE '%' || UPPER(#tipo_bairro:VARCHAR#) || '%'
+			</isNotNull>
+			<isNotNull property="nome_bairro" prepend=" AND ">
+				UPPER(nome_bairro) LIKE '%' || UPPER(#nome_bairro:VARCHAR#) || '%'
+			</isNotNull>
+			<isNotNull property="cep" prepend=" AND ">
+				UPPER(cep) LIKE '%' || UPPER(#cep:VARCHAR#) || '%'
+			</isNotNull>
+			<isNotNull property="nome_municipio" prepend=" AND ">
+				UPPER(nome_municipio) LIKE '%' || UPPER(#nome_municipio:VARCHAR#) || '%'
+			</isNotNull>
+			<isNotNull property="uf" prepend=" AND ">
+				UPPER(uf) LIKE '%' || UPPER(#uf:VARCHAR#) || '%'
+			</isNotNull>
+		</dynamic>
+	</select>
+
+	<select id="getTodos" resultMap="mapComplexQuerySimple">
+		SELECT * FROM ADMSAT.TMPROCESSO2015OK_EDR
+	</select>
+
+	<insert id="insReg" parameterClass="EdrVO">
+		INSERT INTO
+		ADMSAT.TMPROCESSO2015OK_EDR(id_processo,inscricao,tipo_logradouro,nome_logradouro,numero,complemento,tipo_bairro,nome_bairro,cep,nome_municipio,uf,usualt,datalt)
+		VALUES (#id_processo:NUMERIC#, UPPER(#inscricao:VARCHAR#), UPPER(#tipo_logradouro:VARCHAR#),
+		UPPER(#nome_logradouro:VARCHAR#),#numero:NUMERIC#, UPPER(#complemento:VARCHAR#), UPPER(#tipo_bairro:VARCHAR#),
+		UPPER(#nome_bairro:VARCHAR#), UPPER(#cep:VARCHAR#), UPPER(#nome_municipio:VARCHAR#), UPPER(#uf:VARCHAR#),#usualt:VARCHAR#,SYSDATE )
+	</insert>
+
+	<update id="updRegByCod" parameterClass="EdrVO">
+		UPDATE ADMSAT.TMPROCESSO2015OK_EDR SET inscricao= UPPER(#inscricao:VARCHAR#),tipo_logradouro=
+		UPPER(#tipo_logradouro:VARCHAR#),nome_logradouro= UPPER(#nome_logradouro:VARCHAR#),numero=
+		#numero:NUMERIC#,complemento= UPPER(#complemento:VARCHAR#),tipo_bairro= UPPER(#tipo_bairro:VARCHAR#),nome_bairro=
+		UPPER(#nome_bairro:VARCHAR#),cep= UPPER(#cep:VARCHAR#),nome_municipio= UPPER(#nome_municipio:VARCHAR#),uf=
+		UPPER(#uf:VARCHAR#) WHERE id_processo = #id_processo:NUMERIC#
+	</update>
+	
+	<delete id="delByCod" parameterClass="Integer">
+		DELETE FROM ADMSAT.TMPROCESSO2015OK_EDR WHERE id_processo = #value:NUMERIC#
+	</delete>
+	
+	<delete id="delByCodigos" parameterClass="String">
+		DELETE FROM ADMSAT.TMPROCESSO2015OK_EDR WHERE id_processo in ($value$)
+	</delete>
+
+	<select id="getCountByCriterio" parameterClass="EdrVO" resultClass="Integer">
+		SELECT count(id_processo) FROM ADMSAT.TMPROCESSO2015OK_EDR
+		<dynamic prepend=" WHERE ">
+			<isNotNull property="id_processo" prepend=" AND "> id_processo = #id_processo:NUMERIC#
+			</isNotNull>
+			<isNotNull property="inscricao" prepend=" AND ">
+				UPPER(inscricao) LIKE '%' || UPPER(#inscricao:VARCHAR#) || '%'
+			</isNotNull>
+			<isNotNull property="tipo_logradouro" prepend=" AND ">
+				UPPER(tipo_logradouro) LIKE '%' || UPPER(#tipo_logradouro:VARCHAR#) || '%'
+			</isNotNull>
+			<isNotNull property="nome_logradouro" prepend=" AND ">
+				UPPER(nome_logradouro) LIKE '%' || UPPER(#nome_logradouro:VARCHAR#) || '%'
+			</isNotNull>
+			<isNotNull property="numero" prepend=" AND "> numero = #numero:NUMERIC#
+			</isNotNull>
+			<isNotNull property="complemento" prepend=" AND ">
+				UPPER(complemento) LIKE '%' || UPPER(#complemento:VARCHAR#) || '%'
+			</isNotNull>
+			<isNotNull property="tipo_bairro" prepend=" AND ">
+				UPPER(tipo_bairro) LIKE '%' || UPPER(#tipo_bairro:VARCHAR#) || '%'
+			</isNotNull>
+			<isNotNull property="nome_bairro" prepend=" AND ">
+				UPPER(nome_bairro) LIKE '%' || UPPER(#nome_bairro:VARCHAR#) || '%'
+			</isNotNull>
+			<isNotNull property="cep" prepend=" AND ">
+				UPPER(cep) LIKE '%' || UPPER(#cep:VARCHAR#) || '%'
+			</isNotNull>
+			<isNotNull property="nome_municipio" prepend=" AND ">
+				UPPER(nome_municipio) LIKE '%' || UPPER(#nome_municipio:VARCHAR#) || '%'
+			</isNotNull>
+			<isNotNull property="uf" prepend=" AND ">
+				UPPER(uf) LIKE '%' || UPPER(#uf:VARCHAR#) || '%'
+			</isNotNull>
+		</dynamic>
+	</select>
+	
+	<select id="getProcessosPendentesEdr" resultClass="hashmap">
+		<![CDATA[
+			SELECT 
+				P.*, P.TIPO_LOGRADOURO || ' ' || P.NOME_LOGRADOURO || CASE WHEN P.NUMERO IS NOT NULL AND P.NUMERO <> 0 THEN ', ' || P.NUMERO || '. ' ELSE '. ' END 
+				|| CASE WHEN P.COMPLEMENTO IS NOT NULL THEN P.COMPLEMENTO || '. ' ELSE '' END || P.TIPO_BAIRRO || ' ' 
+				|| P.NOME_BAIRRO || '. CEP: ' || P.CEP || ' ' || TRIM(P.NOME_MUNICIPIO) || '/' || P.UF AS ENDERECO,
+				admsat.mascaracpfcnpj(TRIM(P.CPF_CNPJ)) as CPFCNPJ
+			FROM 
+				ADMSAT.TMPROCESSO2015OK P 
+			WHERE 
+				P.ID_PROCESSO NOT IN (SELECT E.ID_PROCESSO FROM ADMSAT.TMPROCESSO2015OK_EDR E)
+			order by 
+				p.id_processo
+		]]>
+	</select>
+</sqlMap> 
+ 

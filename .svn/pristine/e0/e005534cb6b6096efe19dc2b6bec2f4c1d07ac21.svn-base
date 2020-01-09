@@ -1,0 +1,70 @@
+package pmcg.imti.ws.domain;
+
+import com.thoughtworks.xstream.XStream;
+import com.thoughtworks.xstream.annotations.XStreamAlias;
+import com.thoughtworks.xstream.annotations.XStreamOmitField;
+import com.thoughtworks.xstream.io.xml.DomDriver;
+
+@XStreamAlias(value = "Message")
+public class SolicitaLogonVO {
+	@XStreamAlias(value = "MessageId")
+	private MessageIdVO messageId;
+	@XStreamAlias(value = "MessageBody")
+	private MessageBodyVO messageBody = new MessageBodyVO();
+	@XStreamAlias(value = "Signature")
+	private SignatureVO signature;
+	
+	public SolicitaLogonVO() {
+		super();
+		messageId = new MessageIdVO("SolicitaLogon","Solicitação do Desafio de Logon");
+	}
+
+	public static SolicitaLogonVO fromXml(String xml) {
+		XStream xstream = new XStream(new DomDriver());
+//		XStream xstream = new XStream() {
+//		    @Override
+//		    protected MapperWrapper wrapMapper(MapperWrapper next) {
+//		        return new MapperWrapper(next) {
+//		            @Override
+//		            public boolean shouldSerializeMember(Class definedIn, String fieldName) {
+//		                if (definedIn == Object.class) {
+//		                    return false;
+//		                }
+//		                return super.shouldSerializeMember(definedIn, fieldName);
+//		            }
+//		        };
+//		    }
+//		};
+		
+		// JDI		XStream xstream = new XStream(new DomDriver());
+		xstream.autodetectAnnotations(true);
+		xstream.processAnnotations(SolicitaLogonVO.class);
+		return (SolicitaLogonVO) xstream.fromXML(xml);
+	}
+
+	public static String toXML(SolicitaLogonVO resp) {
+		XStream xstream = new XStream(new DomDriver());
+		xstream.autodetectAnnotations(true);
+		xstream.processAnnotations(SolicitaLogonVO.class);
+		return "<?xml version=\"1.0\" encoding=\"ISO-8859-1\"?>" + xstream.toXML(resp);
+	}
+
+	public MessageIdVO getMessageId() {
+		return messageId;
+	}
+
+	public void setMessageId(MessageIdVO messageId) {
+		this.messageId = messageId;
+	}
+
+	public MessageBodyVO getMessageBody() {
+		return messageBody;
+	}
+
+	public void setMessageBody(MessageBodyVO messageBody) {
+		this.messageBody = messageBody;
+	}
+	
+//	@XStreamAlias(value = "Signature")
+//	private Object ignore;
+}

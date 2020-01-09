@@ -1,0 +1,84 @@
+package pmcg.imti.domain;
+
+import java.util.Date;
+
+public class WebPrfVO {
+
+	private Integer codprf;
+	private Integer codsis;
+	private String desprf;
+	private String usuprf;
+	private Date datprf;
+
+	public Integer getCodprf() {
+		return codprf;
+	}
+
+	public void setCodprf(Integer codprf) {
+		this.codprf = codprf;
+	}
+
+	public String getDesprf() {
+		return desprf;
+	}
+
+	public void setDesprf(String desprf) {
+		this.desprf = desprf;
+	}
+
+	public Integer getCodsis() {
+		return codsis;
+	}
+
+	public void setCodsis(Integer codsis) {
+		this.codsis = codsis;
+	}
+	
+	public String getUsuprf() {
+		return usuprf;
+	}
+
+	public void setUsuprf(String usuprf) {
+		this.usuprf = usuprf;
+	}
+
+	public Date getDatprf() {
+		return datprf;
+	}
+
+	public void setDatprf(Date datprf) {
+		this.datprf = datprf;
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((codprf == null) ? 0 : codprf.hashCode());
+		result = prime * result + ((codsis == null) ? 0 : codsis.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		WebPrfVO other = (WebPrfVO) obj;
+		if (codprf == null) {
+			if (other.codprf != null)
+				return false;
+		} else if (!codprf.equals(other.codprf))
+			return false;
+		if (codsis == null) {
+			if (other.codsis != null)
+				return false;
+		} else if (!codsis.equals(other.codsis))
+			return false;
+		return true;
+	}
+
+}

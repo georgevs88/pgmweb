@@ -1,0 +1,59 @@
+package pmcg.imti.dao.ibatis;
+
+import java.sql.SQLException;
+import java.util.List;
+
+import pmcg.framework.dao.ibatis.DAOGenerico;
+import pmcg.imti.domain.WebPrfVO;
+
+public class WebPrfDAO extends DAOGenerico<WebPrfVO, Integer>{
+	
+	public WebPrfDAO() {
+		super("nsPrf", "pmcg/imti/dao/ibatis/sqlmap/SqlDbAcessosConfig.xml");
+	}
+	
+	public Integer countRegByCriterio(WebPrfVO webPrfVO) {
+		try {
+			return (Integer) sqlMap.queryForObject(this.getNameSpaceMap()
+					+ ".countRegByCriterio", webPrfVO);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return 0;
+
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<WebPrfVO> getRegByCriterio(WebPrfVO webPrfVO, Integer inicial,
+			Integer maximoPermitido) {
+		try {
+			return sqlMap.queryForList(this.getNameSpaceMap()
+					+ ".getRegByCriterio", webPrfVO, inicial, maximoPermitido);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public Integer getBuscaPrf(String log) {
+		try {
+			return (Integer) sqlMap.queryForObject(getNameSpaceMap()
+					+ ".getBuscaPrf", log);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public List<WebPrfVO> getBuscaPerfilDECO(String log) {
+		try {
+			return sqlMap.queryForList(getNameSpaceMap()
+					+ ".getBuscaPerfilDECO", log);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+}

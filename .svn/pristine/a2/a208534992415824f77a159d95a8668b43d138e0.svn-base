@@ -1,0 +1,87 @@
+<?page id="wCadFunZul" title="Cadastro de Fun" cacheable="false" language="xul/html" zscriptLanguage="Java" contentType="text/html;charset=UTF-8"?>
+<zk xmlns="http://www.zkoss.org/2005/zul"
+	xmlns:h="http://www.w3.org/1999/xhtml"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-infabnce"
+	xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
+	<window use="pmcg.imti.view.Funcad" id="wCadFun"
+		title="Cadastro de Funcionários" border="normal" shadow="false"
+		width="550px" position="center" mode="overlapped" sizable="false"
+		closable="false" onCreate="wCadFun.initComponentes()">
+		<separator height="5px" />
+
+		<grid width="97%" align="center">
+			<columns>
+				<column label="" align="right" width="150px" />
+				<column label="" align="left" />
+			</columns>
+			<rows>
+
+				<row>
+					<hbox>
+						<label value="Nome:" />
+					</hbox>
+					<textbox id="nomfun" value="@{wCadFun.funVO.nomfun}"
+						maxlength="200" tooltiptext="Nome" width="200px" disabled="true"/>
+				</row>
+				<row>
+					<hbox>
+						<label value="Perfil:" />
+					</hbox>
+					<textbox id="perfun" value="@{wCadFun.funVO.perfun}"
+						maxlength="200" tooltiptext="Perfil" width="200px" disabled="true"/>
+				</row>
+				<row>
+					<hbox>
+						<label value="CPF:" />
+					</hbox>
+					<textbox id="cpffun" value="@{wCadFun.funVO.cpffun}"
+						maxlength="11" tooltiptext="CPF" width="125px" />
+				</row>
+				<row>
+					<hbox>
+						<label value="Matricula:" />
+					</hbox>
+					<textbox id="mtcfun" value="@{wCadFun.funVO.mtcfun}"
+						maxlength="100" tooltiptext="Matrícula" width="200px" />
+				</row>
+				<row>
+					<hbox>
+						<label value="Cargo:" />
+					</hbox>
+					<textbox id="cargfun"
+						value="@{wCadFun.funVO.cargfun}" maxlength="100"
+						tooltiptext="Cargo" width="200px" />
+				</row>
+				<row>
+					<hbox>
+						<label value="OAB:" />
+					</hbox>
+					<textbox id="oabfun" value="@{wCadFun.funVO.oabfun}"
+						maxlength="20" tooltiptext="OAB" width="150px" />
+				</row>
+
+				<row>
+					<hbox>
+						<label value="Email:" />
+					</hbox>
+					<textbox id="emafun" value="@{wCadFun.funVO.emafun}"
+						maxlength="100" tooltiptext="e-mail" width="200px" />
+				</row>
+				<row>
+					<hbox>
+						<label value="Ativo:" />
+					</hbox>
+					<checkbox id="atvfun"
+						checked="@{wCadFun.funVO.atvfun}">
+					</checkbox>
+				</row>
+
+				<row spans="2" style="text-align:left">
+					<label style="color:red; font-size: 10px;"
+						value="* Campos de Preenchimento Obrigatório." />
+				</row>
+			</rows>
+		</grid>
+		<separator height="10px" />
+	</window>
+</zk>

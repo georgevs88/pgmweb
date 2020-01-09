@@ -1,0 +1,68 @@
+package pmcg.imti.ws;
+
+import java.rmi.RemoteException;
+
+import javax.xml.rpc.ServiceException;
+
+import ServicoPJ2_pkg.ServicoPJ2HttpBindingStub;
+import ServicoPJ2_pkg.ServicoPJ2Locator;
+import pmcg.imti.ws.domain.ConfirmaLogonVO;
+import pmcg.imti.ws.domain.MessageBodyVO;
+import pmcg.imti.ws.domain.SolicitaLogonVO;
+
+public class MainJoacir {
+	public static void main(String[] args) {
+
+		//*
+		SolicitaLogonVO sl = new SolicitaLogonVO();
+		String xml = SolicitaLogonVO.toXML(sl);
+		//	new Signer();
+
+		String reto = null;
+		try {
+			reto = Signer.xmlDecompSigner(xml);
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		System.out.println(reto);
+		try {
+			System.setProperty("javax.net.ssl.trustStoreType", "JKS");  
+			System.setProperty("javax.net.ssl.trustStore", new Constantes().getClass().getResource("").getPath() +"jssecacerts");
+			ServicoPJ2Locator myService_ServiceLocator = new ServicoPJ2Locator();
+			//			ServicoPJ2PortType webservice = myService_ServiceLocator.getServicoPJ2HttpPort();
+			ServicoPJ2HttpBindingStub webservice = (ServicoPJ2HttpBindingStub) myService_ServiceLocator
+					.getServicoPJ2HttpPort();
+			webservice.setMaintainSession(true);
+			reto = webservice.solicitaLogon(reto);
+			System.out.println(reto);
+
+			SolicitaLogonVO solo = SolicitaLogonVO.fromXml(reto);
+
+			String desafioAssinado = Signer.assinarString(solo.getMessageBody().getResposta().getDesafio());
+
+			ConfirmaLogonVO cl = new ConfirmaLogonVO(solo.getMessageId().getCode());
+			/*
+			String desafioAssinado = new Signer().assinarString("-4549824763982146460");
+			System.out.println(desafioAssinado);
+			ConfirmaLogonVO cl = new ConfirmaLogonVO("1459350089511");
+			*/
+			MessageBodyVO mb = new MessageBodyVO();
+			mb.setDesafioAssinado(desafioAssinado);
+			mb.setResposta(null);
+			cl.setMessageBody(mb);
+			xml = ConfirmaLogonVO.toXML(cl);
+			//		new Signer();
+
+			String desaf = Signer.xmlDecompSigner(xml);
+			System.out.println(desaf);
+			reto = webservice.confirmaLogon(desaf);
+			System.out.println(reto);
+		} catch (RemoteException | ServiceException e) {
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+}

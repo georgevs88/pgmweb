@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+ <!DOCTYPE sqlMap PUBLIC "//iBATIS.com//DTD SQL Map 2.0//EN" "HTTP://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="Deb">
+	<typeAlias alias="DebVO" type="pmcg.imti.domain.DebVO" />
+
+	<resultMap id="mapComplexQuerySimple" class="DebVO">
+		<result property="codigo_trdeb" column="codigo_trdeb" />
+		<result property="codcad_trdeb" column="codcad_trdeb" />
+		<result property="numcad_trdeb" column="numcad_trdeb" />
+		<result property="anolan_trdeb" column="anolan_trdeb" />
+		<result property="codtrb_trdeb" column="codtrb_trdeb" />
+		<result property="numpre_trdeb" column="numpre_trdeb" />
+		<result property="coddla_trdeb" column="coddla_trdeb" />
+		<result property="seqlan_trdeb" column="seqlan_trdeb" />
+		<result property="digito_trdeb" column="digito_trdeb" />
+		<result property="datlan_trdeb" column="datlan_trdeb" />
+		<result property="datven_trdeb" column="datven_trdeb" />
+		<result property="vallan_trdeb" column="vallan_trdeb" />
+		<result property="valpag_trdeb" column="valpag_trdeb" />
+		<result property="situa_trdeb" column="situa_trdeb" />
+		<result property="ativa_trdeb" column="ativa_trdeb" />
+		<result property="ajuiza_trdeb" column="ajuiza_trdeb" />
+		<result property="cobran_trdeb" column="cobran_trdeb" />
+		<result property="usualt_trdeb" column="usualt_trdeb" />
+		<result property="datalt_trdeb" column="datalt_trdeb" />
+	</resultMap>
+
+	<resultMap id="mapComplexQuery" class="DebVO">
+		<result property="codigo_trdeb" column="codigo_trdeb" />
+		<result property="codcad_trdeb" column="codcad_trdeb" />
+		<result property="numcad_trdeb" column="numcad_trdeb" />
+		<result property="anolan_trdeb" column="anolan_trdeb" />
+		<result property="codtrb_trdeb" column="codtrb_trdeb" />
+		<result property="numpre_trdeb" column="numpre_trdeb" />
+		<result property="coddla_trdeb" column="coddla_trdeb" />
+		<result property="seqlan_trdeb" column="seqlan_trdeb" />
+		<result property="digito_trdeb" column="digito_trdeb" />
+		<result property="datlan_trdeb" column="datlan_trdeb" />
+		<result property="datven_trdeb" column="datven_trdeb" />
+		<result property="vallan_trdeb" column="vallan_trdeb" />
+		<result property="valpag_trdeb" column="valpag_trdeb" />
+		<result property="situa_trdeb" column="situa_trdeb" />
+		<result property="ativa_trdeb" column="ativa_trdeb" />
+		<result property="ajuiza_trdeb" column="ajuiza_trdeb" />
+		<result property="cobran_trdeb" column="cobran_trdeb" />
+		<result property="usualt_trdeb" column="usualt_trdeb" />
+		<result property="datalt_trdeb" column="datalt_trdeb" />
+	</resultMap>
+
+	<select id="getRegByCod" parameterClass="Long" resultMap="mapComplexQuerySimple">
+		SELECT * FROM GESTOR.SNAP$$_SNTRDEB WHERE codigo_trdeb = #value:NUMERIC#
+	</select>
+
+	<select id="getRegByCodComplex" parameterClass="Long" resultMap="mapComplexQuery">
+		SELECT * FROM GESTOR.SNAP$$_SNTRDEB WHERE codigo_trdeb = #value:NUMERIC#
+	</select>
+
+	<select id="getRegByCriterio" parameterClass="DebVO" resultMap="mapComplexQuerySimple">
+		SELECT * FROM GESTOR.SNAP$$_SNTRDEB
+		<dynamic prepend=" WHERE ">
+			<isNotNull property="codigo_trdeb" prepend=" AND ">
+				codigo_trdeb = #codigo_trdeb:NUMERIC#
+			</isNotNull>
+			<isNotNull property="codcad_trdeb" prepend=" AND ">
+				codcad_trdeb = #codcad_trdeb:NUMERIC#
+			</isNotNull>
+			<isNotNull property="numcad_trdeb" prepend=" AND ">
+				UPPER(numcad_trdeb) LIKE '%' || UPPER(#numcad_trdeb:VARCHAR#) || '%'
+			</isNotNull>
+			<isNotNull property="anolan_trdeb" prepend=" AND ">
+				anolan_trdeb = #anolan_trdeb:NUMERIC#
+			</isNotNull>
+			<isNotNull property="codtrb_trdeb" prepend=" AND ">
+				codtrb_trdeb = #codtrb_trdeb:NUMERIC#
+			</isNotNull>
+			<isNotNull property="numpre_trdeb" prepend=" AND ">
+				numpre_trdeb = #numpre_trdeb:NUMERIC#
+			</isNotNull>
+			<isNotNull property="coddla_trdeb" prepend=" AND ">
+				coddla_trdeb = #coddla_trdeb:NUMERIC#
+			</isNotNull>
+			<isNotNull property="seqlan_trdeb" prepend=" AND ">
+				seqlan_trdeb = #seqlan_trdeb:NUMERIC#
+			</isNotNull>
+			<isNotNull property="digito_trdeb" prepend=" AND ">
+				digito_trdeb = #digito_trdeb:NUMERIC#
+			</isNotNull>
+			<isNotNull property="datlan_trdeb" prepend=" AND "> to_char(datlan_trdeb,'dd/MM/yyyy') =
+				to_char(#datlan_trdeb:TIMESTAMP#,'dd/MM/yyyy')
+			</isNotNull>
+			<isNotNull property="datven_trdeb" prepend=" AND "> to_char(datven_trdeb,'dd/MM/yyyy') =
+				to_char(#datven_trdeb:TIMESTAMP#,'dd/MM/yyyy')
+			</isNotNull>
+			<isNotNull property="vallan_trdeb" prepend=" AND ">
+				vallan_trdeb = #vallan_trdeb:NUMERIC#
+			</isNotNull>
+			<isNotNull property="valpag_trdeb" prepend=" AND ">
+				valpag_trdeb = #valpag_trdeb:NUMERIC#
+			</isNotNull>
+			<isNotNull property="situa_trdeb" prepend=" AND ">
+				situa_trdeb = #situa_trdeb:NUMERIC#
+			</isNotNull>
+			<isNotNull property="ativa_trdeb" prepend=" AND ">
+				ativa_trdeb = #ativa_trdeb:NUMERIC#
+			</isNotNull>
+			<isNotNull property="ajuiza_trdeb" prepend=" AND ">
+				ajuiza_trdeb = #ajuiza_trdeb:NUMERIC#
+			</isNotNull>
+			<isNotNull property="cobran_trdeb" prepend=" AND ">
+				cobran_trdeb = #cobran_trdeb:NUMERIC#
+			</isNotNull>
+			<isNotNull property="usualt_trdeb" prepend=" AND ">
+				UPPER(usualt_trdeb) LIKE '%' || UPPER(#usualt_trdeb:VARCHAR#) || '%'
+			</isNotNull>
+			<isNotNull property="datalt_trdeb" prepend=" AND "> to_char(datalt_trdeb,'dd/MM/yyyy') =
+				to_char(#datalt_trdeb:TIMESTAMP#,'dd/MM/yyyy')
+			</isNotNull>
+		</dynamic>
+	</select>
+
+	<select id="getRegByCriterioComplex" parameterClass="DebVO" resultMap="mapComplexQuery">
+		SELECT * FROM GESTOR.SNAP$$_SNTRDEB
+		<dynamic prepend=" WHERE ">
+			<isNotNull property="codigo_trdeb" prepend=" AND "> codigo_trdeb = #codigo_trdeb:NUMERIC#
+			</isNotNull>
+			<isNotNull property="codcad_trdeb" prepend=" AND "> codcad_trdeb = #codcad_trdeb:NUMERIC#
+			</isNotNull>
+			<isNotNull property="numcad_trdeb" prepend=" AND ">
+				UPPER(numcad_trdeb) LIKE '%' || UPPER(#numcad_trdeb:VARCHAR#) || '%'
+			</isNotNull>
+			<isNotNull property="anolan_trdeb" prepend=" AND "> anolan_trdeb = #anolan_trdeb:NUMERIC#
+			</isNotNull>
+			<isNotNull property="codtrb_trdeb" prepend=" AND "> codtrb_trdeb = #codtrb_trdeb:NUMERIC#
+			</isNotNull>
+			<isNotNull property="numpre_trdeb" prepend=" AND "> numpre_trdeb = #numpre_trdeb:NUMERIC#
+			</isNotNull>
+			<isNotNull property="coddla_trdeb" prepend=" AND "> coddla_trdeb = #coddla_trdeb:NUMERIC#
+			</isNotNull>
+			<isNotNull property="seqlan_trdeb" prepend=" AND "> seqlan_trdeb = #seqlan_trdeb:NUMERIC#
+			</isNotNull>
+			<isNotNull property="digito_trdeb" prepend=" AND "> digito_trdeb = #digito_trdeb:NUMERIC#
+			</isNotNull>
+			<isNotNull property="datlan_trdeb" prepend=" AND "> to_char(datlan_trdeb,'dd/MM/yyyy') =
+				to_char(#datlan_trdeb:TIMESTAMP#,'dd/MM/yyyy')
+			</isNotNull>
+			<isNotNull property="datven_trdeb" prepend=" AND "> to_char(datven_trdeb,'dd/MM/yyyy') =
+				to_char(#datven_trdeb:TIMESTAMP#,'dd/MM/yyyy')
+			</isNotNull>
+			<isNotNull property="vallan_trdeb" prepend=" AND "> vallan_trdeb = #vallan_trdeb:NUMERIC#
+			</isNotNull>
+			<isNotNull property="valpag_trdeb" prepend=" AND "> valpag_trdeb = #valpag_trdeb:NUMERIC#
+			</isNotNull>
+			<isNotNull property="situa_trdeb" prepend=" AND "> situa_trdeb = #situa_trdeb:NUMERIC#
+			</isNotNull>
+			<isNotNull property="ativa_trdeb" prepend=" AND "> ativa_trdeb = #ativa_trdeb:NUMERIC#
+			</isNotNull>
+			<isNotNull property="ajuiza_trdeb" prepend=" AND "> ajuiza_trdeb = #ajuiza_trdeb:NUMERIC#
+			</isNotNull>
+			<isNotNull property="cobran_trdeb" prepend=" AND "> cobran_trdeb = #cobran_trdeb:NUMERIC#
+			</isNotNull>
+			<isNotNull property="usualt_trdeb" prepend=" AND ">
+				UPPER(usualt_trdeb) LIKE '%' || UPPER(#usualt_trdeb:VARCHAR#) || '%'
+			</isNotNull>
+			<isNotNull property="datalt_trdeb" prepend=" AND "> to_char(datalt_trdeb,'dd/MM/yyyy') =
+				to_char(#datalt_trdeb:TIMESTAMP#,'dd/MM/yyyy')
+			</isNotNull>
+		</dynamic>
+	</select>
+
+	<select id="getTodos" resultMap="mapComplexQuerySimple">
+		SELECT * FROM GESTOR.SNAP$$_SNTRDEB
+	</select>
+
+	<insert id="insReg" parameterClass="DebVO">
+		<selectKey keyProperty="codigo_trdeb" resultClass="Long">
+			SELECT gestor.seq_id_processo.nextval from dual
+		</selectKey>
+		INSERT INTO
+		GESTOR.SNAP$$_SNTRDEB(codigo_trdeb,codcad_trdeb,numcad_trdeb,anolan_trdeb,codtrb_trdeb,numpre_trdeb,coddla_trdeb,seqlan_trdeb,digito_trdeb,datlan_trdeb,datven_trdeb,vallan_trdeb,valpag_trdeb,situa_trdeb,ativa_trdeb,ajuiza_trdeb,cobran_trdeb,usualt_trdeb,datalt_trdeb)
+		VALUES (#codigo_trdeb:NUMERIC#,#codcad_trdeb:NUMERIC#,
+		UPPER(#numcad_trdeb:VARCHAR#),#anolan_trdeb:NUMERIC#,#codtrb_trdeb:NUMERIC#,#numpre_trdeb:NUMERIC#,#coddla_trdeb:NUMERIC#,#seqlan_trdeb:NUMERIC#,#digito_trdeb:NUMERIC#,#datlan_trdeb:TIMESTAMP#,#datven_trdeb:TIMESTAMP#,#vallan_trdeb:NUMERIC#,#valpag_trdeb:NUMERIC#,#situa_trdeb:NUMERIC#,#ativa_trdeb:NUMERIC#,#ajuiza_trdeb:NUMERIC#,#cobran_trdeb:NUMERIC#,
+		UPPER(#usualt_trdeb:VARCHAR#),#datalt_trdeb:TIMESTAMP# )
+	</insert>
+
+	<update id="updRegByCod" parameterClass="DebVO">
+		UPDATE GESTOR.SNAP$$_SNTRDEB SET codcad_trdeb= #codcad_trdeb:NUMERIC#,numcad_trdeb= UPPER(#numcad_trdeb:VARCHAR#),anolan_trdeb=
+		#anolan_trdeb:NUMERIC#,codtrb_trdeb= #codtrb_trdeb:NUMERIC#,numpre_trdeb= #numpre_trdeb:NUMERIC#,coddla_trdeb=
+		#coddla_trdeb:NUMERIC#,seqlan_trdeb= #seqlan_trdeb:NUMERIC#,digito_trdeb= #digito_trdeb:NUMERIC#,datlan_trdeb=
+		#datlan_trdeb:TIMESTAMP#,datven_trdeb= #datven_trdeb:TIMESTAMP#,vallan_trdeb= #vallan_trdeb:NUMERIC#,valpag_trdeb=
+		#valpag_trdeb:NUMERIC#,situa_trdeb= #situa_trdeb:NUMERIC#,ativa_trdeb= #ativa_trdeb:NUMERIC#,ajuiza_trdeb=
+		#ajuiza_trdeb:NUMERIC#,cobran_trdeb= #cobran_trdeb:NUMERIC#,usualt_trdeb= UPPER(#usualt_trdeb:VARCHAR#),datalt_trdeb=
+		#datalt_trdeb:TIMESTAMP# WHERE codigo_trdeb = #codigo_trdeb:NUMERIC#
+	</update>
+	
+	<delete id="delByCod" parameterClass="Long">
+		DELETE FROM GESTOR.SNAP$$_SNTRDEB WHERE codigo_trdeb = #value:NUMERIC#
+	</delete>
+	
+	<delete id="delByCodigos" parameterClass="String">
+		DELETE FROM GESTOR.SNAP$$_SNTRDEB WHERE codigo_trdeb in ($value$)
+	</delete>
+
+	<select id="getCountByCriterio" parameterClass="DebVO" resultClass="Integer">
+		SELECT count(codigo_trdeb) FROM GESTOR.SNAP$$_SNTRDEB
+		<dynamic prepend=" WHERE ">
+			<isNotNull property="codigo_trdeb" prepend=" AND "> codigo_trdeb = #codigo_trdeb:NUMERIC#
+			</isNotNull>
+			<isNotNull property="codcad_trdeb" prepend=" AND "> codcad_trdeb = #codcad_trdeb:NUMERIC#
+			</isNotNull>
+			<isNotNull property="numcad_trdeb" prepend=" AND ">
+				UPPER(numcad_trdeb) LIKE '%' || UPPER(#numcad_trdeb:VARCHAR#) || '%'
+			</isNotNull>
+			<isNotNull property="anolan_trdeb" prepend=" AND "> anolan_trdeb = #anolan_trdeb:NUMERIC#
+			</isNotNull>
+			<isNotNull property="codtrb_trdeb" prepend=" AND "> codtrb_trdeb = #codtrb_trdeb:NUMERIC#
+			</isNotNull>
+			<isNotNull property="numpre_trdeb" prepend=" AND "> numpre_trdeb = #numpre_trdeb:NUMERIC#
+			</isNotNull>
+			<isNotNull property="coddla_trdeb" prepend=" AND "> coddla_trdeb = #coddla_trdeb:NUMERIC#
+			</isNotNull>
+			<isNotNull property="seqlan_trdeb" prepend=" AND "> seqlan_trdeb = #seqlan_trdeb:NUMERIC#
+			</isNotNull>
+			<isNotNull property="digito_trdeb" prepend=" AND "> digito_trdeb = #digito_trdeb:NUMERIC#
+			</isNotNull>
+			<isNotNull property="datlan_trdeb" prepend=" AND "> to_char(datlan_trdeb,'dd/MM/yyyy') =
+				to_char(#datlan_trdeb:TIMESTAMP#,'dd/MM/yyyy')
+			</isNotNull>
+			<isNotNull property="datven_trdeb" prepend=" AND "> to_char(datven_trdeb,'dd/MM/yyyy') =
+				to_char(#datven_trdeb:TIMESTAMP#,'dd/MM/yyyy')
+			</isNotNull>
+			<isNotNull property="vallan_trdeb" prepend=" AND "> vallan_trdeb = #vallan_trdeb:NUMERIC#
+			</isNotNull>
+			<isNotNull property="valpag_trdeb" prepend=" AND "> valpag_trdeb = #valpag_trdeb:NUMERIC#
+			</isNotNull>
+			<isNotNull property="situa_trdeb" prepend=" AND "> situa_trdeb = #situa_trdeb:NUMERIC#
+			</isNotNull>
+			<isNotNull property="ativa_trdeb" prepend=" AND "> ativa_trdeb = #ativa_trdeb:NUMERIC#
+			</isNotNull>
+			<isNotNull property="ajuiza_trdeb" prepend=" AND "> ajuiza_trdeb = #ajuiza_trdeb:NUMERIC#
+			</isNotNull>
+			<isNotNull property="cobran_trdeb" prepend=" AND "> cobran_trdeb = #cobran_trdeb:NUMERIC#
+			</isNotNull>
+			<isNotNull property="usualt_trdeb" prepend=" AND ">
+				UPPER(usualt_trdeb) LIKE '%' || UPPER(#usualt_trdeb:VARCHAR#) || '%'
+			</isNotNull>
+			<isNotNull property="datalt_trdeb" prepend=" AND "> to_char(datalt_trdeb,'dd/MM/yyyy') =
+				to_char(#datalt_trdeb:TIMESTAMP#,'dd/MM/yyyy')
+			</isNotNull>
+		</dynamic>
+	</select>
+	
+	<select id="getTipoDebito" parameterClass="Integer" resultClass="hashmap">
+		select 
+			(case                                                                                        
+              when TD.Cod_tipo_Debito = 246 then 12                                                 
+              when TD.Cod_tipo_Debito = 247 then 29                                                 
+              else TD.Cod_tipo_Debito                                                               
+             end) as Cod_tipo_Debito,                                                                    
+            TD.Sigla SIGLA_DEBITO,                                                                  
+            TD.Descricao DESCRICAO_TIPO_DEBITO, TD.TIPO_DEBITO,                                
+            TD.TIPO_PERIODO,TD.COBRAR_TAXA_EXPEDIENTE
+		from 
+			ARMTIPO_DEBITO TD
+		where 
+			TD.id_tipo_debito = #value:NUMERIC#
+	</select>
+</sqlMap> 
+ 

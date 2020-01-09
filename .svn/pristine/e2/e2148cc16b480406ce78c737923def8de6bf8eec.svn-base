@@ -1,0 +1,149 @@
+package pmcg.imti.domain;
+
+import java.util.Date;
+
+import gerador.annotation.ZKEntity;
+import gerador.annotation.ZKField;
+import gerador.annotation.ZKId;
+
+@ZKEntity(label = "Deb", sequence = "seq_id_processo")
+public class DebVO {
+	@ZKId
+	@ZKField(label = "Código", artigo = "o", readonly = true, maxsize = 80, tooltip = "Código incremental!")
+	public Long codigo_trdeb;
+	public Integer codcad_trdeb;
+	public String numcad_trdeb;
+	public Integer anolan_trdeb;
+	public Integer codtrb_trdeb;
+	public Integer numpre_trdeb;
+	public Integer coddla_trdeb;
+	public Integer seqlan_trdeb;
+	public Integer digito_trdeb;
+	public Date datlan_trdeb;
+	public Date datven_trdeb;
+	public Double vallan_trdeb;
+	public Double valpag_trdeb;
+	public Integer situa_trdeb;
+	public Integer ativa_trdeb;
+	public Integer ajuiza_trdeb;
+	public Integer cobran_trdeb;
+	public String usualt_trdeb;
+	public Date datalt_trdeb;
+	
+	public Long getCodigo_trdeb() {
+		return codigo_trdeb;
+	}
+	public void setCodigo_trdeb(Long codigo_trdeb) {
+		this.codigo_trdeb = codigo_trdeb;
+	}
+	public Integer getCodcad_trdeb() {
+		return codcad_trdeb;
+	}
+	public void setCodcad_trdeb(Integer codcad_trdeb) {
+		this.codcad_trdeb = codcad_trdeb;
+	}
+	public String getNumcad_trdeb() {
+		return numcad_trdeb;
+	}
+	public void setNumcad_trdeb(String numcad_trdeb) {
+		this.numcad_trdeb = numcad_trdeb;
+	}
+	public Integer getAnolan_trdeb() {
+		return anolan_trdeb;
+	}
+	public void setAnolan_trdeb(Integer anolan_trdeb) {
+		this.anolan_trdeb = anolan_trdeb;
+	}
+	public Integer getCodtrb_trdeb() {
+		return codtrb_trdeb;
+	}
+	public void setCodtrb_trdeb(Integer codtrb_trdeb) {
+		this.codtrb_trdeb = codtrb_trdeb;
+	}
+	public Integer getNumpre_trdeb() {
+		return numpre_trdeb;
+	}
+	public void setNumpre_trdeb(Integer numpre_trdeb) {
+		this.numpre_trdeb = numpre_trdeb;
+	}
+	public Integer getCoddla_trdeb() {
+		return coddla_trdeb;
+	}
+	public void setCoddla_trdeb(Integer coddla_trdeb) {
+		this.coddla_trdeb = coddla_trdeb;
+	}
+	public Integer getSeqlan_trdeb() {
+		return seqlan_trdeb;
+	}
+	public void setSeqlan_trdeb(Integer seqlan_trdeb) {
+		this.seqlan_trdeb = seqlan_trdeb;
+	}
+	public Integer getDigito_trdeb() {
+		return digito_trdeb;
+	}
+	public void setDigito_trdeb(Integer digito_trdeb) {
+		this.digito_trdeb = digito_trdeb;
+	}
+	public Date getDatlan_trdeb() {
+		return datlan_trdeb;
+	}
+	public void setDatlan_trdeb(Date datlan_trdeb) {
+		this.datlan_trdeb = datlan_trdeb;
+	}
+	public Date getDatven_trdeb() {
+		return datven_trdeb;
+	}
+	public void setDatven_trdeb(Date datven_trdeb) {
+		this.datven_trdeb = datven_trdeb;
+	}
+	public Double getVallan_trdeb() {
+		return vallan_trdeb;
+	}
+	public void setVallan_trdeb(Double vallan_trdeb) {
+		this.vallan_trdeb = vallan_trdeb;
+	}
+	public Double getValpag_trdeb() {
+		return valpag_trdeb;
+	}
+	public void setValpag_trdeb(Double valpag_trdeb) {
+		this.valpag_trdeb = valpag_trdeb;
+	}
+	public Integer getSitua_trdeb() {
+		return situa_trdeb;
+	}
+	public void setSitua_trdeb(Integer situa_trdeb) {
+		this.situa_trdeb = situa_trdeb;
+	}
+	public Integer getAtiva_trdeb() {
+		return ativa_trdeb;
+	}
+	public void setAtiva_trdeb(Integer ativa_trdeb) {
+		this.ativa_trdeb = ativa_trdeb;
+	}
+	public Integer getAjuiza_trdeb() {
+		return ajuiza_trdeb;
+	}
+	public void setAjuiza_trdeb(Integer ajuiza_trdeb) {
+		this.ajuiza_trdeb = ajuiza_trdeb;
+	}
+	public Integer getCobran_trdeb() {
+		return cobran_trdeb;
+	}
+	public void setCobran_trdeb(Integer cobran_trdeb) {
+		this.cobran_trdeb = cobran_trdeb;
+	}
+	public String getUsualt_trdeb() {
+		return usualt_trdeb;
+	}
+	public void setUsualt_trdeb(String usualt_trdeb) {
+		this.usualt_trdeb = usualt_trdeb;
+	}
+	public Date getDatalt_trdeb() {
+		return datalt_trdeb;
+	}
+	public void setDatalt_trdeb(Date datalt_trdeb) {
+		this.datalt_trdeb = datalt_trdeb;
+	}
+	
+	
+}

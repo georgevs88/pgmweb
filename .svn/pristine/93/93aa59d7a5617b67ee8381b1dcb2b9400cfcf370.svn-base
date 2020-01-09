@@ -1,0 +1,90 @@
+package pmcg.imti.dao.ibatis; 
+  
+ import pmcg.framework.dao.ibatis.DAOConcorrencia; 
+ import pmcg.imti.domain.RaiVO;
+
+import java.util.HashMap;
+import java.util.List; 
+ import java.sql.SQLException; 
+   /** 
+    * RaiDAO  
+    * Responsável pela Manipulação de registros 
+    * @author Gerador ZK 
+    */ 
+ public class RaiDAO extends DAOConcorrencia<RaiVO, Integer> { 
+ 	public RaiDAO() { 
+ 		super("Rai", "pmcg/imti/dao/ibatis/sqlmap/SqlMapConfigTIQPM.xml"); 
+ 	} 
+ 	  
+ 	public List<RaiVO> getRegByCriterioComplex(RaiVO obj) { 
+ 		String nameSpace = getNameSpaceMap(); 
+ 		if (nameSpace == null) 
+ 			setNameSpaceMap("Rai"); 
+ 		try { 
+ 			return sqlMap.queryForList(nameSpace + ".getRegByCriterioComplex", 
+ 					obj); 
+ 		} catch (SQLException e) { 
+ 			e.printStackTrace(); 
+ 		} 
+ 		return null; 
+ 	} 
+   
+ 	public RaiVO getRegByCodComplex(Integer cod) { 
+ 		String nameSpace = getNameSpaceMap(); 
+ 		if (nameSpace == null) 
+ 			setNameSpaceMap("Rai"); 
+ 		try { 
+ 			return (RaiVO) sqlMap.queryForObject(nameSpace 
+ 					+ ".getRegByCodComplex", cod); 
+ 		} catch (SQLException e) { 
+ 			e.printStackTrace(); 
+ 		} 
+ 		return null; 
+ 	} 
+  	  
+ 	public Integer delByCodigos(String codigos) { 
+ 		String nameSpace = getNameSpaceMap(); 
+ 		if (nameSpace == null) 
+ 			setNameSpaceMap("Rai"); 
+ 		try { 
+ 			return sqlMap.delete(nameSpace + ".delByCodigos", codigos); 
+ 		} catch (Exception e) { 
+ 			e.printStackTrace(); 
+ 		} 
+ 		return null; 
+ 	} 
+ 	  
+ 	public Integer 	getCountByCriterio(RaiVO  obj) {  
+  		String nameSpace = getNameSpaceMap();  
+  		if (nameSpace == null)  
+  			setNameSpaceMap("Rai");  
+  		try {  
+  			return (Integer) sqlMap.queryForObject(nameSpace + ".getCountByCriterio", obj);  
+  		} catch (Exception e) {  
+  			e.printStackTrace();  
+  		}  
+  		return 0;  
+  	}  
+  	  
+  	public List<RaiVO> 	getByCriterioLimit(RaiVO obj,Integer inicial, Integer maximoPermitido) {  
+  		String nameSpace = getNameSpaceMap();  
+  		if (nameSpace == null)  
+  			setNameSpaceMap("Rai");  
+  		try {  
+  			return sqlMap.queryForList(nameSpace + ".getRegByCriterioComplex",obj,inicial,maximoPermitido);  
+  		} catch (SQLException e) {  
+  			e.printStackTrace();  
+  		}  
+  		return null;  
+  	} 
+  	
+  	public HashMap<String, Object> getConteudoArq(HashMap<String, Object> dados) {
+		try {
+			return (HashMap<String, Object>) sqlMap.queryForObject(this.getNameSpaceMap() + ".getConteudoArq", dados);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+ } 
+ 

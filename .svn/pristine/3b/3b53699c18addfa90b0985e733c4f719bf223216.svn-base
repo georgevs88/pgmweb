@@ -1,0 +1,101 @@
+<?page id="wLisMovZul" title="Lista de Mov" cacheable="false" language="xul/html" zscriptLanguage="Java" contentType="text/html;charset=UTF-8"?>
+	 
+ <zk xmlns="http://www.zkoss.org/2005/zul" 
+ 	xmlns:h="http://www.w3.org/1999/xhtml" 
+ 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-infabnce" 
+ 	xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
+		 
+ 	<window use="pmcg.imti.view.Movlis" id="wLisMov" 
+ 		title="Lista de Mov" border="normal" shadow="false" width="620px" 
+ 		height="460px" position="center" mode="overlapped" sizable="false" 
+ 		closable="true" onCreate="wLisMov.initComponentes()">
+			    
+ 		<paging id="pagMov" pageSize="20"  />
+					 
+ 		<listbox id="listMov" model="@{wLisMov.listmodel}" width="600px" 
+ 			height="340px" selectedItem="@{wLisMov.item}"    
+ 			onSelect="wLisMov.selecionar()" checkmark="true">
+				 
+ 		 
+ 			 <listhead>
+					 <listheader width="105px" >
+						<vbox>
+							<label value="idmov"/>
+							 <longbox id="idmov" value="@{wLisMov.movVO.idmov}" maxlength="19"  width="95px"  />
+							</vbox>
+						 </listheader>
+					<listheader width="175px" >
+						<vbox>
+							<label value="Data/Hora de Entrada do Processo:"/>
+							  <datebox id="datemov" value="@{wLisMov.movVO.datemov}"  maxlength="29"  format="dd/MM/yyyy"  tooltiptext="Data/Hora de Entrada do Processo"  width="145px"  />
+							</vbox>
+						 </listheader>
+					<listheader width="105px" >
+						<vbox>
+							<label value="Processo:"/>
+							 <longbox id="promov" value="@{wLisMov.movVO.promov}" maxlength="19"  tooltiptext="Processo"  width="95px"  />
+							</vbox>
+						 </listheader>
+					<listheader width="1010px" >
+						<vbox>
+							<label value="Descrição:"/>
+							<textbox id="desmov" value="@{wLisMov.movVO.desmov}"  onOK="wLisMov.pesquisar();"  maxlength="200"  tooltiptext="Descricao"  width="1000px"  />
+							</vbox>
+						 </listheader>
+					<listheader width="110px" >
+						<vbox>
+							<label value="usualt"/>
+							<textbox id="usualt" value="@{wLisMov.movVO.usualt}"  onOK="wLisMov.pesquisar();"  maxlength="20"  width="100px"  />
+							</vbox>
+						 </listheader>
+					<listheader width="95px" >
+						<vbox>
+							<label value="datalt"/>
+							  <datebox id="datalt" value="@{wLisMov.movVO.datalt}"  maxlength="13"  format="dd/MM/yyyy"  width="65px"  />
+							</vbox>
+						 </listheader>
+					<listheader width="105px" >
+						<vbox>
+							<label value="Funcionario de Origem do Processo"/>
+							 <longbox id="orimov" value="@{wLisMov.movVO.orimov}" maxlength="19"  tooltiptext="Funcionario de Origem do Processo"  width="95px"  />
+							</vbox>
+						 </listheader>
+					<listheader width="105px" >
+						<vbox>
+							<label value="Funcionário de Destido do Processo"/>
+							 <longbox id="destmov" value="@{wLisMov.movVO.destmov}" maxlength="19"  tooltiptext="Funcionário de Destido do Processo"  width="95px"  />
+							</vbox>
+						 </listheader>
+					<listheader width="140px" >
+						<vbox>
+							<label value="Data/ Hora de Saida do Processo"/>
+							  <datebox id="datsmov" value="@{wLisMov.movVO.datsmov}"  maxlength="22"  format="dd/MM/yyyy"  tooltiptext="Data/ Hora de Saida do Processo"  width="110px"  />
+							</vbox>
+						 </listheader>
+					<listheader width="15px" >
+						<vbox>
+							<label value="conmov"/>
+							</vbox>
+						 </listheader>
+					 </listhead>
+				  <listitem self="@{each=mov}">
+					    <listcell	  label="@{mov.idmov}" />
+					    <listcell	  label="@{mov.datemov}" />
+					    <listcell	  label="@{mov.promov}" />
+					    <listcell	  label="@{mov.desmov}" />
+					    <listcell	  label="@{mov.usualt}" />
+					    <listcell	  label="@{mov.datalt}" />
+					    <listcell	  label="@{mov.orimov}" />
+					    <listcell	  label="@{mov.destmov}" />
+					    <listcell	  label="@{mov.datsmov}" />
+					    <listcell	  label="@{mov.conmov}" />
+					    </listitem>
+				 
+ 			 
+ 		</listbox>
+			 
+ 	</window>
+		 
+ </zk>
+	 
+ 

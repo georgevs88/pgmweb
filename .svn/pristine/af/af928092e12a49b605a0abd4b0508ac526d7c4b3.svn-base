@@ -1,0 +1,72 @@
+<?page id="wCadFunZul" title="Importação de Arquivos" cacheable="false" language="xul/html" zscriptLanguage="Java" contentType="text/html;charset=UTF-8"?>
+<zk xmlns="http://www.zkoss.org/2005/zul"
+	xmlns:h="http://www.w3.org/1999/xhtml"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-infabnce"
+	xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
+	<window use="pmcg.imti.view.Imparq" id="wImparq"
+		title="Importação de Arquivos" border="normal" shadow="false"
+		width="550px" position="center" mode="overlapped" sizable="false"
+		closable="false" onCreate="wImparq.initComponentes()">
+		<separator height="5px" />
+
+		<grid width="97%" align="center">
+			<columns>
+				<column label="" align="right" width="150px" />
+				<column label="" align="left" />
+			</columns>
+			<rows>
+
+				<row>
+					<hbox>
+						<label value="Deb:" />
+					</hbox>
+					<hbox>
+						<fileupload number="1" width="200px" id="imageDeb"
+							onUpload='wImparq.uploadDOX(event, "deb")' image="/images/down.png"
+							label="Selecionar Arquivo..." tooltiptext="Selecionar Arquivo" />
+						<!-- <label value="@{wImparq.nomeDoArquivoDeb}"
+							id="imageDeb" /> -->
+					</hbox>
+				</row>
+				<row>
+					<hbox>
+						<label value="His:" />
+					</hbox>
+					<hbox>
+						<fileupload number="1" width="200px" id="imageHis"
+							onUpload='wImparq.uploadDOX(event, "his")' image="/images/down.png"
+							label="Selecionar Arquivo..." tooltiptext="Selecionar Arquivo" />
+						<!-- <label value="@{wImparq.nomeDoArquivoHis}"
+							id="imageHis" /> -->
+					</hbox>
+				</row>
+				<row>
+					<hbox>
+						<label value="Lat:" />
+					</hbox>
+					<hbox>
+						<fileupload number="1" width="200px" id="imageLat"
+							onUpload='wImparq.uploadDOX(event, "lat")' image="/images/down.png"
+							label="Selecionar Arquivo..." tooltiptext="Selecionar Arquivo" />
+						<!-- <label value="@{wImparq.nomeDoArquivoLat}"
+							id="imageLat" /> -->
+					</hbox>
+				</row>
+			</rows>
+		</grid>
+		<grid>
+			<columns>
+				<column align="center" width="" />
+			</columns>
+			<rows>
+				<row>
+					<button label="Importar" width="140px"
+						onClick="wImparq.importar()" />
+				</row>
+			</rows>
+		</grid>
+		<label style="color:red; font-size: 10px;"
+			value="* Campos de Preenchimento Obrigatório." />
+		<separator height="10px" />
+	</window>
+</zk>

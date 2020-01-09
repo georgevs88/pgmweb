@@ -1,0 +1,281 @@
+package pmcg.imti.view;
+
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import org.zkoss.zul.ListModelList;
+import org.zkoss.zul.Messagebox;
+import pmcg.framework.ui.WindowCrud;
+import pmcg.framework.util.WinUtils;
+import org.zkoss.zk.ui.event.Events;
+import org.zkoss.zk.ui.Executions;
+import org.zkoss.zk.ui.WrongValueException;
+import pmcg.framework.exception.ConcorrenciaException;
+
+import pmcg.imti.dao.ibatis.ProDAO;
+import pmcg.imti.domain.ProVO;
+
+/**
+ * View de Cadastro de Pro
+ **/
+public class Procad extends WindowCrud {
+	private static final long serialVersionUID = 1L;
+
+	public ProVO proVO = new ProVO();
+	Boolean abertoPeloMenu = Boolean.TRUE;
+
+	@SuppressWarnings("unchecked")
+	public Procad() {
+		super("procad.zul");
+		Map<String, String> map = Executions.getCurrent().getArg();
+		if (map.get("pageName") != null) {
+			abertoPeloMenu = Boolean.FALSE;
+		}
+	}
+
+	/**
+	 * Metodo initComponentes() - para inicializar a view.
+	 **/
+	public void initComponentes() {
+
+		ctrlBotoesIncAltDel(false);
+
+		this.vincular();
+	}
+
+	/**
+	 * Metodo incluir()- Metodo responsável pela incluir o registro.
+	 **/
+	@Override
+	public void incluir() {
+		try {
+			if (this.validarForm() && this.trataVO()) {
+
+				ProDAO proDAO = new ProDAO();
+				Long cod = new Long(proDAO.insReg(this.proVO).toString());
+				if (cod > 0) {
+					this.proVO.setIddpro(cod);
+					if (this.abertoPeloMenu) {
+						Messagebox.show("O Registro foi incluído com sucesso!");
+					} else {
+						this.sair();
+					}
+					ctrlBotoesIncAltDel(true);
+					this.vincular();
+				} else {
+					Messagebox.show("O registro não pode ser incluído!",
+							"Erro:", Messagebox.OK, Messagebox.ERROR);
+				}
+			}
+		} catch (WrongValueException e) {
+			throw e;
+		} catch (Exception e) {
+			try {
+				Messagebox.show(
+						"O registro não pode ser incluído: " + e.getMessage(),
+						"Erro:", Messagebox.OK, Messagebox.ERROR);
+			} catch (InterruptedException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * Metodo salvar()-Metodo responsável em salvar o registro.
+	 **/
+	@Override
+	public void salvar() {
+		try {
+			if (this.validarForm() && this.trataVO()
+					&& this.proVO.getIddpro() != null) {
+
+				ProDAO proDAO = new ProDAO();
+				if (proDAO.updRegByCodConcorrencia(this.proVO,
+						proVO.getIddpro()) > 0) {
+					if (this.abertoPeloMenu) {
+						Messagebox.show("Registro Salvo com sucesso!");
+					} else {
+						this.sair();
+					}
+					this.vincular();
+				} else {
+					Messagebox.show("O registro não pode ser salvo!", "Erro:",
+							Messagebox.OK, Messagebox.ERROR);
+				}
+			}
+		} catch (WrongValueException e) {
+			throw e;
+		} catch (ConcorrenciaException e) {
+			try {
+				Messagebox.show(e.getMessage());
+			} catch (InterruptedException e1) {
+				e1.printStackTrace();
+			}
+		} catch (Exception e) {
+			try {
+				Messagebox.show("O registro não pode ser salvo!", "Erro:",
+						Messagebox.OK, Messagebox.ERROR);
+			} catch (InterruptedException e1) {
+				e1.printStackTrace();
+			}
+
+			e.printStackTrace();
+		}
+		this.limpar();
+	}
+
+	/**
+	 * Metodo apagar()-Metodo responsável em apagar o registro.
+	 **/
+	@Override
+	public void apagar() {
+		Integer qtdreg = 0;
+		try {
+			if (Messagebox.show("Deseja realmente excluir ?", "Aviso!!!",
+					Messagebox.YES | Messagebox.NO, Messagebox.QUESTION) == Messagebox.YES) {
+
+				qtdreg = new ProDAO().delRegConcorrencia(proVO,
+						proVO.getIddpro());
+				if (qtdreg > 0) {
+					Messagebox.show("Registro excluído com sucesso!");
+					this.limpar();
+				} else {
+					Messagebox.show("Registro não pode ser excluído!");
+				}
+			}
+
+		} catch (ConcorrenciaException e) {
+			try {
+				Messagebox.show(e.getMessage());
+			} catch (InterruptedException e1) {
+				e1.printStackTrace();
+			}
+
+		} catch (Exception e) {
+			try {
+				Messagebox.show("Registro não pode ser excluído!");
+			} catch (InterruptedException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 * Metodo limpar()- Metodo reponsável por limpar os campos da tela.
+	 **/
+	@Override
+	public void limpar() {
+
+		this.proVO = new ProVO();
+
+		ctrlBotoesIncAltDel(false);
+		this.vincular();
+	}
+
+	/**
+	 * Metodo pesquisar()- Metodo responsável pela pesquisa.
+	 **/
+	@Override
+	public void pesquisar() {
+
+		Map<String, String> param = new HashMap<String, String>();
+		new WinUtils().abrirLis("/forms/prolis.zul", param, this, "retProVO");
+	}
+
+	/**
+	 * Metodo retProVO()- Metodo de retorno do pesquisar
+	 **/
+	public void retProVO(Object ret) {
+		if (ret != null) {
+
+			this.proVO = (ProVO) ret;
+			ctrlBotoesIncAltDel(true);
+
+			this.vincular();
+		}
+	}
+
+	/**
+	 * Metodo imprimir()-Metodo responsável em chamar o relatório.
+	 **/
+	@Override
+	public void imprimir() {
+	}
+
+	/**
+	 * Metodo trataVO()- Metodo responsável pela validação de alguns campos
+	 * existentes na tela.
+	 **/
+	public boolean trataVO() {
+		if (this.proVO != null) {
+			this.proVO.setUsualt(this.getLogin());
+			this.proVO.setDatalt(WinUtils.getDataBanco());
+
+			this.proVO.setNumpro(this.proVO.getNumpro() == null ? null : proVO
+					.getNumpro().toUpperCase());
+
+			this.proVO.setSitpro(this.proVO.getSitpro() == null ? null : proVO
+					.getSitpro().toUpperCase());
+
+			this.proVO.setClapro(this.proVO.getClapro() == null ? null : proVO
+					.getClapro().toUpperCase());
+
+			this.proVO.setArepro(this.proVO.getArepro() == null ? null : proVO
+					.getArepro().toUpperCase());
+
+			this.proVO.setAsspro(this.proVO.getAsspro() == null ? null : proVO
+					.getAsspro().toUpperCase());
+
+			this.proVO.setConpro(this.proVO.getConpro() == null ? null : proVO
+					.getConpro().toUpperCase());
+
+			this.proVO.setJuipro(this.proVO.getJuipro() == null ? null : proVO
+					.getJuipro().toUpperCase());
+
+			this.proVO.setOripro(this.proVO.getOripro() == null ? null : proVO
+					.getOripro().toUpperCase());
+
+			this.proVO.setNorpro(this.proVO.getNorpro() == null ? null : proVO
+					.getNorpro().toUpperCase());
+
+			this.proVO.setRelpro(this.proVO.getRelpro() == null ? null : proVO
+					.getRelpro().toUpperCase());
+
+			this.proVO.setVappro(this.proVO.getVappro() == null ? null : proVO
+					.getVappro().toUpperCase());
+
+			this.proVO.setOnrpro(this.proVO.getOnrpro() == null ? null : proVO
+					.getOnrpro().toUpperCase());
+
+			this.proVO.setObspro(this.proVO.getObspro() == null ? null : proVO
+					.getObspro().toUpperCase());
+
+			this.proVO.setUsualt(this.proVO.getUsualt() == null ? null : proVO
+					.getUsualt().toUpperCase());
+
+			this.proVO.setNaipro(this.proVO.getNaipro() == null ? null : proVO
+					.getNaipro().toUpperCase());
+
+			this.proVO.setTepro(this.proVO.getTepro() == null ? null : proVO
+					.getTepro().toUpperCase());
+
+			return true;
+		}
+		return false;
+	}
+
+	/**
+	 * Metodo sair()- Metodo responsável por fechar a tela.
+	 **/
+	@Override
+	public void sair() {
+		if (this.abertoPeloMenu) {
+			this.detach();
+		} else {
+			Events.postEvent("onClose", this, this.proVO);
+		}
+	}
+
+}

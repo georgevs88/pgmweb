@@ -1,0 +1,575 @@
+package pmcg.imti.view;
+
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.StringReader;
+import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+
+import org.zkoss.util.media.AMedia;
+import org.zkoss.util.media.Media;
+import org.zkoss.zk.ui.WrongValueException;
+import org.zkoss.zk.ui.event.UploadEvent;
+import org.zkoss.zul.Filedownload;
+import org.zkoss.zul.Messagebox;
+
+import pmcg.framework.ui.WindowCrud;
+import pmcg.framework.util.UploadUtils;
+import pmcg.imti.dao.ibatis.AdebDAO;
+import pmcg.imti.dao.ibatis.AhisDAO;
+import pmcg.imti.dao.ibatis.AlatDAO;
+import pmcg.imti.dao.ibatis.DebDAO;
+import pmcg.imti.dao.ibatis.ImoDAO;
+import pmcg.imti.dao.ibatis.PadDAO;
+import pmcg.imti.dao.ibatis.Projex_DivDAO;
+import pmcg.imti.dao.ibatis.Projex_ProDAO;
+import pmcg.imti.dao.ibatis.RaiDAO;
+import pmcg.imti.dao.ibatis.RemDAO;
+import pmcg.imti.domain.AdebVO;
+import pmcg.imti.domain.AhisVO;
+import pmcg.imti.domain.AlatVO;
+import pmcg.imti.domain.DebVO;
+import pmcg.imti.domain.PadVO;
+import pmcg.imti.domain.Projex_DivVO;
+import pmcg.imti.domain.Projex_ProVO;
+import pmcg.imti.domain.RemVO;
+import pmcg.imti.util.FormatUtils;
+import pmcg.imti.util.Formatacao;
+import pmcg.imti.util.ValidaCpfCnpj;
+
+public class Imparq extends WindowCrud {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	public List<RemVO> listRem;
+	public RemVO remVO = new RemVO(); //nova remessa
+	public String nomeDoArquivoDeb;
+	public String nomeDoArquivoHis;
+	public String nomeDoArquivoLat;
+	public BufferedReader readerDeb;
+	public BufferedReader readerHis;
+	public BufferedReader readerLat;
+	public Boolean modoDesenv = true;
+
+	public void initComponentes() throws SQLException {
+		this.getCrdBar().getBotao(0).setVisible(false);// incluir
+		this.getCrdBar().getBotao(1).setVisible(false);// salvar
+		this.getCrdBar().getBotao(2).setVisible(false);// excluir
+		this.getCrdBar().getBotao(3).setVisible(false);// limpar
+		this.getCrdBar().getBotao(4).setVisible(false);// pesquisar
+		this.getCrdBar().getBotao(5).setVisible(false);// imprimir
+		this.getCrdBar().getBotao(6).setVisible(true);// sair
+		listRem = new RemDAO().getTodos(null);
+		remVO.setDatrem(new Date());
+
+		this.nomeDoArquivoDeb = "Nenhum arquivo selecionado.";
+		this.nomeDoArquivoHis = "Nenhum arquivo selecionado.";
+		this.nomeDoArquivoLat = "Nenhum arquivo selecionado.";
+
+		this.vincular();
+	}
+	
+	public void processarPad() throws SQLException, InterruptedException, IOException{
+		List<PadVO> listPad = new PadDAO().getTodos(null);
+		if(listPad != null && listPad.size() > 0){
+			File file;
+			if(modoDesenv){
+				file = new File("C:\\PGM\\" + new SimpleDateFormat("ddMMyyyy").format(new Date()) + "PAD.txt");
+			} else {
+				file = new File("/tmp/PMCG" + new SimpleDateFormat("ddMMyyyy").format(new Date()) + "PAD.txt");
+			}
+			BufferedWriter buffWrite = new BufferedWriter(new FileWriter(file));
+			Integer count = 1;
+			for(PadVO pad : listPad){
+				HashMap<String, Object> param = new HashMap<String, Object>();
+				param.put("inscricao", new Formatacao().zeroEsquerda(pad.getImopad().replaceAll("-", ""),11)); 
+				param.put("processo", new Formatacao().zeroEsquerda(pad.getPropad().replaceAll("-", "").replaceAll("/", ""),10));
+				HashMap<String, Object> consulta = new RaiDAO().getConteudoArq(param);
+				if(consulta != null && consulta.get("NUMCAD")!=null){
+					String conteudo = consulta.get("CODCAD_TRDEB").toString() + "#" +
+										consulta.get("NUMCAD").toString() + "#" +
+										consulta.get("ANOLAN_TRDEB").toString() + "#" +
+										consulta.get("CODTRB").toString() + "#" +
+										consulta.get("NUMPRE").toString() + "#" +
+										consulta.get("CODDLA").toString() + "#" +
+										consulta.get("SEQLAN").toString() + "#" +
+										consulta.get("NUMPRO").toString() + "#" +
+										consulta.get("ANOPRO").toString() + "#" +
+										consulta.get("DIGPRO").toString() + "#" +
+										consulta.get("DATPRO").toString() + "#" +
+										consulta.get("NUMAUT").toString() + "#" +
+										consulta.get("DATAUT").toString() + "#" +
+										consulta.get("DATCAD").toString();
+							
+					pad.setDespad(conteudo);
+					new PadDAO().updRegByCod(pad);
+					
+					buffWrite.append(conteudo + "\n");
+				}
+				System.out.println("Registro " + count + " de " + listPad.size());
+				count++;
+			}
+			buffWrite.close();
+			new Filedownload().save(new AMedia(file, null, null),"text/plain");
+		}
+	}
+	
+	public void trataVO(){
+		if(remVO.getDatrem() == null){
+			throw new WrongValueException(getComponente("datrem"),"Informe a Data da Remessa!");
+		} 
+		if(remVO.getDtcrem() == null){
+			throw new WrongValueException(getComponente("dtcrem"),"Informe a Data do Cálculo!");
+		}
+		if(remVO.getTiprem() == null){
+			throw new WrongValueException(getComponente("tiprem"),"Informe o Tipo da Remessa!");
+		}
+		if(remVO.getDebrem() == null){
+			throw new WrongValueException(getComponente("imageDeb"),"Adicione o Arquivo DEB!");
+		}
+		if(remVO.getHisrem() == null){
+			throw new WrongValueException(getComponente("imageHis"),"Adicione o Arquivo HIS!");
+		}
+		if(remVO.getLatrem() == null){
+			throw new WrongValueException(getComponente("imageLat"),"Adicione o Arquivo LAT!");
+		}
+		remVO.setUsualt(getLogin());
+	}
+
+	public void uploadDOX(UploadEvent evt, String arquivo){
+		if (evt != null) {
+			List<String> tiposValidos = new ArrayList<String>();
+			tiposValidos.add("TXT");
+			tiposValidos.add("txt");
+			//validaFormato(evt, tiposValidos);
+			
+			Media media = (Media) evt.getMedia();
+			if(!(media.getFormat().equals(tiposValidos.get(0)) || media.getFormat().equals(tiposValidos.get(1)))){
+				try {
+					Messagebox.show("Formato inválido. Formatos validos: .txt");
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+			else{
+			try {
+			if(arquivo.equals("deb")){
+				nomeDoArquivoDeb = media.getName();
+				remVO.setDebrem(nomeDoArquivoDeb);
+				((org.zkoss.zul.Fileupload) getComponente("imageDeb")).setLabel(nomeDoArquivoDeb);
+				byte[] fileDeb = UploadUtils.getBinaryData(media);
+				String deb = new String(fileDeb);
+				readerDeb = new BufferedReader(new StringReader(deb));
+				//System.out.println(teste.substring(0, teste.indexOf("\n")));
+			}
+			else if(arquivo.equals("his")){
+				nomeDoArquivoHis = media.getName();
+				remVO.setHisrem(nomeDoArquivoHis);
+				((org.zkoss.zul.Fileupload) getComponente("imageHis")).setLabel(nomeDoArquivoHis);
+				byte[] fileHis = UploadUtils.getBinaryData(media);
+				String his = new String(fileHis);
+				readerHis = new BufferedReader(new StringReader(his));
+			}
+				else{
+				nomeDoArquivoLat = media.getName();
+				remVO.setLatrem(nomeDoArquivoLat);
+				((org.zkoss.zul.Fileupload) getComponente("imageLat")).setLabel(nomeDoArquivoLat);
+				byte[] fileLat = UploadUtils.getBinaryData(media);
+				String lat = new String(fileLat);
+				readerLat = new BufferedReader(new StringReader(lat));
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}}
+		this.vincular();
+	}
+	
+	public void importar() throws InterruptedException{
+		trataVO();
+		String deb = null;
+		try {
+			deb = readerDeb.readLine();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		AdebDAO adebDAO = new AdebDAO();
+		try {
+			adebDAO.getSqlMap().startTransaction();
+			Long codrem = (Long) new RemDAO().insReg(remVO);
+			
+			while(deb != null){
+			
+			AdebVO debVO = new AdebVO();
+			String[] debs = deb.split("#");
+			debVO.setCodrem(codrem);
+			debVO.setCodcad(debs[0]);
+			debVO.setNumcad(debs[1]);
+			debVO.setCoddeb(debs[2]);
+			debVO.setDatven(debs[3]);
+			debVO.setVallan(debs[4]);
+			debVO.setValatu(debs[5]);
+			debVO.setValjur(debs[6]);
+			debVO.setValcor(debs[7]);
+			
+			new AdebDAO().insRegRestoArquivo(debVO);
+				
+			String his = readerHis.readLine();
+			if(his != null){
+			AhisVO hisVO = new AhisVO();
+			String[] hiss = his.split("#");
+			hisVO.setCodrem(codrem);
+			hisVO.setCodcad(hiss[0]);
+			hisVO.setNumcad(hiss[1]);
+			hisVO.setCoddeb(hiss[2]);
+			hisVO.setCodpro(hiss[3]);
+			hisVO.setDatpro(hiss[4]);
+			hisVO.setNumaut(hiss[5]);
+			hisVO.setDataut(hiss[6]);
+			new AhisDAO().insReg(hisVO);
+			}
+			
+			String lat = readerLat.readLine();
+			if(lat != null){
+				AlatVO latVO = new AlatVO();
+				String[] lats = lat.split("#");
+				latVO.setCodrem(codrem);
+				latVO.setCodcad(lats[0]);
+				latVO.setNumcad(lats[1]);
+				latVO.setCoddeb(lats[2]);
+				latVO.setCodlat(lats[3]);
+				latVO.setNumfol(lats[4]);
+				latVO.setNumins(lats[5]);
+				latVO.setDatins(lats[6]);
+				new AlatDAO().insReg(latVO);
+			}
+			deb = readerDeb.readLine();
+			}
+			
+			processar(codrem); // AQUI LÊ OS REGISTROS E GRAVA NAS TABELAS DE PROCESSOS E DÍVIDAS
+			
+			adebDAO.getSqlMap().commitTransaction();
+			adebDAO.getSqlMap().endTransaction();
+			
+			readerDeb.close();
+			readerHis.close();
+			readerLat.close();
+			
+			listRem = new RemDAO().getTodos(null);
+			vincular();
+			Messagebox.show("Arquivos importados com sucesso!");
+			System.out.println("Arquivos importados com sucesso!");
+			
+		} catch (SQLException e) {
+			Messagebox.show("Erro ao Importar!");
+			e.printStackTrace();
+		} catch (IOException e) {
+			Messagebox.show("Erro ao Importar!");
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			Messagebox.show("Erro ao Importar!");
+			e.printStackTrace();
+		} finally {
+			try {
+				adebDAO.getSqlMap().endTransaction();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+	}
+	
+	public void processar(Long codrem) throws InterruptedException{
+		List<String> listInsc = new AdebDAO().getInscricoesAgrup(codrem);
+		
+		if(listInsc != null && listInsc.size() > 0){
+			try {
+				//LIMPA IMPORTACOES ANTERIORES, SE FOR O CASO
+				new Projex_ProDAO().delImportacao(codrem);
+				new Projex_DivDAO().delImportacao(codrem);
+				
+				// CRIA OS PROCESSOS (AGRUPANDO POR INSCRIÇÃO)
+				Integer count = 1;
+				for(String inscricao : listInsc){
+					System.out.println("Processo " + count + " de " + listInsc.size() + " - Inscrição: " + inscricao);
+					
+					if(inscricao.equalsIgnoreCase("01490060150")){
+						System.out.println("debug");
+					}
+					Projex_ProVO processo = new Projex_ProVO();
+					processo.setCodrem(codrem);
+					processo.setInscricao(inscricao);
+					processo.setId_imovel(Long.parseLong(inscricao));
+					
+					HashMap<String, Object> dadosImovel = new ImoDAO().getDadosImovel(processo.getId_imovel());
+					processo.setRazao_social(dadosImovel.get("NOMRAZ_TRCON").toString());
+					processo.setCpf_cnpj(dadosImovel.get("CPFCGC_TRCON")!=null?FormatUtils.onlyNumbers(dadosImovel.get("CPFCGC_TRCON").toString()):null);
+					if(processo.getCpf_cnpj() != null && (processo.getCpf_cnpj().length() == 11 || processo.getCpf_cnpj().length() == 14)){
+						if(processo.getCpf_cnpj().length() == 11 && ValidaCpfCnpj.validaCPF(processo.getCpf_cnpj())){
+							processo.setCpfcnpj_valido("TRUE");
+						} else if(processo.getCpf_cnpj().length() == 14 && ValidaCpfCnpj.validaCNPJ(processo.getCpf_cnpj())){
+							processo.setCpfcnpj_valido("TRUE");
+						} else {
+							processo.setCpfcnpj_valido("FALSE");
+						}
+					} else {
+						processo.setCpfcnpj_valido("FALSE");
+					}
+					if(processo.getCpf_cnpj() != null && processo.getCpf_cnpj().equalsIgnoreCase("03501509000106")){
+						processo.setId_pessoa(dadosImovel.get("COMPRO_TRIMO")!=null?Long.parseLong(dadosImovel.get("COMPRO_TRIMO").toString()):null);
+					} else {
+						processo.setId_pessoa(dadosImovel.get("PROPRI_TRIMO")!=null?Long.parseLong(dadosImovel.get("PROPRI_TRIMO").toString()):null);
+					}
+					processo.setNumero_processo("999");
+					processo.setData_processo(new Date());
+					processo.setId_modelo_processo(1L);
+					processo.setId_razao_social(dadosImovel.get("PROPRI_TRIMO")!=null?Long.parseLong(dadosImovel.get("PROPRI_TRIMO").toString()):null);
+					processo.setNome_fantasia(dadosImovel.get("NOME_FANTASIA")!=null?dadosImovel.get("NOME_FANTASIA").toString():null);
+					//FUNDO DE ARRENDAMENTO RESIDENCIAL - FAR
+					if(processo.getRazao_social().equalsIgnoreCase("FUNDO DE ARRENDAMENTO RESIDENCIAL - FAR")){
+						processo.setRazao_social("CAIXA ECONÔMICA FEDERAL");
+						processo.setNome_fantasia("CAIXA ECONÔMICA FEDERAL");
+					}
+					processo.setTipo_empresa(dadosImovel.get("TIPO_EMPRESA")!=null?dadosImovel.get("TIPO_EMPRESA").toString():null);
+					processo.setOrgao_doc_ident(dadosImovel.get("ORGAO_DOC_IDENT")!=null?FormatUtils.onlyLetters(dadosImovel.get("ORGAO_DOC_IDENT").toString()):null);
+					processo.setDoc_ident_insc_estadual(dadosImovel.get("DOC_IDENT_INSC_ESTADUAL")!=null?dadosImovel.get("DOC_IDENT_INSC_ESTADUAL").toString():null); 
+					processo.setUf_doc_ident(dadosImovel.get("UF_DOC_IDENT")!=null?FormatUtils.onlyLetters(dadosImovel.get("UF_DOC_IDENT").toString()):null); 
+					processo.setTipo_logradouro(dadosImovel.get("TIPO_LOGRADOURO")!=null?dadosImovel.get("TIPO_LOGRADOURO").toString():null); 
+					processo.setCod_logradouro(dadosImovel.get("COD_LOGRADOURO")!=null?Long.parseLong(dadosImovel.get("COD_LOGRADOURO").toString()):null); 
+					processo.setId_logradouro(dadosImovel.get("ID_LOGRADOURO")!=null?Long.parseLong(dadosImovel.get("ID_LOGRADOURO").toString()):null); 
+					processo.setNome_logradouro(dadosImovel.get("NOME_LOGRADOURO")!=null?dadosImovel.get("NOME_LOGRADOURO").toString():null); 
+					processo.setNumero(dadosImovel.get("NUMERO")!=null?Long.parseLong(dadosImovel.get("NUMERO").toString()):null); 
+					processo.setComplemento(dadosImovel.get("COMPLEMENTO")!=null?dadosImovel.get("COMPLEMENTO").toString():null); 
+					processo.setCod_bairro(dadosImovel.get("COD_BAIRRO")!=null?Long.parseLong(dadosImovel.get("COD_BAIRRO").toString()):null); 
+					processo.setTipo_bairro(dadosImovel.get("TIPO_BAIRRO")!=null?dadosImovel.get("TIPO_BAIRRO").toString():null); 
+					processo.setNome_bairro(dadosImovel.get("NOME_BAIRRO")!=null?dadosImovel.get("NOME_BAIRRO").toString():null); 
+					processo.setCep(dadosImovel.get("CEP")!=null?dadosImovel.get("CEP").toString():null);
+					processo.setId_municipio("1");
+					processo.setCod_municipio("1");
+					processo.setNome_municipio("CAMPO GRANDE");
+					processo.setUf("MS");
+					processo.setSeq("01");
+					processo.setSerie("TRIBUTARIA");
+					processo.setData_ajuizamento(new Date());
+					if(processo.getRazao_social().equalsIgnoreCase("CAIXA ECONÔMICA FEDERAL")){
+						processo.setVara("F"); //FEDERAL
+					} else {
+						processo.setVara("E"); //ESTADUAL
+					}
+					processo.setVerificado("N");
+
+					Long id_processo = (Long) new Projex_ProDAO().insReg(processo);
+					
+					//INSERE AS DIVIDAS
+					List<AdebVO> listDiv = new AdebDAO().getDivByInscricao(new AdebVO(codrem,inscricao));
+					for(AdebVO deb : listDiv){
+						
+						DebVO debTIQU = new DebDAO().getRegByCod(Long.parseLong(deb.getCoddeb()));
+						AhisVO his = new AhisDAO().getRegByCoddeb(new AhisVO(codrem,deb.getCoddeb()));
+						AlatVO lat = new AlatDAO().getRegByCoddeb(new AlatVO(codrem, deb.getCoddeb()));
+						HashMap<String, Object> tipdeb = new DebDAO().getTipoDebito(debTIQU.getCodtrb_trdeb());
+						
+						Projex_DivVO divida = new Projex_DivVO();
+						divida.setCodrem(codrem);
+						divida.setId_processo(id_processo);
+						divida.setCodigo_trdeb(Long.parseLong(deb.getCoddeb()));
+//						divida.setId_lancto(id_lancto); //ARMLancto_Debito -> id_lancto   (IID_LANCTO)
+//						divida.setTipo_lancamento(tipo_lancamento); //ARMLancto_Debito     (
+						divida.setData_lancamento(debTIQU.getDatlan_trdeb()); //ARMLancto_Debito    (DATLAN_TRDEB)
+						divida.setTipo_cadastro(debTIQU.getCodcad_trdeb()); //ARMLancto_Debito    (CODCAD_TRDEB)
+//						divida.setId_cadastro(id_cadastro); //ARMLancto_Debito     (IID_IMOVEL)
+						divida.setExercicio(debTIQU.getAnolan_trdeb()); // ARMLancto_Debito    (ANOLAN_TRDEB)
+						divida.setPeriodo(debTIQU.getNumpre_trdeb()); // ARMLancto_Debito         (NUMPRE_TRDEB)
+						divida.setId_tipo_debito(debTIQU.getCodtrb_trdeb()); //ARMLancto_Debito    (CODTRB_TRDEB)
+						divida.setCod_tipo_debito(tipdeb.get("COD_TIPO_DEBITO")!=null?Long.parseLong(tipdeb.get("COD_TIPO_DEBITO").toString()):null); //  
+						divida.setSigla_debito(tipdeb.get("SIGLA_DEBITO")!=null?tipdeb.get("SIGLA_DEBITO").toString():null); //armtipo_debito
+						divida.setDescricao_tipo_debito(tipdeb.get("DESCRICAO_TIPO_DEBITO")!=null?tipdeb.get("DESCRICAO_TIPO_DEBITO").toString():null); // //armtipo_debito - Descricao
+						divida.setTipo_debito(tipdeb.get("TIPO_DEBITO")!=null?Integer.parseInt(tipdeb.get("TIPO_DEBITO").toString()):null);  //armtipo_debito - TIPO_DEBITO
+						divida.setTipo_periodo(tipdeb.get("TIPO_PERIODO")!=null?Integer.parseInt(tipdeb.get("TIPO_PERIODO").toString()):null);  //armtipo_debito
+						divida.setValor_total(debTIQU.getVallan_trdeb()); // ARMLancto_Debito     (VALLAN_TRDEB)
+						divida.setSigla_moeda("R$"); //ARMLancto_Debito
+						divida.setParcelas(null); //ARMLancto_Debito
+						divida.setTipo_composicao(null); //ARMLancto_Debito
+						divida.setId_contrato_parcto(null); //ARMLancto_Debito
+						divida.setParcela(debTIQU.getNumpre_trdeb()); 
+						divida.setCoddla_trdeb(debTIQU.getCoddla_trdeb()); //ARMLancto_Debito
+						divida.setSeqlan_trdeb(debTIQU.getSeqlan_trdeb()); //ARMLancto_Debito
+						divida.setDigito_trdeb(debTIQU.getDigito_trdeb()); //ARMLancto_Debito
+						divida.setData_vencimento(debTIQU.getDatven_trdeb());  // ARMLancto_Debito
+						divida.setValor_parcela(debTIQU.getVallan_trdeb()); //TRDEB  OU deb.getValLancado()
+						divida.setId_baixa("NULL");
+						divida.setId_arrecadador("NULL");
+						divida.setNome_arrecadador("NULL");
+						divida.setId_tipo_baixa("NULL");
+						divida.setDescricao_tipo_baixa("NULL");
+						divida.setTipo_baixa("NULL");
+						divida.setData_baixa("NULL");
+						divida.setSigla_moeda_baixa("NULL");
+						divida.setValor_parcela_baixa("NULL");
+						divida.setValor_correcao_baixa("NULL");
+						divida.setValor_multa_baixa("NULL");
+						divida.setValor_juros_baixa("NULL");
+						divida.setValor_outros_acrescimos_baixa("NULL");
+						divida.setValor_desconto_baixa("NULL");
+						divida.setValor_total_baixa("NULL");
+						divida.setCobrar_taxa_expediente(tipdeb.get("COBRAR_TAXA_EXPEDIENTE")!=null?tipdeb.get("COBRAR_TAXA_EXPEDIENTE").toString():null); //armtipo_debito
+						divida.setSuspende_execucao("N");
+						if(debTIQU.getCodtrb_trdeb() == 4 || debTIQU.getCodtrb_trdeb() == 44 || debTIQU.getCodtrb_trdeb() == 46){
+							//(4)contribuição de melhorias não tem processo, neste caso estava vindo a legislação
+							//(44,46)parcelamento não tem processo, neste caso estava vindo o agrupamento
+							divida.setNumero_processo_adm(null);
+							divida.setData_processo_adm(null);
+						} else {
+							//SUBSTR(H.CODPROC,3,6) || '/' || SUBSTR(H.CODPROC,1,2) || '-' || SUBSTR(H.CODPROC,9,2)
+							divida.setNumero_processo_adm(his != null && his.getCodpro()!= null?his.getCodpro().substring(2, 8) + "/" + his.getCodpro().substring(0, 2)+ "-" +his.getCodpro().substring(8, 10):null); // JURProcesso_Debito
+							divida.setData_processo_adm(his != null && his.getDatpro()!= null?new SimpleDateFormat("yyyyMMdd").parse(his.getDatpro()):null); //JURProcesso_Debito
+						}
+						
+						divida.setNumero_livro(lat != null && lat.getCodlat()!=null?lat.getCodlat():null); // JURProcesso_Debito
+						divida.setNumero_folha(lat != null && lat.getNumfol()!=null?lat.getNumfol():null); // JURProcesso_Debito
+						divida.setId_inscricao(lat != null && lat.getNumins()!=null?lat.getNumins():null); // JURProcesso_Debito
+						if(his != null && his.getNumaut()!= null){
+							divida.setNumero_auto_infracao(his != null && his.getNumaut()!= null?his.getNumaut():null); // JURProcesso_Debito
+							divida.setData_auto_infracao(his != null && his.getDataut()!=null &&(!his.getDataut().equalsIgnoreCase("00000000"))?new SimpleDateFormat("yyyyMMdd").parse(his.getDataut()):null); // JURProcesso_Debito
+						}
+						divida.setValor_parcela_calc(null);
+						divida.setValor_correcao_calc(deb.getValAtualizado()); //aju_imo -> valatu
+						divida.setValor_multa_calc(null); //aju_imo -> valmul  Double.parseDouble(deb.getValmul())
+						divida.setValor_outros_acrescimos_calc(null);
+						divida.setValor_desconto_calc(null);
+						divida.setValor_total_calc(deb.getValCorrigido()); //aju_imo -> valtotatu
+						divida.setIndice_correcao_calc(null);
+						divida.setIndice_multa_calc(null);
+						divida.setIndice_juros_calc(null);
+						divida.setNinsc(processo.getId_imovel());
+						divida.setCodtrb(debTIQU.getCodtrb_trdeb());
+						if(divida.getCodtrb() == 1 || divida.getCodtrb() == 2){
+							//IPTU
+							switch (divida.getExercicio()) {
+								case 1998: divida.setOrigem("LEI 3.428 DE 24/12/1997, DECRETO 7.587 DE 21/01/1998"); break;
+								case 1999: divida.setOrigem("LEI 3.594 DE 14/12/1998, DECRETO 7.756 DE 28/12/1998"); break;
+								case 2000: divida.setOrigem("LEI 3.702 DE 21/12/1999, DECRETO 7.956 DE 29/12/1999"); break;
+								case 2001: divida.setOrigem("LEI 3.835 DE 28/12/2000, DECRETO 8.126 DE 28/12/2000"); break;
+								case 2002: divida.setOrigem("LEI 3.916 DE 17/12/2001, DECRETO 8.362 DE 26/12/2001"); break;
+								case 2003: divida.setOrigem("LEI 3.993 DE 12/12/2002, DECRETO 8.577 DE 20/12/2002"); break;
+								case 2004: divida.setOrigem("LEI 4.112 DE 04/12/2003, DECRETO 8.834 DE 19/12/2003"); break;
+								case 2005: divida.setOrigem("LEI 4.240 DE 06/12/2004, DECRETO 9.078 DE 08/12/2004"); break;
+								case 2006: divida.setOrigem("LEI 4.343 DE 29/11/2005, DECRETO 9.462 DE 12/12/2005"); break;
+								case 2007: divida.setOrigem("LEI 4.422 DE 08/12/2006, DECRETO 9.796 DE 14/12/2006"); break;
+								case 2008: divida.setOrigem("LEI 4.583 DE 21/12/2007, DECRETO 10.318 DE 28/12/2007"); break;
+								case 2009: divida.setOrigem("LEI 4.695 DE 19/12/2008, DECRETO 10.701 DE 30/12/2008"); break;
+								case 2010: divida.setOrigem("LEI 4.799 DE 23/12/2009, DECRETO 11.082 DE 06/01/2010"); break;
+								case 2011: divida.setOrigem("LEI 4.920 DE 28/12/2010, DECRETO 11.414 DE 30/12/2010"); break;
+								case 2012: divida.setOrigem("LEI 5.017 DE 12/12/2011, DECRETO 11.709 DE 28/12/2011"); break;
+					        }
+						} else if(divida.getCodtrb() == 4 || divida.getCodtrb() == 55 || divida.getCodtrb() == 59){
+							//SETAR A ORIGEM DAS MELHORIAS COM O DECRETO ESPECÍFICO DA ÁREA (TRIBUTOS 4,55,59)
+							//Function RECUPERA_DECRETOS_MELHORIAS(P.INSCRICAO));
+							// SE NÃO ACHAR COLOCA O DECRETO GERAL
+							divida.setOrigem(new ImoDAO().getOrigemMelhorias(inscricao));
+							if(divida.getOrigem() == null || divida.getOrigem().trim().isEmpty()){
+								divida.setOrigem("DECRETO 9.674 DE 20/07/2006");
+							}
+						} else if(divida.getCodtrb() == 44 || divida.getCodtrb() == 46){
+							//SETAR A ORIGEM DOS PARCELAMENTOS (TRIBUTOS 44,46)
+							/* PASSO 1:
+							CRIAR AS TABELAS TEMPORÁRIAS TMP_VTIQPAR, TMP_VTIQPCL E TMP_VTIQPRC
+							COM O CONTEÚDO DAS VIEWS VTIQPAR, VTIQPCL E VTIQPRC RESPECTIVAMENTE (ESSAS VIEWS FICAM NO TIQV):
+							
+							CREATE TABLE TMP_VTIQPAR AS SELECT * FROM VTIQPAR@LNKTIQV;
+							CREATE TABLE TMP_VTIQPCL AS SELECT * FROM VTIQPCL@LNKTIQV;
+							CREATE TABLE TMP_VTIQPRC AS SELECT * FROM VTIQPRC@LNKTIQV;
+							
+							origem = get_origem_parcela(a.inscric,a.coddeb)
+							se nao achar, buscar o debito de origem e fazer novamente:
+							origem = get_origem_parcela(a.inscric,debito_origem)
+							
+							*/
+							HashMap<String, Object> param = new HashMap<String, Object>();
+							param.put("insmun", inscricao); 
+							param.put("coddeb", deb.getCoddeb());
+							divida.setOrigem(new ImoDAO().getOrigemParcela(param));
+						}
+						divida.setOrigem(divida.getOrigem()!=null?divida.getOrigem().replaceAll("N° ", ""):null); // CARACTER DÁ PAU NO PDF
+						divida.setValor_juros_calc(deb.getValJuros()); //aju_imo -> valjur
+						divida.setValores("<b>VLR. LAN.:</b>" + valorMonetario(divida.getValor_parcela()) + "&nbsp;&nbsp;" +
+								          "<b>VLR. ATU.:</b>" + valorMonetario(divida.getValor_correcao_calc()) + "&nbsp;&nbsp;" +
+								          "<b>VLR. JUROS:</b>" + valorMonetario(divida.getValor_juros_calc()) + "&nbsp;&nbsp;" +
+								          "<b>VLR. MULTA:</b>" + valorMonetario(divida.getValor_multa_calc()) + "&nbsp;&nbsp;" +
+								          "<b>VLR. TOTAL:</b>" + valorMonetario(divida.getValor_total_calc()));
+						
+						new Projex_DivDAO().insReg(divida);
+					}
+					count++;
+				}
+			} catch (SQLException e) {
+				Messagebox.show("Erro ao Processar!");
+				System.out.println("Erro ao Processar!");
+				e.printStackTrace();
+			} catch (ParseException e) {
+				Messagebox.show("Erro ao Processar!");
+				System.out.println("Erro ao Processar!");
+				e.printStackTrace();
+			}
+		}
+		this.vincular();
+	}
+
+	public static String valorMonetario(Double numero) {
+		  if(numero != null){
+			  return String.format("%1$,.2f", numero);
+		  } else {
+			  return "0,00";
+		  }
+	}
+
+	@Override
+	public void apagar() throws InterruptedException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void imprimir() throws InterruptedException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void incluir() throws InterruptedException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void limpar() throws InterruptedException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void pesquisar() throws InterruptedException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void sair() throws InterruptedException {
+		this.detach();
+	}
+
+	@Override
+	public void salvar() throws InterruptedException {
+		// TODO Auto-generated method stub
+		
+	}
+}

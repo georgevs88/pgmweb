@@ -1,0 +1,1186 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<wsdl:definitions xmlns:soap11="http://schemas.xmlsoap.org/soap/envelope/" xmlns:soap12="http://www.w3.org/2003/05/soap-envelope" xmlns:soapenc11="http://schemas.xmlsoap.org/soap/encoding/" xmlns:soapenc12="http://www.w3.org/2003/05/soap-encoding" xmlns:tns="ServicoPJ2" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsdlsoap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:xsd="http://www.w3.org/2001/XMLSchema" targetNamespace="ServicoPJ2">
+  <wsdl:types>
+<xsd:schema attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="ServicoPJ2">
+<xsd:element name="ajuizar">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element maxOccurs="1" minOccurs="1" name="in0" nillable="true" type="xsd:string"/>
+<xsd:element maxOccurs="1" minOccurs="1" name="in1" nillable="true" type="xsd:string"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="ajuizarResponse">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element maxOccurs="1" minOccurs="1" name="out" nillable="true" type="xsd:string"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="confirmaLogon">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element maxOccurs="1" minOccurs="1" name="in0" nillable="true" type="xsd:string"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="confirmaLogonResponse">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element maxOccurs="1" minOccurs="1" name="out" nillable="true" type="xsd:string"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="getClasseTpParte">
+<xsd:complexType/>
+</xsd:element>
+<xsd:element name="getClasseTpParteResponse">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element maxOccurs="1" minOccurs="1" name="out" nillable="true" type="xsd:string"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="peticionarIntermediariaDiversa">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element maxOccurs="1" minOccurs="1" name="in0" nillable="true" type="xsd:string"/>
+<xsd:element maxOccurs="1" minOccurs="1" name="in1" nillable="true" type="xsd:string"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="peticionarIntermediariaDiversaResponse">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element maxOccurs="1" minOccurs="1" name="out" nillable="true" type="xsd:string"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="SolicitacaoDadosDistribuicao">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element maxOccurs="1" minOccurs="1" name="in0" nillable="true" type="xsd:string"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="SolicitacaoDadosDistribuicaoResponse">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element maxOccurs="1" minOccurs="1" name="out" nillable="true" type="xsd:string"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="peticionarIntermediaria">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element maxOccurs="1" minOccurs="1" name="in0" nillable="true" type="xsd:string"/>
+<xsd:element maxOccurs="1" minOccurs="1" name="in1" nillable="true" type="xsd:string"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="peticionarIntermediariaResponse">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element maxOccurs="1" minOccurs="1" name="out" nillable="true" type="xsd:string"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="getAreasCompetenciasClassesEAssuntos">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element maxOccurs="1" minOccurs="1" name="in0" nillable="true" type="xsd:int"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="getAreasCompetenciasClassesEAssuntosResponse">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element maxOccurs="1" minOccurs="1" name="out" nillable="true" type="xsd:string"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="getAssuntos">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element maxOccurs="1" minOccurs="1" name="in0" nillable="true" type="xsd:int"/>
+<xsd:element maxOccurs="1" minOccurs="1" name="in1" nillable="true" type="xsd:int"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="getAssuntosResponse">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element maxOccurs="1" minOccurs="1" name="out" nillable="true" type="xsd:string"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="SolicitacaoIntimacaoAto">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element maxOccurs="1" minOccurs="1" name="in0" nillable="true" type="xsd:string"/>
+<xsd:element maxOccurs="1" minOccurs="1" name="in1" nillable="true" type="xsd:string"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="SolicitacaoIntimacaoAtoResponse">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element maxOccurs="1" minOccurs="1" name="out" nillable="true" type="xsd:string"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="solicitacaoDocCienciaAto">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element maxOccurs="1" minOccurs="1" name="in0" nillable="true" type="xsd:string"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="solicitacaoDocCienciaAtoResponse">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element maxOccurs="1" minOccurs="1" name="out" nillable="true" type="xsd:string"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="ConsultaProcessoSGCR">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element maxOccurs="1" minOccurs="1" name="in0" nillable="true" type="xsd:string"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="ConsultaProcessoSGCRResponse">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element maxOccurs="1" minOccurs="1" name="out" nillable="true" type="xsd:string"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="ConfirmaLogon">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element maxOccurs="1" minOccurs="1" name="in0" nillable="true" type="xsd:string"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="ConfirmaLogonResponse">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element maxOccurs="1" minOccurs="1" name="out" nillable="true" type="xsd:string"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="getDadosProcesso">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element maxOccurs="1" minOccurs="1" name="in0" nillable="true" type="xsd:string"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="getDadosProcessoResponse">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element maxOccurs="1" minOccurs="1" name="out" nillable="true" type="xsd:string"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="SolicitaLogon">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element maxOccurs="1" minOccurs="1" name="in0" nillable="true" type="xsd:string"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="SolicitaLogonResponse">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element maxOccurs="1" minOccurs="1" name="out" nillable="true" type="xsd:string"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="SolicitacaoCitacaoCiencia">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element maxOccurs="1" minOccurs="1" name="in0" nillable="true" type="xsd:string"/>
+<xsd:element maxOccurs="1" minOccurs="1" name="in1" nillable="true" type="xsd:string"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="SolicitacaoCitacaoCienciaResponse">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element maxOccurs="1" minOccurs="1" name="out" nillable="true" type="xsd:string"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="logon">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element maxOccurs="1" minOccurs="1" name="in0" nillable="true" type="xsd:string"/>
+<xsd:element maxOccurs="1" minOccurs="1" name="in1" nillable="true" type="xsd:string"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="logonResponse">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element maxOccurs="1" minOccurs="1" name="out" type="xsd:boolean"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="SolicitacaoIntimacaoCiencia">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element maxOccurs="1" minOccurs="1" name="in0" nillable="true" type="xsd:string"/>
+<xsd:element maxOccurs="1" minOccurs="1" name="in1" nillable="true" type="xsd:string"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="SolicitacaoIntimacaoCienciaResponse">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element maxOccurs="1" minOccurs="1" name="out" nillable="true" type="xsd:string"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="ConsultaProcessoSG">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element maxOccurs="1" minOccurs="1" name="in0" nillable="true" type="xsd:string"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="ConsultaProcessoSGResponse">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element maxOccurs="1" minOccurs="1" name="out" nillable="true" type="xsd:string"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="getAreasCompetenciasEClasses">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element maxOccurs="1" minOccurs="1" name="in0" nillable="true" type="xsd:int"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="getAreasCompetenciasEClassesResponse">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element maxOccurs="1" minOccurs="1" name="out" nillable="true" type="xsd:string"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="solicitaLogon">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element maxOccurs="1" minOccurs="1" name="in0" nillable="true" type="xsd:string"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="solicitaLogonResponse">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element maxOccurs="1" minOccurs="1" name="out" nillable="true" type="xsd:string"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="getTiposDocDigital">
+<xsd:complexType/>
+</xsd:element>
+<xsd:element name="getTiposDocDigitalResponse">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element maxOccurs="1" minOccurs="1" name="out" nillable="true" type="xsd:string"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="getCategoriasEClasses">
+<xsd:complexType/>
+</xsd:element>
+<xsd:element name="getCategoriasEClassesResponse">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element maxOccurs="1" minOccurs="1" name="out" nillable="true" type="xsd:string"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="getTodosAssuntos">
+<xsd:complexType/>
+</xsd:element>
+<xsd:element name="getTodosAssuntosResponse">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element maxOccurs="1" minOccurs="1" name="out" nillable="true" type="xsd:string"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="SolicitacaoIntimacaoAutoConfirmada">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element maxOccurs="1" minOccurs="1" name="in0" nillable="true" type="xsd:string"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="SolicitacaoIntimacaoAutoConfirmadaResponse">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element maxOccurs="1" minOccurs="1" name="out" nillable="true" type="xsd:string"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="getComarcas">
+<xsd:complexType/>
+</xsd:element>
+<xsd:element name="getComarcasResponse">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element maxOccurs="1" minOccurs="1" name="out" nillable="true" type="xsd:string"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="SolicitaListaIntimacoesAguardandoCiencia">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element maxOccurs="1" minOccurs="1" name="in0" nillable="true" type="xsd:string"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="SolicitaListaIntimacoesAguardandoCienciaResponse">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element maxOccurs="1" minOccurs="1" name="out" nillable="true" type="xsd:string"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="SolicitaListaCitacoesAguardandoCiencia">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element maxOccurs="1" minOccurs="1" name="in0" nillable="true" type="xsd:string"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="SolicitaListaCitacoesAguardandoCienciaResponse">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element maxOccurs="1" minOccurs="1" name="out" nillable="true" type="xsd:string"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="getForosEVaras">
+<xsd:complexType/>
+</xsd:element>
+<xsd:element name="getForosEVarasResponse">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element maxOccurs="1" minOccurs="1" name="out" nillable="true" type="xsd:string"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="getTiposDiversas">
+<xsd:complexType/>
+</xsd:element>
+<xsd:element name="getTiposDiversasResponse">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element maxOccurs="1" minOccurs="1" name="out" nillable="true" type="xsd:string"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="SolicitacaoCitacaoAto">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element maxOccurs="1" minOccurs="1" name="in0" nillable="true" type="xsd:string"/>
+<xsd:element maxOccurs="1" minOccurs="1" name="in1" nillable="true" type="xsd:string"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="SolicitacaoCitacaoAtoResponse">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element maxOccurs="1" minOccurs="1" name="out" nillable="true" type="xsd:string"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="SolicitacaoCitacaoAutoConfirmada">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element maxOccurs="1" minOccurs="1" name="in0" nillable="true" type="xsd:string"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="SolicitacaoCitacaoAutoConfirmadaResponse">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element maxOccurs="1" minOccurs="1" name="out" nillable="true" type="xsd:string"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="obterNumeroUnificadoDoProcesso">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element maxOccurs="1" minOccurs="1" name="in0" nillable="true" type="xsd:string"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="obterNumeroUnificadoDoProcessoResponse">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element maxOccurs="1" minOccurs="1" name="out" nillable="true" type="xsd:string"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="obterNumeroSajDoProcesso">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element maxOccurs="1" minOccurs="1" name="in0" nillable="true" type="xsd:string"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="obterNumeroSajDoProcessoResponse">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element maxOccurs="1" minOccurs="1" name="out" nillable="true" type="xsd:string"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="SolicitacaoQtdIntimacoes">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element maxOccurs="1" minOccurs="1" name="in0" nillable="true" type="xsd:string"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="SolicitacaoQtdIntimacoesResponse">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element maxOccurs="1" minOccurs="1" name="out" nillable="true" type="xsd:string"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="obterDocumentoAnexoAoAto">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element maxOccurs="1" minOccurs="1" name="in0" nillable="true" type="xsd:string"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="obterDocumentoAnexoAoAtoResponse">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element maxOccurs="1" minOccurs="1" name="out" nillable="true" type="xsd:string"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="ConsultaPeticao">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element maxOccurs="1" minOccurs="1" name="in0" nillable="true" type="xsd:string"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+<xsd:element name="ConsultaPeticaoResponse">
+<xsd:complexType>
+<xsd:sequence>
+<xsd:element maxOccurs="1" minOccurs="1" name="out" nillable="true" type="xsd:string"/>
+</xsd:sequence>
+</xsd:complexType>
+</xsd:element>
+</xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="ConsultaProcessoSGCRResponse">
+    <wsdl:part element="tns:ConsultaProcessoSGCRResponse" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="solicitaLogonRequest">
+    <wsdl:part element="tns:solicitaLogon" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="obterNumeroSajDoProcessoRequest">
+    <wsdl:part element="tns:obterNumeroSajDoProcesso" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="SolicitaListaIntimacoesAguardandoCienciaResponse">
+    <wsdl:part element="tns:SolicitaListaIntimacoesAguardandoCienciaResponse" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="SolicitaLogonResponse">
+    <wsdl:part element="tns:SolicitaLogonResponse" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="obterDocumentoAnexoAoAtoRequest">
+    <wsdl:part element="tns:obterDocumentoAnexoAoAto" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="logonResponse">
+    <wsdl:part element="tns:logonResponse" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="SolicitacaoCitacaoAutoConfirmadaRequest">
+    <wsdl:part element="tns:SolicitacaoCitacaoAutoConfirmada" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="ConfirmaLogonResponse">
+    <wsdl:part element="tns:ConfirmaLogonResponse" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="getTiposDiversasRequest">
+    <wsdl:part element="tns:getTiposDiversas" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="getClasseTpParteRequest">
+    <wsdl:part element="tns:getClasseTpParte" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="obterNumeroUnificadoDoProcessoResponse">
+    <wsdl:part element="tns:obterNumeroUnificadoDoProcessoResponse" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="SolicitacaoDadosDistribuicaoResponse">
+    <wsdl:part element="tns:SolicitacaoDadosDistribuicaoResponse" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="logonRequest">
+    <wsdl:part element="tns:logon" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="SolicitacaoIntimacaoCienciaRequest">
+    <wsdl:part element="tns:SolicitacaoIntimacaoCiencia" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="ConsultaPeticaoResponse">
+    <wsdl:part element="tns:ConsultaPeticaoResponse" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="ConsultaPeticaoRequest">
+    <wsdl:part element="tns:ConsultaPeticao" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="SolicitacaoQtdIntimacoesRequest">
+    <wsdl:part element="tns:SolicitacaoQtdIntimacoes" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="obterNumeroUnificadoDoProcessoRequest">
+    <wsdl:part element="tns:obterNumeroUnificadoDoProcesso" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="solicitaLogonResponse">
+    <wsdl:part element="tns:solicitaLogonResponse" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="getForosEVarasResponse">
+    <wsdl:part element="tns:getForosEVarasResponse" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="SolicitaListaIntimacoesAguardandoCienciaRequest">
+    <wsdl:part element="tns:SolicitaListaIntimacoesAguardandoCiencia" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="getTiposDocDigitalResponse">
+    <wsdl:part element="tns:getTiposDocDigitalResponse" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="peticionarIntermediariaResponse">
+    <wsdl:part element="tns:peticionarIntermediariaResponse" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="getAssuntosResponse">
+    <wsdl:part element="tns:getAssuntosResponse" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="getAreasCompetenciasClassesEAssuntosRequest">
+    <wsdl:part element="tns:getAreasCompetenciasClassesEAssuntos" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="getCategoriasEClassesRequest">
+    <wsdl:part element="tns:getCategoriasEClasses" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="SolicitaListaCitacoesAguardandoCienciaRequest">
+    <wsdl:part element="tns:SolicitaListaCitacoesAguardandoCiencia" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="peticionarIntermediariaDiversaRequest">
+    <wsdl:part element="tns:peticionarIntermediariaDiversa" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="getComarcasResponse">
+    <wsdl:part element="tns:getComarcasResponse" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="SolicitacaoDadosDistribuicaoRequest">
+    <wsdl:part element="tns:SolicitacaoDadosDistribuicao" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="ConfirmaLogonRequest">
+    <wsdl:part element="tns:ConfirmaLogon" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="SolicitacaoIntimacaoAutoConfirmadaResponse">
+    <wsdl:part element="tns:SolicitacaoIntimacaoAutoConfirmadaResponse" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="getDadosProcessoResponse">
+    <wsdl:part element="tns:getDadosProcessoResponse" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="solicitacaoDocCienciaAtoResponse">
+    <wsdl:part element="tns:solicitacaoDocCienciaAtoResponse" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="confirmaLogonRequest">
+    <wsdl:part element="tns:confirmaLogon" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="obterDocumentoAnexoAoAtoResponse">
+    <wsdl:part element="tns:obterDocumentoAnexoAoAtoResponse" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="getForosEVarasRequest">
+    <wsdl:part element="tns:getForosEVaras" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="SolicitacaoCitacaoAtoRequest">
+    <wsdl:part element="tns:SolicitacaoCitacaoAto" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="getDadosProcessoRequest">
+    <wsdl:part element="tns:getDadosProcesso" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="getTiposDocDigitalRequest">
+    <wsdl:part element="tns:getTiposDocDigital" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="SolicitacaoCitacaoCienciaResponse">
+    <wsdl:part element="tns:SolicitacaoCitacaoCienciaResponse" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="ConsultaProcessoSGRequest">
+    <wsdl:part element="tns:ConsultaProcessoSG" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="confirmaLogonResponse">
+    <wsdl:part element="tns:confirmaLogonResponse" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="SolicitacaoCitacaoAtoResponse">
+    <wsdl:part element="tns:SolicitacaoCitacaoAtoResponse" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="SolicitaListaCitacoesAguardandoCienciaResponse">
+    <wsdl:part element="tns:SolicitaListaCitacoesAguardandoCienciaResponse" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="SolicitacaoIntimacaoAtoRequest">
+    <wsdl:part element="tns:SolicitacaoIntimacaoAto" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="ConsultaProcessoSGResponse">
+    <wsdl:part element="tns:ConsultaProcessoSGResponse" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="getCategoriasEClassesResponse">
+    <wsdl:part element="tns:getCategoriasEClassesResponse" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="SolicitacaoIntimacaoAtoResponse">
+    <wsdl:part element="tns:SolicitacaoIntimacaoAtoResponse" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="getTodosAssuntosRequest">
+    <wsdl:part element="tns:getTodosAssuntos" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="SolicitacaoIntimacaoAutoConfirmadaRequest">
+    <wsdl:part element="tns:SolicitacaoIntimacaoAutoConfirmada" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="getTiposDiversasResponse">
+    <wsdl:part element="tns:getTiposDiversasResponse" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="obterNumeroSajDoProcessoResponse">
+    <wsdl:part element="tns:obterNumeroSajDoProcessoResponse" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="solicitacaoDocCienciaAtoRequest">
+    <wsdl:part element="tns:solicitacaoDocCienciaAto" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="getClasseTpParteResponse">
+    <wsdl:part element="tns:getClasseTpParteResponse" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="ConsultaProcessoSGCRRequest">
+    <wsdl:part element="tns:ConsultaProcessoSGCR" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="ajuizarRequest">
+    <wsdl:part element="tns:ajuizar" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="ajuizarResponse">
+    <wsdl:part element="tns:ajuizarResponse" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="peticionarIntermediariaRequest">
+    <wsdl:part element="tns:peticionarIntermediaria" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="getAreasCompetenciasEClassesResponse">
+    <wsdl:part element="tns:getAreasCompetenciasEClassesResponse" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="getComarcasRequest">
+    <wsdl:part element="tns:getComarcas" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="SolicitacaoQtdIntimacoesResponse">
+    <wsdl:part element="tns:SolicitacaoQtdIntimacoesResponse" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="SolicitaLogonRequest">
+    <wsdl:part element="tns:SolicitaLogon" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="getAreasCompetenciasClassesEAssuntosResponse">
+    <wsdl:part element="tns:getAreasCompetenciasClassesEAssuntosResponse" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="peticionarIntermediariaDiversaResponse">
+    <wsdl:part element="tns:peticionarIntermediariaDiversaResponse" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="getAssuntosRequest">
+    <wsdl:part element="tns:getAssuntos" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="getTodosAssuntosResponse">
+    <wsdl:part element="tns:getTodosAssuntosResponse" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="SolicitacaoCitacaoCienciaRequest">
+    <wsdl:part element="tns:SolicitacaoCitacaoCiencia" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="SolicitacaoCitacaoAutoConfirmadaResponse">
+    <wsdl:part element="tns:SolicitacaoCitacaoAutoConfirmadaResponse" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="SolicitacaoIntimacaoCienciaResponse">
+    <wsdl:part element="tns:SolicitacaoIntimacaoCienciaResponse" name="parameters"/>
+  </wsdl:message>
+  <wsdl:message name="getAreasCompetenciasEClassesRequest">
+    <wsdl:part element="tns:getAreasCompetenciasEClasses" name="parameters"/>
+  </wsdl:message>
+  <wsdl:portType name="ServicoPJ2PortType">
+    <wsdl:operation name="ajuizar">
+      <wsdl:input message="tns:ajuizarRequest" name="ajuizarRequest"/>
+      <wsdl:output message="tns:ajuizarResponse" name="ajuizarResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="confirmaLogon">
+      <wsdl:input message="tns:confirmaLogonRequest" name="confirmaLogonRequest"/>
+      <wsdl:output message="tns:confirmaLogonResponse" name="confirmaLogonResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="getClasseTpParte">
+      <wsdl:input message="tns:getClasseTpParteRequest" name="getClasseTpParteRequest"/>
+      <wsdl:output message="tns:getClasseTpParteResponse" name="getClasseTpParteResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="peticionarIntermediariaDiversa">
+      <wsdl:input message="tns:peticionarIntermediariaDiversaRequest" name="peticionarIntermediariaDiversaRequest"/>
+      <wsdl:output message="tns:peticionarIntermediariaDiversaResponse" name="peticionarIntermediariaDiversaResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="SolicitacaoDadosDistribuicao">
+      <wsdl:input message="tns:SolicitacaoDadosDistribuicaoRequest" name="SolicitacaoDadosDistribuicaoRequest"/>
+      <wsdl:output message="tns:SolicitacaoDadosDistribuicaoResponse" name="SolicitacaoDadosDistribuicaoResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="peticionarIntermediaria">
+      <wsdl:input message="tns:peticionarIntermediariaRequest" name="peticionarIntermediariaRequest"/>
+      <wsdl:output message="tns:peticionarIntermediariaResponse" name="peticionarIntermediariaResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="getAreasCompetenciasClassesEAssuntos">
+      <wsdl:input message="tns:getAreasCompetenciasClassesEAssuntosRequest" name="getAreasCompetenciasClassesEAssuntosRequest"/>
+      <wsdl:output message="tns:getAreasCompetenciasClassesEAssuntosResponse" name="getAreasCompetenciasClassesEAssuntosResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="getAssuntos">
+      <wsdl:input message="tns:getAssuntosRequest" name="getAssuntosRequest"/>
+      <wsdl:output message="tns:getAssuntosResponse" name="getAssuntosResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="SolicitacaoIntimacaoAto">
+      <wsdl:input message="tns:SolicitacaoIntimacaoAtoRequest" name="SolicitacaoIntimacaoAtoRequest"/>
+      <wsdl:output message="tns:SolicitacaoIntimacaoAtoResponse" name="SolicitacaoIntimacaoAtoResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="solicitacaoDocCienciaAto">
+      <wsdl:input message="tns:solicitacaoDocCienciaAtoRequest" name="solicitacaoDocCienciaAtoRequest"/>
+      <wsdl:output message="tns:solicitacaoDocCienciaAtoResponse" name="solicitacaoDocCienciaAtoResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultaProcessoSGCR">
+      <wsdl:input message="tns:ConsultaProcessoSGCRRequest" name="ConsultaProcessoSGCRRequest"/>
+      <wsdl:output message="tns:ConsultaProcessoSGCRResponse" name="ConsultaProcessoSGCRResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="ConfirmaLogon">
+      <wsdl:input message="tns:ConfirmaLogonRequest" name="ConfirmaLogonRequest"/>
+      <wsdl:output message="tns:ConfirmaLogonResponse" name="ConfirmaLogonResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="getDadosProcesso">
+      <wsdl:input message="tns:getDadosProcessoRequest" name="getDadosProcessoRequest"/>
+      <wsdl:output message="tns:getDadosProcessoResponse" name="getDadosProcessoResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="SolicitaLogon">
+      <wsdl:input message="tns:SolicitaLogonRequest" name="SolicitaLogonRequest"/>
+      <wsdl:output message="tns:SolicitaLogonResponse" name="SolicitaLogonResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="SolicitacaoCitacaoCiencia">
+      <wsdl:input message="tns:SolicitacaoCitacaoCienciaRequest" name="SolicitacaoCitacaoCienciaRequest"/>
+      <wsdl:output message="tns:SolicitacaoCitacaoCienciaResponse" name="SolicitacaoCitacaoCienciaResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="logon">
+      <wsdl:input message="tns:logonRequest" name="logonRequest"/>
+      <wsdl:output message="tns:logonResponse" name="logonResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="SolicitacaoIntimacaoCiencia">
+      <wsdl:input message="tns:SolicitacaoIntimacaoCienciaRequest" name="SolicitacaoIntimacaoCienciaRequest"/>
+      <wsdl:output message="tns:SolicitacaoIntimacaoCienciaResponse" name="SolicitacaoIntimacaoCienciaResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultaProcessoSG">
+      <wsdl:input message="tns:ConsultaProcessoSGRequest" name="ConsultaProcessoSGRequest"/>
+      <wsdl:output message="tns:ConsultaProcessoSGResponse" name="ConsultaProcessoSGResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="getAreasCompetenciasEClasses">
+      <wsdl:input message="tns:getAreasCompetenciasEClassesRequest" name="getAreasCompetenciasEClassesRequest"/>
+      <wsdl:output message="tns:getAreasCompetenciasEClassesResponse" name="getAreasCompetenciasEClassesResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="solicitaLogon">
+      <wsdl:input message="tns:solicitaLogonRequest" name="solicitaLogonRequest"/>
+      <wsdl:output message="tns:solicitaLogonResponse" name="solicitaLogonResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="getTiposDocDigital">
+      <wsdl:input message="tns:getTiposDocDigitalRequest" name="getTiposDocDigitalRequest"/>
+      <wsdl:output message="tns:getTiposDocDigitalResponse" name="getTiposDocDigitalResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="getCategoriasEClasses">
+      <wsdl:input message="tns:getCategoriasEClassesRequest" name="getCategoriasEClassesRequest"/>
+      <wsdl:output message="tns:getCategoriasEClassesResponse" name="getCategoriasEClassesResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="getTodosAssuntos">
+      <wsdl:input message="tns:getTodosAssuntosRequest" name="getTodosAssuntosRequest"/>
+      <wsdl:output message="tns:getTodosAssuntosResponse" name="getTodosAssuntosResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="SolicitacaoIntimacaoAutoConfirmada">
+      <wsdl:input message="tns:SolicitacaoIntimacaoAutoConfirmadaRequest" name="SolicitacaoIntimacaoAutoConfirmadaRequest"/>
+      <wsdl:output message="tns:SolicitacaoIntimacaoAutoConfirmadaResponse" name="SolicitacaoIntimacaoAutoConfirmadaResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="getComarcas">
+      <wsdl:input message="tns:getComarcasRequest" name="getComarcasRequest"/>
+      <wsdl:output message="tns:getComarcasResponse" name="getComarcasResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="SolicitaListaIntimacoesAguardandoCiencia">
+      <wsdl:input message="tns:SolicitaListaIntimacoesAguardandoCienciaRequest" name="SolicitaListaIntimacoesAguardandoCienciaRequest"/>
+      <wsdl:output message="tns:SolicitaListaIntimacoesAguardandoCienciaResponse" name="SolicitaListaIntimacoesAguardandoCienciaResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="SolicitaListaCitacoesAguardandoCiencia">
+      <wsdl:input message="tns:SolicitaListaCitacoesAguardandoCienciaRequest" name="SolicitaListaCitacoesAguardandoCienciaRequest"/>
+      <wsdl:output message="tns:SolicitaListaCitacoesAguardandoCienciaResponse" name="SolicitaListaCitacoesAguardandoCienciaResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="getForosEVaras">
+      <wsdl:input message="tns:getForosEVarasRequest" name="getForosEVarasRequest"/>
+      <wsdl:output message="tns:getForosEVarasResponse" name="getForosEVarasResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="getTiposDiversas">
+      <wsdl:input message="tns:getTiposDiversasRequest" name="getTiposDiversasRequest"/>
+      <wsdl:output message="tns:getTiposDiversasResponse" name="getTiposDiversasResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="SolicitacaoCitacaoAto">
+      <wsdl:input message="tns:SolicitacaoCitacaoAtoRequest" name="SolicitacaoCitacaoAtoRequest"/>
+      <wsdl:output message="tns:SolicitacaoCitacaoAtoResponse" name="SolicitacaoCitacaoAtoResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="SolicitacaoCitacaoAutoConfirmada">
+      <wsdl:input message="tns:SolicitacaoCitacaoAutoConfirmadaRequest" name="SolicitacaoCitacaoAutoConfirmadaRequest"/>
+      <wsdl:output message="tns:SolicitacaoCitacaoAutoConfirmadaResponse" name="SolicitacaoCitacaoAutoConfirmadaResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="obterNumeroUnificadoDoProcesso">
+      <wsdl:input message="tns:obterNumeroUnificadoDoProcessoRequest" name="obterNumeroUnificadoDoProcessoRequest"/>
+      <wsdl:output message="tns:obterNumeroUnificadoDoProcessoResponse" name="obterNumeroUnificadoDoProcessoResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="obterNumeroSajDoProcesso">
+      <wsdl:input message="tns:obterNumeroSajDoProcessoRequest" name="obterNumeroSajDoProcessoRequest"/>
+      <wsdl:output message="tns:obterNumeroSajDoProcessoResponse" name="obterNumeroSajDoProcessoResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="SolicitacaoQtdIntimacoes">
+      <wsdl:input message="tns:SolicitacaoQtdIntimacoesRequest" name="SolicitacaoQtdIntimacoesRequest"/>
+      <wsdl:output message="tns:SolicitacaoQtdIntimacoesResponse" name="SolicitacaoQtdIntimacoesResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="obterDocumentoAnexoAoAto">
+      <wsdl:input message="tns:obterDocumentoAnexoAoAtoRequest" name="obterDocumentoAnexoAoAtoRequest"/>
+      <wsdl:output message="tns:obterDocumentoAnexoAoAtoResponse" name="obterDocumentoAnexoAoAtoResponse"/>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultaPeticao">
+      <wsdl:input message="tns:ConsultaPeticaoRequest" name="ConsultaPeticaoRequest"/>
+      <wsdl:output message="tns:ConsultaPeticaoResponse" name="ConsultaPeticaoResponse"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="ServicoPJ2HttpBinding" type="tns:ServicoPJ2PortType">
+    <wsdlsoap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="ajuizar">
+      <wsdlsoap:operation soapAction=""/>
+      <wsdl:input name="ajuizarRequest">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="ajuizarResponse">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="confirmaLogon">
+      <wsdlsoap:operation soapAction=""/>
+      <wsdl:input name="confirmaLogonRequest">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="confirmaLogonResponse">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getClasseTpParte">
+      <wsdlsoap:operation soapAction=""/>
+      <wsdl:input name="getClasseTpParteRequest">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getClasseTpParteResponse">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="peticionarIntermediariaDiversa">
+      <wsdlsoap:operation soapAction=""/>
+      <wsdl:input name="peticionarIntermediariaDiversaRequest">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="peticionarIntermediariaDiversaResponse">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SolicitacaoDadosDistribuicao">
+      <wsdlsoap:operation soapAction=""/>
+      <wsdl:input name="SolicitacaoDadosDistribuicaoRequest">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="SolicitacaoDadosDistribuicaoResponse">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="peticionarIntermediaria">
+      <wsdlsoap:operation soapAction=""/>
+      <wsdl:input name="peticionarIntermediariaRequest">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="peticionarIntermediariaResponse">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAreasCompetenciasClassesEAssuntos">
+      <wsdlsoap:operation soapAction=""/>
+      <wsdl:input name="getAreasCompetenciasClassesEAssuntosRequest">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getAreasCompetenciasClassesEAssuntosResponse">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAssuntos">
+      <wsdlsoap:operation soapAction=""/>
+      <wsdl:input name="getAssuntosRequest">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getAssuntosResponse">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SolicitacaoIntimacaoAto">
+      <wsdlsoap:operation soapAction=""/>
+      <wsdl:input name="SolicitacaoIntimacaoAtoRequest">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="SolicitacaoIntimacaoAtoResponse">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="solicitacaoDocCienciaAto">
+      <wsdlsoap:operation soapAction=""/>
+      <wsdl:input name="solicitacaoDocCienciaAtoRequest">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="solicitacaoDocCienciaAtoResponse">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultaProcessoSGCR">
+      <wsdlsoap:operation soapAction=""/>
+      <wsdl:input name="ConsultaProcessoSGCRRequest">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="ConsultaProcessoSGCRResponse">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConfirmaLogon">
+      <wsdlsoap:operation soapAction=""/>
+      <wsdl:input name="ConfirmaLogonRequest">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="ConfirmaLogonResponse">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getDadosProcesso">
+      <wsdlsoap:operation soapAction=""/>
+      <wsdl:input name="getDadosProcessoRequest">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getDadosProcessoResponse">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SolicitaLogon">
+      <wsdlsoap:operation soapAction=""/>
+      <wsdl:input name="SolicitaLogonRequest">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="SolicitaLogonResponse">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SolicitacaoCitacaoCiencia">
+      <wsdlsoap:operation soapAction=""/>
+      <wsdl:input name="SolicitacaoCitacaoCienciaRequest">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="SolicitacaoCitacaoCienciaResponse">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="logon">
+      <wsdlsoap:operation soapAction=""/>
+      <wsdl:input name="logonRequest">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="logonResponse">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SolicitacaoIntimacaoCiencia">
+      <wsdlsoap:operation soapAction=""/>
+      <wsdl:input name="SolicitacaoIntimacaoCienciaRequest">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="SolicitacaoIntimacaoCienciaResponse">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultaProcessoSG">
+      <wsdlsoap:operation soapAction=""/>
+      <wsdl:input name="ConsultaProcessoSGRequest">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="ConsultaProcessoSGResponse">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getAreasCompetenciasEClasses">
+      <wsdlsoap:operation soapAction=""/>
+      <wsdl:input name="getAreasCompetenciasEClassesRequest">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getAreasCompetenciasEClassesResponse">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="solicitaLogon">
+      <wsdlsoap:operation soapAction=""/>
+      <wsdl:input name="solicitaLogonRequest">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="solicitaLogonResponse">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getTiposDocDigital">
+      <wsdlsoap:operation soapAction=""/>
+      <wsdl:input name="getTiposDocDigitalRequest">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getTiposDocDigitalResponse">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getCategoriasEClasses">
+      <wsdlsoap:operation soapAction=""/>
+      <wsdl:input name="getCategoriasEClassesRequest">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getCategoriasEClassesResponse">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getTodosAssuntos">
+      <wsdlsoap:operation soapAction=""/>
+      <wsdl:input name="getTodosAssuntosRequest">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getTodosAssuntosResponse">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SolicitacaoIntimacaoAutoConfirmada">
+      <wsdlsoap:operation soapAction=""/>
+      <wsdl:input name="SolicitacaoIntimacaoAutoConfirmadaRequest">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="SolicitacaoIntimacaoAutoConfirmadaResponse">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getComarcas">
+      <wsdlsoap:operation soapAction=""/>
+      <wsdl:input name="getComarcasRequest">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getComarcasResponse">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SolicitaListaIntimacoesAguardandoCiencia">
+      <wsdlsoap:operation soapAction=""/>
+      <wsdl:input name="SolicitaListaIntimacoesAguardandoCienciaRequest">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="SolicitaListaIntimacoesAguardandoCienciaResponse">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SolicitaListaCitacoesAguardandoCiencia">
+      <wsdlsoap:operation soapAction=""/>
+      <wsdl:input name="SolicitaListaCitacoesAguardandoCienciaRequest">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="SolicitaListaCitacoesAguardandoCienciaResponse">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getForosEVaras">
+      <wsdlsoap:operation soapAction=""/>
+      <wsdl:input name="getForosEVarasRequest">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getForosEVarasResponse">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getTiposDiversas">
+      <wsdlsoap:operation soapAction=""/>
+      <wsdl:input name="getTiposDiversasRequest">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getTiposDiversasResponse">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SolicitacaoCitacaoAto">
+      <wsdlsoap:operation soapAction=""/>
+      <wsdl:input name="SolicitacaoCitacaoAtoRequest">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="SolicitacaoCitacaoAtoResponse">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SolicitacaoCitacaoAutoConfirmada">
+      <wsdlsoap:operation soapAction=""/>
+      <wsdl:input name="SolicitacaoCitacaoAutoConfirmadaRequest">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="SolicitacaoCitacaoAutoConfirmadaResponse">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="obterNumeroUnificadoDoProcesso">
+      <wsdlsoap:operation soapAction=""/>
+      <wsdl:input name="obterNumeroUnificadoDoProcessoRequest">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="obterNumeroUnificadoDoProcessoResponse">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="obterNumeroSajDoProcesso">
+      <wsdlsoap:operation soapAction=""/>
+      <wsdl:input name="obterNumeroSajDoProcessoRequest">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="obterNumeroSajDoProcessoResponse">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="SolicitacaoQtdIntimacoes">
+      <wsdlsoap:operation soapAction=""/>
+      <wsdl:input name="SolicitacaoQtdIntimacoesRequest">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="SolicitacaoQtdIntimacoesResponse">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="obterDocumentoAnexoAoAto">
+      <wsdlsoap:operation soapAction=""/>
+      <wsdl:input name="obterDocumentoAnexoAoAtoRequest">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="obterDocumentoAnexoAoAtoResponse">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="ConsultaPeticao">
+      <wsdlsoap:operation soapAction=""/>
+      <wsdl:input name="ConsultaPeticaoRequest">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="ConsultaPeticaoResponse">
+        <wsdlsoap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="ServicoPJ2">
+    <wsdl:port binding="tns:ServicoPJ2HttpBinding" name="ServicoPJ2HttpPort">
+      <wsdlsoap:address location="http://localhost:8080/pgmweb/services/ServicoPJ2HttpPort"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

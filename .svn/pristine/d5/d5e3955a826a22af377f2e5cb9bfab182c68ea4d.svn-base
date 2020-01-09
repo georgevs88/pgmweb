@@ -1,0 +1,686 @@
+package pmcg.imti.view;
+
+import java.io.BufferedWriter;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.sql.SQLException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+
+import org.eclipse.birt.core.exception.BirtException;
+import org.zkoss.exporter.excel.ExcelExporter;
+import org.zkoss.util.media.AMedia;
+import org.zkoss.util.media.Media;
+import org.zkoss.zk.ui.WrongValueException;
+import org.zkoss.zk.ui.event.Event;
+import org.zkoss.zk.ui.event.UploadEvent;
+import org.zkoss.zul.Filedownload;
+import org.zkoss.zul.Listbox;
+import org.zkoss.zul.Listitem;
+import org.zkoss.zul.Messagebox;
+
+import jxl.Cell;
+import jxl.Sheet;
+import jxl.Workbook;
+import jxl.WorkbookSettings;
+import jxl.read.biff.BiffException;
+import pmcg.framework.ui.WindowCrud;
+import pmcg.framework.util.UploadUtils;
+import pmcg.framework.util.WinUtils;
+import pmcg.imti.dao.ibatis.EcoDAO;
+import pmcg.imti.util.FormatUtils;
+import pmcg.imti.util.Formatacao;
+import pmcg.imti.util.GeraPDF;
+
+public class Repcad extends WindowCrud {
+	private static final long serialVersionUID = 1L;
+	public Long codrem = 19L;
+	public String nomeArquivo;
+	public Integer qtdOK = 0;
+	public List<HashMap<String, Object>> listArq = new ArrayList<HashMap<String, Object>>(); 
+	public List<HashMap<String, Object>> listCdas = new ArrayList<HashMap<String, Object>>(); 
+	public List<HashMap<String, Object>> listRem = new ArrayList<HashMap<String, Object>>(); 
+	public String pdf; //local onde foi salvo o pdf da nota gerado
+	public Date dataVal;
+	
+	public void initComponentes() throws InterruptedException {
+		this.getCrdBar().getBotao(0).setVisible(false);// incluir
+		this.getCrdBar().getBotao(1).setVisible(false);// salvar
+		this.getCrdBar().getBotao(2).setVisible(false);// excluir
+		this.getCrdBar().getBotao(3).setVisible(false);// limpar
+		this.getCrdBar().getBotao(4).setVisible(false);// pesquisar
+		this.getCrdBar().getBotao(5).setVisible(false);// imprimir
+		this.getCrdBar().getBotao(6).setVisible(true);// sair
+		listRem = new EcoDAO().getRemessasProtesto();
+		dataVal = new EcoDAO().getDataValGuiaProtesto();
+		this.vincular();
+		//atualizaVaraRemessa();
+	}
+	
+	public void upload(Event evt) throws IOException, InterruptedException {
+		listArq = new ArrayList<HashMap<String, Object>>(); 
+		listCdas = new ArrayList<HashMap<String, Object>>(); 
+
+		UploadEvent e = (UploadEvent) evt;
+		Media arquivo = e.getMedia();
+		nomeArquivo = arquivo.getName();
+
+		File file = criaArquivo(arquivo);
+		String tipo = arquivo.getFormat();
+		if (!tipo.equals("xls")) {
+			throw new WrongValueException(this.getComponente("nomeArquivo"),"Tipo de Arquivo Inválido. Selecione um arquivo EXCEL 97-03!");
+		} else {
+			Workbook workbook;
+			try {
+				WorkbookSettings workbookSettings = new WorkbookSettings();
+				workbookSettings.setEncoding("Cp1252");
+				workbook = Workbook.getWorkbook(file, workbookSettings);
+
+				Sheet sheet = workbook.getSheet(0);
+				int linhas = sheet.getRows();
+				int colunas = sheet.getColumns();
+				String col = "";
+				Cell a1 = null;
+				for (int i = 0; i < linhas - 1; i++) {
+					HashMap<String, Object> reg = new HashMap<String, Object>();
+					sheet.getRow(i);
+					for (int j = 0; j < colunas; j++) {
+						if (i == 0) {
+							col = sheet.getCell(j, i).getContents();
+						} else {
+							col = sheet.getCell(j, 0).getContents();
+						}
+						if (i < linhas - 1) {
+							a1 = sheet.getCell(j, i + 1);
+						} else {
+							a1 = sheet.getCell(j, i);
+						}
+						if (col.trim().equalsIgnoreCase("processo")) {
+							if (a1.getContents() != null && !a1.getContents().trim().equals("")) {
+								reg.put("processo", a1.getContents().trim());
+							}
+						} else if (col.trim().equalsIgnoreCase("cda")) {
+							if (a1.getContents() != null && a1.getContents().trim() != "") {
+								reg.put("cda", a1.getContents().trim());
+							}
+						} else if (col.trim().equalsIgnoreCase("valor")) {
+							if (a1.getContents() != null && a1.getContents().trim() != "") {
+								reg.put("valor", a1.getContents().trim());
+							}
+						} else if (col.trim().equalsIgnoreCase("inscricao")) {
+							if (a1.getContents() != null && a1.getContents().trim() != "") {
+								reg.put("inscricao", a1.getContents().trim());
+							}
+						} else if (col.trim().equalsIgnoreCase("contribuinte")) {
+							if (a1.getContents() != null && a1.getContents().trim() != "") {
+								reg.put("contribuinte", a1.getContents().trim());
+							}
+						} else if (col.trim().equalsIgnoreCase("transito_julgado")) {
+							if (a1.getContents() != null && a1.getContents().trim() != "") {
+								reg.put("transito_julgado", a1.getContents().trim());
+							}
+						} 
+					}
+					listArq.add(reg);
+				}
+				file.delete();
+			} catch (BiffException e2) {
+				e2.printStackTrace();
+			}
+		}
+		this.vincular();
+		Messagebox.show("Arquivo importado com sucesso!","Importação de Arquivo",Messagebox.OK, Messagebox.INFORMATION);
+	}
+	
+	public void salvarDataVal() throws InterruptedException{
+		try {
+			new EcoDAO().updDataValGuiaProtesto(dataVal);
+			Messagebox.show("Data salva com sucesso!","Data Validade Guia Protesto",Messagebox.OK, Messagebox.INFORMATION);
+			dataVal = new EcoDAO().getDataValGuiaProtesto();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void exportListboxToExcel() throws Exception {
+		Listbox listAtv = ((Listbox) getComponente("listArq"));
+		ExcelExporter exporter = new ExcelExporter();
+		ByteArrayOutputStream out = new ByteArrayOutputStream();
+		exporter.export(listAtv, out);
+		AMedia amedia = new AMedia("analise_cdas.xlsx", "xls", "application/file", out.toByteArray());
+		Filedownload.save(amedia);
+		out.close();
+	}
+	
+	public void analisar() throws InterruptedException{
+		for(HashMap<String, Object> reg : listArq){
+			reg.put("msg", null);
+		}
+		
+		listCdas = new ArrayList<HashMap<String, Object>>(); 
+		qtdOK = 0;
+		for(HashMap<String, Object> reg : listArq){
+			try {
+				HashMap<String, Object> qtdCda = new EcoDAO().getQtdCdaByCod(reg.get("cda").toString());
+				if(qtdCda != null && qtdCda.get("CODCTD") != null){
+					//verificar se já foi importada
+					Integer countJaImp = 0;
+					for(HashMap<String, Object> cda : listArq){
+						Long ncdaArq = Long.parseLong(FormatUtils.onlyNumbers(cda.get("cda").toString()));
+						Long ncdaReg = Long.parseLong(FormatUtils.onlyNumbers(reg.get("cda").toString()));
+						if(ncdaArq.equals(ncdaReg) && cda.get("msg") != null && cda.get("msg").toString().equalsIgnoreCase("OK")){
+							countJaImp++;
+							break;
+						}
+					}
+					if(countJaImp > 0){
+						reg.put("msg", "CDA já cadastrada");
+						reg.put("style", "background:RGB(205, 213, 69);color:white;");
+						listCdas.add(reg);
+					} else {
+						if(qtdCda.get("QTD_DEB_PAG") != null && Integer.parseInt(qtdCda.get("QTD_DEB_PAG").toString()) > 0){
+							//POSSUI DÉBITOS PAGOS
+							reg.put("msg", "CDA contém débitos com situação diferente de 'Aberto'");
+							reg.put("style", "background:RGB(180, 0, 0);color:white;");
+							listCdas.add(reg);
+						} else {
+							Date dataTransJulg;
+							DateFormat df = new SimpleDateFormat ("ddMMyyyy");
+							df.setLenient (false);
+							try {
+								dataTransJulg = df.parse(FormatUtils.onlyNumbers(reg.get("transito_julgado").toString()));
+							} catch (Exception e) {
+								dataTransJulg = null;
+							}
+							if(reg.get("processo") != null && dataTransJulg == null){
+								reg.put("msg", "Dt Trâns. inválida.");
+								reg.put("style", "background:RGB(180, 0, 0);color:white;");
+								listCdas.add(reg);
+							} else {
+								reg.put("msg", "OK");
+								reg.put("style", "background:none;");
+								qtdOK++;
+							}
+						}
+					}
+				} else {
+					reg.put("msg", "CDA não encontrada");
+					reg.put("style", "background:RGB(180, 0, 0);color:white;");
+					listCdas.add(reg);
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		vincular();
+		Messagebox.show("Análise concluída! " + qtdOK + " CDAs válidas. " + listCdas.size() + " registro(s) com erro.","Importação de Arquivo",Messagebox.OK, Messagebox.INFORMATION);
+	}
+	
+	public void baixarModelo() {
+		HashMap<String, String> param = new HashMap<String, String>();
+		session.setAttribute("codsis", 125);
+		new WinUtils().abrirBirt("modelo_cdas.rptdesign", param);
+	}
+	
+	private File criaArquivo(Media arquivo) {
+		// escreve arquivo no HD
+		File file = null;
+		try {
+			byte[] b;
+			b = UploadUtils.getBinaryData(arquivo);
+			String tipo = arquivo.getFormat();
+			String fileName = "";
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+			String data = sdf.format(WinUtils.getDataBanco());
+			if (tipo.equals("xls")) {
+				fileName = data + this.getLogin() + ".xls";
+			}
+			String tDir = System.getProperty("java.io.tmpdir");
+			file = new File(tDir + File.separator + fileName);
+			FileOutputStream fos = new FileOutputStream(file);
+			fos.write(b);
+			fos.flush();
+			fos.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		// FIM escreve arquivo no HD
+		return file;
+
+	}
+	
+	public String getLabelResultado(){
+		if(listCdas != null && listCdas.size() > 0){
+			return "Log ERROS/Alertas ( " + listCdas.size() + " registros)";
+		} else {
+			return "Log ERROS/Alertas";
+		}
+	}
+	
+	public String getLabelConteudo(){
+		if(listArq != null && listArq.size() > 0){
+			return "Conteúdo do Arquivo ( " + listArq.size() + " registros)";
+		} else {
+			return "Conteúdo do Arquivo";
+		}
+	}
+	
+	public void gerar() throws InterruptedException{
+		if (Messagebox.show("Tem certeza que deseja gerar a remessa de " + qtdOK +" CDAs?","Aviso!!!", Messagebox.YES | Messagebox.NO, Messagebox.QUESTION) == Messagebox.YES) {
+			//Gerar o registro da remessa -> TBLREMECOCDA
+			try {
+				new EcoDAO().getSqlMap().startTransaction();
+				new EcoDAO().insRemEcoCda();
+				HashMap<String, Object> rem = new EcoDAO().getUltRemEcoCda();
+				Integer codrem = rem != null && rem.get("CODREMECOCDA") != null? Integer.parseInt(rem.get("CODREMECOCDA").toString()):null;
+				Integer numrem = rem != null && rem.get("NUMREM") != null? Integer.parseInt(rem.get("NUMREM").toString()):null;
+				if(codrem != null && codrem > 0){
+					//Gerar os registros detalhe da remessa (CDAs/Parcelas) -> TBLECOCDATMP
+					Integer count = 0;
+					for(HashMap<String, Object> reg : listArq){
+						if(reg.get("msg").toString().equalsIgnoreCase("OK")){
+							HashMap<String, Object> ect = new HashMap<String, Object>();
+							ect.put("codctd", FormatUtils.onlyNumbers(reg.get("cda").toString()));
+							ect.put("codrem", codrem);
+							new EcoDAO().insEcoCdaTmp(ect);
+							
+							//Atualizar NR PROCESSO e TRANSITO JULGADO das certidões com base no arquivo
+							if(reg.get("processo") != null){
+								ect.put("transito_julgado", FormatUtils.onlyNumbers(reg.get("transito_julgado").toString()));
+								try {
+									new EcoDAO().updTransitoJulgado(ect);
+								} catch (Exception e) {
+									System.out.println(e.getMessage());
+								}
+								ect.put("processo", reg.get("processo").toString());
+								new EcoDAO().updProcesso(ect);
+							}
+						}
+						count++;
+						System.out.println(count + " de " + listArq.size());
+					}
+				}
+				
+				new EcoDAO().getSqlMap().commitTransaction();
+				Messagebox.show("Remessa nr " + numrem + " gerada com sucesso! Utilize este código no SIAT para gerar os PDFs (CDA e Guia)." ,"Geração de Remessa",Messagebox.OK, Messagebox.INFORMATION);
+				listRem = new EcoDAO().getRemessasProtesto();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} finally {
+				try {
+					new EcoDAO().getSqlMap().endTransaction();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+			try {
+				//Atualizar o valor dos débitos
+				new EcoDAO().updValatuJurmorCtd(codrem.toString());
+				//new EcoDAO().updValtotCtd(codrem.toString());
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+		}
+		this.vincular();
+	}
+	
+	public void verificaRemessa(String codrem){
+		Integer qtdGuiaPendentes = new EcoDAO().getVerificaGuiasRem(codrem);
+		if(qtdGuiaPendentes > 0){
+			throw new WrongValueException(getComponente("listRem"),"Remessa deve ser processada no SIAT para geração das Guias!");
+		} else {
+			//Inativar os registros da TBLECOCDATMP que contém valor total divergente do valor da guia gerada pelo SIAT
+			try {
+				new EcoDAO().updSituacDivergentes(codrem);
+				listRem = new EcoDAO().getRemessasProtesto();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		vincular();
+	}
+	
+	public void gerarTxt(Listitem item){
+		HashMap<String, Object> rem = (HashMap<String, Object>) item.getValue();
+		try {
+			verificaRemessa(rem.get("CODREMECOCDA").toString());
+			File file;
+			//if(modoDesenv){
+			File diretorio = new File("C:\\pgmweb");
+			if (!diretorio.exists()) {
+				file = new File("/tmp/B007" + new SimpleDateFormat("ddMM").format(new Date()) + "." + new SimpleDateFormat("yy").format(new Date()) + "1");
+			} else {
+				file = new File("C:\\pgmweb\\B007" + new SimpleDateFormat("ddMM").format(new Date()) + "." + new SimpleDateFormat("yy").format(new Date()) + "1");
+			}
+			
+			//REGISTROS DAS CDAS:
+			List<String> linhas = new EcoDAO().getLinhasTxt(rem.get("CODREMECOCDA").toString());
+			
+			BufferedWriter buffWrite = new BufferedWriter(new FileWriter(file));
+	        // HEADER
+			String linha = montaHeaderTxt(rem.get("NUMREM").toString(), String.valueOf(linhas.size()));
+			buffWrite.append(linha + "\n");
+			
+			// DETAIL
+			Integer seqLinha = 2;
+			for(String l : linhas){
+				// DETALHE
+				buffWrite.append(l + Formatacao.completaComZerosAEsquerda(seqLinha.toString(), 4) + "\n");
+				seqLinha++;
+			}
+			
+			// TRAILER
+			String valorTotal = new EcoDAO().getValorTotalRem(rem.get("CODREMECOCDA").toString()).replaceAll("[.,]", "");
+			linha = montaTraillerTxt(String.valueOf(linhas.size() * 3), valorTotal, seqLinha.toString());
+			
+			buffWrite.append(linha);
+	        buffWrite.close();
+	        Messagebox.show("Arquivo gerado com sucesso!" ,"Geração de Remessa - TXT",Messagebox.OK, Messagebox.INFORMATION);
+	        new Filedownload().save(new AMedia(file, null, null),"text/plain");
+		} catch (Exception e) {
+		}
+	}
+	
+	private String montaHeaderTxt(String numrem, String qtdreg) {
+		StringBuilder retorno = new StringBuilder();
+		
+		retorno.append("0");//1 
+		retorno.append("007");//2
+		retorno.append(Formatacao.completaComCaracterADireita("PREFEITURA MUNICIPAL DE CAMPO GRANDE", 40, ' '));//3
+		retorno.append(new SimpleDateFormat("ddMMyyyy").format(new Date())); //4
+		retorno.append("BFO");//5 
+		retorno.append("SDT");//6 
+		retorno.append("TPR");//7 
+		retorno.append(Formatacao.completaComZerosAEsquerda(numrem.toString(), 6));//8 
+		retorno.append(Formatacao.completaComZerosAEsquerda(qtdreg, 4));//9
+		retorno.append(Formatacao.completaComZerosAEsquerda(qtdreg, 4));//10
+		retorno.append("0000");//11
+		retorno.append(Formatacao.completaComZerosAEsquerda(qtdreg, 4));//12
+		retorno.append("000001");//13
+		retorno.append("043");//14
+		retorno.append("5002704");//15
+		retorno.append(Formatacao.completaComCaracterADireita(" ", 497, ' '));//16 - Ajustar o tamanho do registro header com o tamanho do registro de transacao. Preencher com brancos.
+		retorno.append("0001");//17
+		
+		return retorno.toString();
+	}
+	
+	private String montaTraillerTxt(String campo5, String campo6, String campo8) {
+		StringBuilder retorno = new StringBuilder();
+		
+		retorno.append("9");//1
+		retorno.append("007");//2
+		retorno.append(Formatacao.completaComCaracterADireita("PREFEITURA MUNICIPAL DE CAMPO GRANDE",40,' '));//3
+		retorno.append(new SimpleDateFormat("ddMMyyyy").format(new Date()));//4
+		retorno.append(Formatacao.completaComZerosAEsquerda(campo5,5));//5
+		retorno.append(Formatacao.completaComZerosAEsquerda(campo6,18));//6
+		retorno.append(Formatacao.completaComCaracterADireita(" ", 521, ' '));//7
+		retorno.append(Formatacao.completaComZerosAEsquerda(campo8,4));//8
+				
+		return retorno.toString();
+	}
+	
+	public void gerarArquivoPDFs(Listitem item) throws InterruptedException{
+		HashMap<String, Object> rem = (HashMap<String, Object>) item.getValue();
+		verificaRemessa(rem.get("CODREMECOCDA").toString());
+		List<HashMap<String, Object>> listCdas = new EcoDAO().getCtdsGuiasByRem(rem.get("CODREMECOCDA").toString());
+		Integer count = 0;
+		for(HashMap<String, Object> cda : listCdas){
+			//SE DER ERRO NA GERAÇÃO TENTAR 1 GERACAO DE CADA VEZ, DAS GUIAS, DEPOIS DAS GUIAS
+			gerarPDFCDA(Formatacao.completaComZerosAEsquerda(cda.get("CODCTD").toString(),11), cda.get("CODREM").toString(), cda.get("CPFCNPJ").toString());
+			
+			String urlGuia = "http://172.17.0.66/plcVis/run?__format=pdf&__report=rel/dsf_cgr_gtm/arr/GuiaDamCgr.rptdesign&datPro=20170320094223505&codDca=" + cda.get("CODDCA").toString() + "&codusualt=null";
+			GeraPDF.gravaArquivoURL(urlGuia, cda.get("CODCTD").toString(), cda.get("CPFCNPJ").toString(), "02");
+			
+			count++;
+			if(count == 250 || count == 500 || count == 750 || count == 1000){
+				System.out.println("PAUSA"); // para particionar o ZIP
+			}
+			System.out.println(count + " de " + listCdas.size());
+		}
+		
+	}
+	
+	public void gerarPDFCDA(String codctd, String codrem, String cpfcnpj) throws InterruptedException{
+//		if (Messagebox.show("Tem certeza que deseja gerar a remessa de " + qtdOK +" CDAs?","Aviso!!!", Messagebox.YES | Messagebox.NO, Messagebox.QUESTION) == Messagebox.YES) {
+		try {
+			pdf = null;
+			//GERAR O PDF DA CDA
+//			if(creVO.getCpfcre().equals("11111111111")){
+				//MODO TESTE
+//				try {
+//					Messagebox.show("MODO TESTE LOCAL!");
+//				} catch (InterruptedException e) {
+//					e.printStackTrace();
+//				}
+				pdf = GeraPDF.GeraPdfCda(codctd,codrem,cpfcnpj, true);
+//			} else {
+//				pdf = EmissaoNfa.GeraNfaPdf(nfa.getIdnfa().toString(),nfa.getNrnotanfa().toString(),nfa.getDteminfa(),false);
+//			}
+
+		} catch (BirtException e) {
+			e.printStackTrace();
+			try {
+				Messagebox.show("Problema na geração da CDA!","PDF CDA",Messagebox.OK,Messagebox.ERROR);
+			} catch (InterruptedException e1) {
+				e1.printStackTrace();
+			}
+		}
+//		}
+		this.vincular();
+	}
+	
+	public static String valorMonetario(Double numero) {
+		  if(numero != null){
+			  return String.format("%1$,.2f", numero);
+		  } else {
+			  return "0,00";
+		  }
+	}
+	
+	private String montaLinhasCDA(){
+		try {
+			
+//		StringBuilder retorno = new StringBuilder();
+//				
+//		retorno.append("1");//1 
+//		retorno.append("007");//2 
+//		retorno.append(Formatacao.completaComCaracterADireita("0",15,'0'));//3 
+//		retorno.append(Formatacao.completaComCaracterADireita("PREFEITURA MUNICIPAL DE CAMPO GRANDE",45,' '));//4 
+//		retorno.append(Formatacao.completaComCaracterADireita("PREFEITURA MUNICIPAL DE CAMPO GRANDE",45,' '));//5 
+//		retorno.append(Formatacao.completaComCaracterADireita("03501509000106",14,' '));//6
+//		retorno.append(Formatacao.completaComCaracterADireita("AV. AFONSO PENA N. 3297",45,' '));//7
+//		retorno.append(Formatacao.completaComCaracterADireita("79002075",8,' '));//8
+//		retorno.append(Formatacao.completaComCaracterADireita("CAMPO GRANDE",20,' '));//9
+//		retorno.append("MS");//10
+//		retorno.append(Formatacao.completaComZerosAEsquerda(doc.getId().toString(), 15));//11
+//		retorno.append("CDA");//12
+//		retorno.append(doc.getNumeroCDAGuia());//13
+//		retorno.append(new SimpleDateFormat("ddMMyyyy").format(new Date()));// DsfDateHelper.dateToString(new Date(), "ddMMyyyy"));//14
+//		retorno.append(new SimpleDateFormat("ddMMyyyy").format(doc.getDataLavraturaCDA())); //, "ddMMyyyy"));//15
+//		retorno.append("001");//16
+//		
+//		BigDecimal valorDoc = doc.getValorTotalPagar();
+//		
+//		if (valorDoc.toString().indexOf(".") > 0) {
+//			retorno.append(Formatacao.completaComZerosAEsquerda(valorDoc.toString().substring(0,valorDoc.toString().indexOf(".")) + 
+//																		Formatacao.completaComCaracterADireita(valorDoc.toString().substring(valorDoc.toString().indexOf(".") + 1), 2, '0'), 14));//17
+//			
+//			retorno.append(Formatacao.completaComZerosAEsquerda(valorDoc.toString().substring(0,valorDoc.toString().indexOf(".")) + 
+//																		Formatacao.completaComCaracterADireita(valorDoc.toString().substring(valorDoc.toString().indexOf(".") + 1), 2, '0'), 14));//18
+//		} else {
+//			retorno.append(Formatacao.completaComZerosAEsquerda(valorDoc.toString() + "00", 14));//17
+//			retorno.append(Formatacao.completaComZerosAEsquerda(valorDoc.toString()+ "00", 14));//18			
+//		}
+//		
+//		retorno.append(Formatacao.completaComCaracterADireita("CAMPO GRANDE",20,' '));//19
+//		retorno.append(" ");//20
+//		retorno.append("N");//21
+//		retorno.append("1");//22
+//		
+//		if (doc.getCadastro().getCadastroEconomico().getNomeRazaoSocial().length() > 45) {
+//			retorno.append(Formatacao.removeAcentuacaoString(doc.getCadastro().getCadastroEconomico().getNomeRazaoSocial()).substring(0, 45));//23
+//		} else {
+//			retorno.append(Formatacao.removeAcentuacaoString(Formatacao.completaComCaracterADireita(doc.getCadastro().getCadastroEconomico().getNomeRazaoSocial(),45,' ')));//23
+//		}
+//		
+//		if (doc.getCadastro().getCadastroEconomico().getCpfCnpj().length() == 11) {
+//			retorno.append("002");//24
+//		} else if (doc.getCadastro().getCadastroEconomico().getCpfCnpj().length() == 14) {
+//			retorno.append("001");//24
+//		}
+//		
+//		retorno.append(Formatacao.completaComZerosAEsquerda(doc.getCadastro().getCadastroEconomico().getCpfCnpj(), 14));//25
+//		retorno.append(Formatacao.completaComCaracterADireita(" ",11,' '));//26
+//		
+//		if (!DsfColecaoHelper.ehNuloOuVazio(doc.getCadastro().getCadastroEconomico().getEnderecoEntregaMob())){ 
+//			String enderecoEntrega = "";
+//			if (!Formatacao.ehBrancoOuNulo(doc.getCadastro().getCadastroEconomico().getEnderecoEntregaMob().get(0).getNomeLogradouro())) {
+//				if (doc.getCadastro().getCadastroEconomico().getEnderecoEntregaMob().get(0).getTipoLogradouro() == null || 
+//						doc.getCadastro().getCadastroEconomico().getEnderecoEntregaMob().get(0).getNumero() == null) {
+//					return "";
+//				}
+//				
+//				
+//				enderecoEntrega = doc.getCadastro().getCadastroEconomico().getEnderecoEntregaMob().get(0).getTipoLogradouro().getCodigo() + 
+//				" " + doc.getCadastro().getCadastroEconomico().getEnderecoEntregaMob().get(0).getNomeLogradouro() + 
+//				" " + doc.getCadastro().getCadastroEconomico().getEnderecoEntregaMob().get(0).getNumero();
+//				
+//				if (!Formatacao.ehBrancoOuNulo(doc.getCadastro().getCadastroEconomico().getEnderecoEntregaMob().get(0).getComplemento())) {
+//					enderecoEntrega += " " + doc.getCadastro().getCadastroEconomico().getEnderecoEntregaMob().get(0).getComplemento();
+//				}
+//				
+//				if (enderecoEntrega.length() > 45) {
+//					int tam = doc.getCadastro().getCadastroEconomico().getEnderecoEntregaMob().get(0).getTipoLogradouro().getCodigo().length() + 
+//								String.valueOf(doc.getCadastro().getCadastroEconomico().getEnderecoEntregaMob().get(0).getNumero()).length() + 2;
+//					
+//					if (!Formatacao.ehBrancoOuNulo(doc.getCadastro().getCadastroEconomico().getEnderecoEntregaMob().get(0).getComplemento())) {
+//						tam += doc.getCadastro().getCadastroEconomico().getEnderecoEntregaMob().get(0).getComplemento().length() + 1;
+//					}
+//					
+//					
+//					enderecoEntrega = doc.getCadastro().getCadastroEconomico().getEnderecoEntregaMob().get(0).getTipoLogradouro().getCodigo() + 
+//										" " + doc.getCadastro().getCadastroEconomico().getEnderecoEntregaMob().get(0).getNomeLogradouro().substring(0, 45 - tam) + 
+//										" " + doc.getCadastro().getCadastroEconomico().getEnderecoEntregaMob().get(0).getNumero() + 
+//										" " + doc.getCadastro().getCadastroEconomico().getEnderecoEntregaMob().get(0).getComplemento();
+//				}
+//			} else {
+//				return "";
+//			}
+//			
+//			retorno.append(Formatacao.completaComCaracterADireita(Formatacao.removeAcentuacaoString(enderecoEntrega), 45, ' '));//27
+//			
+//			if (!Formatacao.ehBrancoOuNulo(doc.getCadastro().getCadastroEconomico().getEnderecoEntregaMob().get(0).getCep())) {
+//				retorno.append(Formatacao.completaComZerosAEsquerda(doc.getCadastro().getCadastroEconomico().getEnderecoEntregaMob().get(0).getCep(),8));//28
+//			} else {
+//				retorno.append("        ");//28
+//			}
+//			
+//			if (!Formatacao.ehBrancoOuNulo(doc.getCadastro().getCadastroEconomico().getEnderecoEntregaMob().get(0).getNomeCidade())) {
+//				if (doc.getCadastro().getCadastroEconomico().getEnderecoEntregaMob().get(0).getNomeCidade().length() > 20) {
+//					retorno.append(doc.getCadastro().getCadastroEconomico().getEnderecoEntregaMob().get(0).getNomeCidade().substring(0, 20));//29
+//				} else {
+//					retorno.append(Formatacao.completaComCaracterADireita(doc.getCadastro().getCadastroEconomico().getEnderecoEntregaMob().get(0).getNomeCidade(),20,' '));//29
+//				}
+//			} else {
+//				retorno.append(Formatacao.completaComCaracterADireita(" ",20,' '));//29
+//			}
+//			
+//			if (doc.getCadastro().getCadastroEconomico().getEnderecoEntregaMob().get(0).getCidade() != null && 
+//					!Formatacao.ehBrancoOuNulo(doc.getCadastro().getCadastroEconomico().getEnderecoEntregaMob().get(0).getCidade().getEstado().getUf())) {
+//				retorno.append(doc.getCadastro().getCadastroEconomico().getEnderecoEntregaMob().get(0).getCidade().getEstado().getUf());//30
+//			} else {
+//				retorno.append("  ");//30
+//			}
+//		} else {
+//			return "";
+//		}
+//		
+//		retorno.append("00");//31
+//		retorno.append(Formatacao.completaComCaracterADireita(" ",10,' '));//32
+//		retorno.append(" ");//33
+//		retorno.append("00000000");//34
+//		retorno.append("0000000000");//35
+//		retorno.append(" ");//36
+//		retorno.append("00000000");//37
+//		retorno.append("00");//38
+//		
+//		if (!DsfColecaoHelper.ehNuloOuVazio(doc.getCadastro().getCadastroEconomico().getEnderecoEntregaMob())){
+//			if (!Formatacao.ehBrancoOuNulo(doc.getCadastro().getCadastroEconomico().getEnderecoEntregaMob().get(0).getNomeBairro())) {
+//				if (doc.getCadastro().getCadastroEconomico().getEnderecoEntregaMob().get(0).getNomeBairro().length() > 20) {
+//					retorno.append(doc.getCadastro().getCadastroEconomico().getEnderecoEntregaMob().get(0).getNomeBairro().substring(0, 20));//39
+//				} else {
+//					retorno.append(Formatacao.completaComCaracterADireita(doc.getCadastro().getCadastroEconomico().getEnderecoEntregaMob().get(0).getNomeBairro(),20,' '));//39
+//				}
+//			} else {
+//				retorno.append(Formatacao.completaComCaracterADireita(" ",20,' '));//39				
+//			}
+//		} else {
+//			retorno.append(Formatacao.completaComCaracterADireita(" ",20,' '));//39							
+//		}
+//		
+//		retorno.append("0000000000");//40
+//		retorno.append("000000");//41
+//		retorno.append("0000000000");//42
+//		retorno.append("00000");//43
+//		retorno.append("000000000000000");//44
+//		retorno.append("000");//45
+//		retorno.append(" ");//46
+//		retorno.append(Formatacao.completaComCaracterADireita(" ",8,' '));//47
+//		retorno.append(" ");//48
+//		retorno.append(" ");//49
+//		retorno.append("0000000000");//50
+//		retorno.append(Formatacao.completaComCaracterADireita(" ",19,' '));//51
+//		retorno.append(Formatacao.completaComZerosAEsquerda(seq.toString(), 4));//52
+//		retorno.append("\r\n");
+//		
+//		return retorno.toString();
+		} catch (Exception e) {
+			System.out.println("ERRO");
+			return null;
+		}
+		return nomeArquivo;
+	}
+	
+	@Override
+	public void apagar() throws InterruptedException {
+		
+	}
+
+	@Override
+	public void imprimir() throws InterruptedException {
+		
+	}
+
+	@Override
+	public void incluir() throws InterruptedException {
+		
+	}
+
+	@Override
+	public void limpar() throws InterruptedException {
+		
+	}
+
+	@Override
+	public void pesquisar() throws InterruptedException {
+		
+	}
+
+	@Override
+	public void sair() throws InterruptedException {
+		this.detach();
+	}
+
+	@Override
+	public void salvar() throws InterruptedException {
+		
+	}
+}

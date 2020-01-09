@@ -1,0 +1,305 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+ <!DOCTYPE sqlMap PUBLIC "//iBATIS.com//DTD SQL Map 2.0//EN" "HTTP://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="Ect">
+	<typeAlias alias="EctVO" type="pmcg.imti.domain.EctVO" />
+
+	<resultMap id="mapComplexQuerySimple" class="EctVO">
+		<result property="codecocdatmp" column="codecocdatmp" />
+		<result property="codeco" column="codeco" />
+		<result property="codcad" column="codcad" />
+		<result property="codctd" column="codctd" />
+		<result property="codlnc" column="codlnc" />
+		<result property="codlncpar" column="codlncpar" />
+		<result property="identipar" column="identipar" />
+		<result property="coddca" column="coddca" />
+		<result property="numver" column="numver" />
+		<result property="datalt" column="datalt" />
+		<result property="codusualt" column="codusualt" />
+		<result property="codremecocda" column="codremecocda" />
+		<result property="lincon" column="lincon" />
+		<result property="linret" column="linret" />
+		<result property="situac" column="situac" />
+		<result property="cartorio" column="cartorio" />
+		<result property="emicaranu" column="emicaranu" />
+		<result property="datvalanu" column="datvalanu" />
+		<result property="datemianu" column="datemianu" />
+		<result property="asscaranu" column="asscaranu" />
+		<result property="asscda" column="asscda" />
+		<result property="datcon" column="datcon" />
+	</resultMap>
+
+	<resultMap id="mapComplexQuery" class="EctVO">
+		<result property="codecocdatmp" column="codecocdatmp" />
+		<result property="codeco" column="codeco" />
+		<result property="codcad" column="codcad" />
+		<result property="codctd" column="codctd" />
+		<result property="codlnc" column="codlnc" />
+		<result property="codlncpar" column="codlncpar" />
+		<result property="identipar" column="identipar" />
+		<result property="coddca" column="coddca" />
+		<result property="numver" column="numver" />
+		<result property="datalt" column="datalt" />
+		<result property="codusualt" column="codusualt" />
+		<result property="codremecocda" column="codremecocda" />
+		<result property="lincon" column="lincon" />
+		<result property="linret" column="linret" />
+		<result property="situac" column="situac" />
+		<result property="cartorio" column="cartorio" />
+		<result property="emicaranu" column="emicaranu" />
+		<result property="datvalanu" column="datvalanu" />
+		<result property="datemianu" column="datemianu" />
+		<result property="asscaranu" column="asscaranu" />
+		<result property="asscda" column="asscda" />
+		<result property="datcon" column="datcon" />
+	</resultMap>
+
+	<select id="getRegByCod" parameterClass="Long" resultMap="mapComplexQuerySimple">
+		SELECT * FROM SIATCGR.TBLECOCDATMP WHERE codecocdatmp = #value:NUMERIC#
+	</select>
+
+	<select id="getRegByCodComplex" parameterClass="Long" resultMap="mapComplexQuery">
+		SELECT * FROM SIATCGR.TBLECOCDATMP WHERE codecocdatmp = #value:NUMERIC#
+	</select>
+
+	<select id="getRegByCriterio" parameterClass="EctVO" resultMap="mapComplexQuerySimple">
+		SELECT * FROM SIATCGR.TBLECOCDATMP
+		<dynamic prepend=" WHERE ">
+			<isNotNull property="codecocdatmp" prepend=" AND ">
+				codecocdatmp = #codecocdatmp:NUMERIC#
+			</isNotNull>
+			<isNotNull property="codeco" prepend=" AND ">
+				codeco = #codeco:NUMERIC#
+			</isNotNull>
+			<isNotNull property="codcad" prepend=" AND ">
+				codcad = #codcad:NUMERIC#
+			</isNotNull>
+			<isNotNull property="codctd" prepend=" AND ">
+				codctd = #codctd:NUMERIC#
+			</isNotNull>
+			<isNotNull property="codlnc" prepend=" AND ">
+				codlnc = #codlnc:NUMERIC#
+			</isNotNull>
+			<isNotNull property="codlncpar" prepend=" AND ">
+				codlncpar = #codlncpar:NUMERIC#
+			</isNotNull>
+			<isNotNull property="identipar" prepend=" AND ">
+				UPPER(identipar) LIKE '%' || UPPER(#identipar:VARCHAR#) || '%'
+			</isNotNull>
+			<isNotNull property="coddca" prepend=" AND ">
+				coddca = #coddca:NUMERIC#
+			</isNotNull>
+			<isNotNull property="numver" prepend=" AND ">
+				numver = #numver:NUMERIC#
+			</isNotNull>
+			<isNotNull property="datalt" prepend=" AND "> to_char(datalt,'dd/MM/yyyy') =
+				to_char(#datalt:TIMESTAMP#,'dd/MM/yyyy')
+			</isNotNull>
+			<isNotNull property="codusualt" prepend=" AND ">
+				UPPER(codusualt) LIKE '%' || UPPER(#codusualt:VARCHAR#) || '%'
+			</isNotNull>
+			<isNotNull property="codremecocda" prepend=" AND ">
+				codremecocda = #codremecocda:NUMERIC#
+			</isNotNull>
+			<isNotNull property="lincon" prepend=" AND ">
+				UPPER(lincon) LIKE '%' || UPPER(#lincon:VARCHAR#) || '%'
+			</isNotNull>
+			<isNotNull property="linret" prepend=" AND ">
+				UPPER(linret) LIKE '%' || UPPER(#linret:VARCHAR#) || '%'
+			</isNotNull>
+			<isNotNull property="situac" prepend=" AND ">
+				UPPER(situac) LIKE '%' || UPPER(#situac:VARCHAR#) || '%'
+			</isNotNull>
+			<isNotNull property="cartorio" prepend=" AND ">
+				UPPER(cartorio) LIKE '%' || UPPER(#cartorio:VARCHAR#) || '%'
+			</isNotNull>
+			<isNotNull property="emicaranu" prepend=" AND ">
+				UPPER(emicaranu) LIKE '%' || UPPER(#emicaranu:VARCHAR#) || '%'
+			</isNotNull>
+			<isNotNull property="datvalanu" prepend=" AND "> to_char(datvalanu,'dd/MM/yyyy') =
+				to_char(#datvalanu:TIMESTAMP#,'dd/MM/yyyy')
+			</isNotNull>
+			<isNotNull property="datemianu" prepend=" AND "> to_char(datemianu,'dd/MM/yyyy') =
+				to_char(#datemianu:TIMESTAMP#,'dd/MM/yyyy')
+			</isNotNull>
+			<isNotNull property="asscaranu" prepend=" AND ">
+				UPPER(asscaranu) LIKE '%' || UPPER(#asscaranu:VARCHAR#) || '%'
+			</isNotNull>
+			<isNotNull property="asscda" prepend=" AND ">
+				UPPER(asscda) LIKE '%' || UPPER(#asscda:VARCHAR#) || '%'
+			</isNotNull>
+			<isNotNull property="datcon" prepend=" AND "> to_char(datcon,'dd/MM/yyyy') =
+				to_char(#datcon:TIMESTAMP#,'dd/MM/yyyy')
+			</isNotNull>
+		</dynamic>
+	</select>
+
+	<select id="getRegByCriterioComplex" parameterClass="EctVO" resultMap="mapComplexQuery">
+		SELECT * FROM SIATCGR.TBLECOCDATMP
+		<dynamic prepend=" WHERE ">
+			<isNotNull property="codecocdatmp" prepend=" AND "> codecocdatmp = #codecocdatmp:NUMERIC#
+			</isNotNull>
+			<isNotNull property="codeco" prepend=" AND "> codeco = #codeco:NUMERIC#
+			</isNotNull>
+			<isNotNull property="codcad" prepend=" AND "> codcad = #codcad:NUMERIC#
+			</isNotNull>
+			<isNotNull property="codctd" prepend=" AND "> codctd = #codctd:NUMERIC#
+			</isNotNull>
+			<isNotNull property="codlnc" prepend=" AND "> codlnc = #codlnc:NUMERIC#
+			</isNotNull>
+			<isNotNull property="codlncpar" prepend=" AND "> codlncpar = #codlncpar:NUMERIC#
+			</isNotNull>
+			<isNotNull property="identipar" prepend=" AND ">
+				UPPER(identipar) LIKE '%' || UPPER(#identipar:VARCHAR#) || '%'
+			</isNotNull>
+			<isNotNull property="coddca" prepend=" AND "> coddca = #coddca:NUMERIC#
+			</isNotNull>
+			<isNotNull property="numver" prepend=" AND "> numver = #numver:NUMERIC#
+			</isNotNull>
+			<isNotNull property="datalt" prepend=" AND "> to_char(datalt,'dd/MM/yyyy') =
+				to_char(#datalt:TIMESTAMP#,'dd/MM/yyyy')
+			</isNotNull>
+			<isNotNull property="codusualt" prepend=" AND ">
+				UPPER(codusualt) LIKE '%' || UPPER(#codusualt:VARCHAR#) || '%'
+			</isNotNull>
+			<isNotNull property="codremecocda" prepend=" AND "> codremecocda = #codremecocda:NUMERIC#
+			</isNotNull>
+			<isNotNull property="lincon" prepend=" AND ">
+				UPPER(lincon) LIKE '%' || UPPER(#lincon:VARCHAR#) || '%'
+			</isNotNull>
+			<isNotNull property="linret" prepend=" AND ">
+				UPPER(linret) LIKE '%' || UPPER(#linret:VARCHAR#) || '%'
+			</isNotNull>
+			<isNotNull property="situac" prepend=" AND ">
+				UPPER(situac) LIKE '%' || UPPER(#situac:VARCHAR#) || '%'
+			</isNotNull>
+			<isNotNull property="cartorio" prepend=" AND ">
+				UPPER(cartorio) LIKE '%' || UPPER(#cartorio:VARCHAR#) || '%'
+			</isNotNull>
+			<isNotNull property="emicaranu" prepend=" AND ">
+				UPPER(emicaranu) LIKE '%' || UPPER(#emicaranu:VARCHAR#) || '%'
+			</isNotNull>
+			<isNotNull property="datvalanu" prepend=" AND "> to_char(datvalanu,'dd/MM/yyyy') =
+				to_char(#datvalanu:TIMESTAMP#,'dd/MM/yyyy')
+			</isNotNull>
+			<isNotNull property="datemianu" prepend=" AND "> to_char(datemianu,'dd/MM/yyyy') =
+				to_char(#datemianu:TIMESTAMP#,'dd/MM/yyyy')
+			</isNotNull>
+			<isNotNull property="asscaranu" prepend=" AND ">
+				UPPER(asscaranu) LIKE '%' || UPPER(#asscaranu:VARCHAR#) || '%'
+			</isNotNull>
+			<isNotNull property="asscda" prepend=" AND ">
+				UPPER(asscda) LIKE '%' || UPPER(#asscda:VARCHAR#) || '%'
+			</isNotNull>
+			<isNotNull property="datcon" prepend=" AND "> to_char(datcon,'dd/MM/yyyy') =
+				to_char(#datcon:TIMESTAMP#,'dd/MM/yyyy')
+			</isNotNull>
+		</dynamic>
+	</select>
+
+	<select id="getTodos" resultMap="mapComplexQuerySimple">
+		SELECT * FROM SIATCGR.TBLECOCDATMP
+	</select>
+
+	<insert id="insReg" parameterClass="EctVO">
+		<selectKey keyProperty="codecocdatmp" resultClass="Long">
+			SELECT SIATCGR.seqect.nextval from dual
+		</selectKey>
+		INSERT INTO
+		SIATCGR.TBLECOCDATMP(codecocdatmp,codeco,codcad,codctd,codlnc,codlncpar,identipar,coddca,numver,datalt,codusualt,codremecocda,lincon,linret,situac,cartorio,emicaranu,datvalanu,datemianu,asscaranu,asscda,datcon)
+		VALUES
+		(#codecocdatmp:NUMERIC#,#codeco:NUMERIC#,#codcad:NUMERIC#,#codctd:NUMERIC#,#codlnc:NUMERIC#,#codlncpar:NUMERIC#,
+		UPPER(#identipar:VARCHAR#),#coddca:NUMERIC#,#numver:NUMERIC#,sysdate,
+		UPPER(#codusualt:VARCHAR#),#codremecocda:NUMERIC#, UPPER(#lincon:VARCHAR#), UPPER(#linret:VARCHAR#),
+		UPPER(#situac:VARCHAR#), UPPER(#cartorio:VARCHAR#),
+		UPPER(#emicaranu:VARCHAR#),#datvalanu:TIMESTAMP#,#datemianu:TIMESTAMP#, UPPER(#asscaranu:VARCHAR#),
+		UPPER(#asscda:VARCHAR#),#datcon:TIMESTAMP# )
+	</insert>
+
+	<update id="updRegByCod" parameterClass="EctVO">
+		UPDATE SIATCGR.TBLECOCDATMP SET codeco= #codeco:NUMERIC#,codcad= #codcad:NUMERIC#,codctd= #codctd:NUMERIC#,codlnc=
+		#codlnc:NUMERIC#,codlncpar= #codlncpar:NUMERIC#,identipar= UPPER(#identipar:VARCHAR#),coddca= #coddca:NUMERIC#,numver=
+		#numver:NUMERIC#,datalt= sysdate,codusualt= UPPER(#codusualt:VARCHAR#),codremecocda= #codremecocda:NUMERIC#,lincon=
+		UPPER(#lincon:VARCHAR#),linret= UPPER(#linret:VARCHAR#),situac= UPPER(#situac:VARCHAR#),cartorio=
+		UPPER(#cartorio:VARCHAR#),emicaranu= UPPER(#emicaranu:VARCHAR#),datvalanu= #datvalanu:TIMESTAMP#,datemianu=
+		#datemianu:TIMESTAMP#,asscaranu= UPPER(#asscaranu:VARCHAR#),asscda= UPPER(#asscda:VARCHAR#),datcon= #datcon:TIMESTAMP#
+		WHERE codecocdatmp = #codecocdatmp:NUMERIC#
+	</update>
+	
+	<delete id="delByCod" parameterClass="Long">
+		DELETE FROM SIATCGR.TBLECOCDATMP WHERE codecocdatmp = #value:NUMERIC#
+	</delete>
+	
+	<delete id="delByCodigos" parameterClass="String">
+		DELETE FROM SIATCGR.TBLECOCDATMP WHERE codecocdatmp in ($value$)
+	</delete>
+
+	<select id="getCountByCriterio" parameterClass="EctVO" resultClass="Integer">
+		SELECT count(codecocdatmp) FROM SIATCGR.TBLECOCDATMP
+		<dynamic prepend=" WHERE ">
+			<isNotNull property="codecocdatmp" prepend=" AND "> codecocdatmp = #codecocdatmp:NUMERIC#
+			</isNotNull>
+			<isNotNull property="codeco" prepend=" AND "> codeco = #codeco:NUMERIC#
+			</isNotNull>
+			<isNotNull property="codcad" prepend=" AND "> codcad = #codcad:NUMERIC#
+			</isNotNull>
+			<isNotNull property="codctd" prepend=" AND "> codctd = #codctd:NUMERIC#
+			</isNotNull>
+			<isNotNull property="codlnc" prepend=" AND "> codlnc = #codlnc:NUMERIC#
+			</isNotNull>
+			<isNotNull property="codlncpar" prepend=" AND "> codlncpar = #codlncpar:NUMERIC#
+			</isNotNull>
+			<isNotNull property="identipar" prepend=" AND ">
+				UPPER(identipar) LIKE '%' || UPPER(#identipar:VARCHAR#) || '%'
+			</isNotNull>
+			<isNotNull property="coddca" prepend=" AND "> coddca = #coddca:NUMERIC#
+			</isNotNull>
+			<isNotNull property="numver" prepend=" AND "> numver = #numver:NUMERIC#
+			</isNotNull>
+			<isNotNull property="datalt" prepend=" AND "> to_char(datalt,'dd/MM/yyyy') =
+				to_char(#datalt:TIMESTAMP#,'dd/MM/yyyy')
+			</isNotNull>
+			<isNotNull property="codusualt" prepend=" AND ">
+				UPPER(codusualt) LIKE '%' || UPPER(#codusualt:VARCHAR#) || '%'
+			</isNotNull>
+			<isNotNull property="codremecocda" prepend=" AND "> codremecocda = #codremecocda:NUMERIC#
+			</isNotNull>
+			<isNotNull property="lincon" prepend=" AND ">
+				UPPER(lincon) LIKE '%' || UPPER(#lincon:VARCHAR#) || '%'
+			</isNotNull>
+			<isNotNull property="linret" prepend=" AND ">
+				UPPER(linret) LIKE '%' || UPPER(#linret:VARCHAR#) || '%'
+			</isNotNull>
+			<isNotNull property="situac" prepend=" AND ">
+				UPPER(situac) LIKE '%' || UPPER(#situac:VARCHAR#) || '%'
+			</isNotNull>
+			<isNotNull property="cartorio" prepend=" AND ">
+				UPPER(cartorio) LIKE '%' || UPPER(#cartorio:VARCHAR#) || '%'
+			</isNotNull>
+			<isNotNull property="emicaranu" prepend=" AND ">
+				UPPER(emicaranu) LIKE '%' || UPPER(#emicaranu:VARCHAR#) || '%'
+			</isNotNull>
+			<isNotNull property="datvalanu" prepend=" AND "> to_char(datvalanu,'dd/MM/yyyy') =
+				to_char(#datvalanu:TIMESTAMP#,'dd/MM/yyyy')
+			</isNotNull>
+			<isNotNull property="datemianu" prepend=" AND "> to_char(datemianu,'dd/MM/yyyy') =
+				to_char(#datemianu:TIMESTAMP#,'dd/MM/yyyy')
+			</isNotNull>
+			<isNotNull property="asscaranu" prepend=" AND ">
+				UPPER(asscaranu) LIKE '%' || UPPER(#asscaranu:VARCHAR#) || '%'
+			</isNotNull>
+			<isNotNull property="asscda" prepend=" AND ">
+				UPPER(asscda) LIKE '%' || UPPER(#asscda:VARCHAR#) || '%'
+			</isNotNull>
+			<isNotNull property="datcon" prepend=" AND "> to_char(datcon,'dd/MM/yyyy') =
+				to_char(#datcon:TIMESTAMP#,'dd/MM/yyyy')
+			</isNotNull>
+		</dynamic>
+	</select>
+	
+	<update id="updCartorio" parameterClass="EctVO">
+		UPDATE TBLECOCDATMP 
+		SET CARTORIO = #cartorio:VARCHAR#
+		WHERE CODCTD = #codctd:NUMERIC#
+	</update>
+</sqlMap> 
+ 

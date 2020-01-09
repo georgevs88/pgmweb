@@ -1,0 +1,138 @@
+<?page id="wRepCad" title="Gerar Remessa CDA" cacheable="false" language="xul/html" zscriptLanguage="Java" contentType="text/html;charset=UTF-8"?>
+<zk xmlns="http://www.zkoss.org/2005/zul"
+	xmlns:h="http://www.w3.org/1999/xhtml"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-infabnce"
+	xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
+	<window use="pmcg.imti.view.Repcad" id="wRep" title="Gerar Remessa CDA - Processos ADM" border="normal" shadow="false" contentStyle="overflow:auto;"
+		width="990px" height="680px" position="center" mode="overlapped" sizable="false" closable="false" onCreate="wRep.initComponentes()">
+		<separator height="5px" />
+		<grid>
+			<columns>
+				<column label="" align="right" width="150px" />
+				<column label="" align="left" />
+			</columns>
+			<rows>
+				<row>
+					<label value="Data Validade Guia DAM: " />
+					<hbox>
+						<datebox value="@{wRep.dataVal}" readonly="true"/>
+						<button label="Salvar" onClick="wRep.salvarDataVal()" />
+					</hbox>
+				</row>
+			</rows>
+		</grid>
+		<separator height="5px" />			
+		<div style="background:#BF5858;padding:5px;">
+			<label value="REMESSAS GERADAS" style="color:white;font-weight:bold;font-size:14px;" />
+		</div>
+		<listbox id="listRem" model="@{wRep.listRem}" height="190px">
+			<listhead>
+				<listheader width="70px" label="Número" align="center"/>
+				<listheader width="130px" label="Data / Hora" align="center"/>
+				<listheader width="70px" label="Qtd CDA" align="center"/>
+				<listheader width="85px" label="Qtd CDA Atv" align="center"/>
+				<listheader width="75px" label="Qtd Guias" align="center"/>
+				<listheader width="140px" label="Usuário" align="center"/>
+				<listheader width="180px" label="Arq. Remessa" align="center"/>
+				<listheader label="Arq. PDFs" align="center"/>
+			</listhead>
+			<listitem self="@{each=r}" value="@{r}">
+				<listcell label="@{r.NUMREM}"/>
+				<listcell label="@{r.DATREM}"/>
+				<listcell label="@{r.QTD_CTD}" tooltiptext="Quantidade total de CDAs na remessa."/>
+				<listcell label="@{r.QTD_CTD_ATIVAS}" tooltiptext="Quantidade de CDAs ativas da remessa (que não possuem débitos pagos)."/>
+				<listcell label="@{r.QTD_GUIAS}" tooltiptext="Se esta quantidade estiver zerada a remessa deve ser processada no SIAT para a geração das Guias. Menu Lançamento/Parcela/CDA/Remessa CDA. Informar o número da Remessa e processar."/>
+				<listcell label="@{r.CODUSUALT}"/>
+				<listcell>
+					<button label="Gerar TXT Remessa" width="140px" onClick="wRep.gerarTxt(self.parent.parent)" />
+				</listcell>
+				<listcell>
+					<button label="Gerar PDFs" width="140px" onClick="wRep.gerarArquivoPDFs(self.parent.parent)" />
+				</listcell>
+			</listitem>
+		</listbox>
+		<separator height="20px" />
+		<div style="background:#3B3F6B;padding:5px;">
+			<label value="NOVA REMESSA" style="color:white;font-weight:bold;font-size:14px;" />
+		</div>
+		<separator height="5px" />
+		<grid>
+			<columns>
+				<column label="" align="right" width="130px" />
+				<column label="" align="left" />
+			</columns>
+			<rows>
+				<row>
+					<label value="Escolher Arquivo: " />
+					<hbox>
+						<textbox id="nomeArquivo" value="@{wRep.nomeArquivo}" disabled="true" width="300px" />
+						<fileupload id="upload" number="1" onUpload="wRep.upload(event)">
+							Buscar Arquivo
+						</fileupload>
+						<separator width="5px" />
+						<button image="/images/down.png" label="Baixar modelo" onClick="wRep.baixarModelo()" height="35px" width="130px" />
+						<space width="30px" />
+						<label style="color:red; font-weight:bold;" value="Nome do arquivo não deve ter caracteres especiais. (Ç, ^)" />
+					</hbox>
+				</row>
+			</rows>
+		</grid>
+		<separator height="5px" />
+		<div style="background:#5E85AB;padding:5px">
+			<label value="@{wRep.labelConteudo}" style="color:white;font-weight:bold;font-size:14px;" />
+		</div>
+		<listbox id="listArq" model="@{wRep.listArq}" width="953px" height="190px" style="border:1px solid #277EB7;">
+			<listhead>
+				<listheader width="110px" label="Processo" align="center"/>
+				<listheader width="110px" label="Nº CDA" align="center"/>
+				<listheader width="100px" label="Valor" align="center"/>
+				<listheader width="100px" label="Inscrição" align="center"/>
+				<listheader width="272px" label="Contribuinte" align="left"/>
+				<listheader width="120px" label="Dt Trânsito Julgado" align="center"/>
+				<listheader label="Msg Análise"/>
+			</listhead>
+			<listitem self="@{each=aq}" value="@{aq}">
+				<listcell label="@{aq.processo}" style="@{aq.style}"/>
+				<listcell label="@{aq.cda}" style="@{aq.style}"/>
+				<listcell label="@{aq.valor}" style="@{aq.style}"/>
+				<listcell label="@{aq.inscricao}" style="@{aq.style}"/>
+				<listcell label="@{aq.contribuinte}" style="@{aq.style}"/>
+				<listcell label="@{aq.transito_julgado}" style="@{aq.style}"/>
+				<listcell label="@{aq.msg}" style="@{aq.style}"/>
+			</listitem>
+		</listbox>
+		<separator height="10px" />
+		<div align="center">
+			<hbox>
+				<button label="Analisar Registros" width="140px" onClick="wRep.analisar()" />
+<!-- 				<image src="/images/calculator_edit.png" tooltiptext="Exportar Dados" onClick="wRep.exportListboxToExcel()"/> -->
+			</hbox>
+		</div>
+		<separator height="5px" />
+		<div style="background:#5E85AB;padding:5px">
+			<label value="@{wRep.labelResultado}" style="color:white;font-weight:bold;font-size:14px;" />
+		</div>
+		<listbox id="listCdas" model="@{wRep.listCdas}" width="953px" height="190px" style="border:1px solid #277EB7;">
+			<listhead>
+				<listheader width="105px" label="Processo" align="center"/>
+				<listheader width="105px" label="Nº CDA" align="center"/>
+				<listheader width="100px" label="Inscrição" align="center"/>
+				<listheader width="272px" label="Contribuinte" align="left"/>
+				<listheader label="Msg Análise"/>
+			</listhead>
+			<listitem self="@{each=c}" value="@{c}">
+				<listcell label="@{c.processo}"/>
+				<listcell label="@{c.cda}"/>
+				<listcell label="@{c.inscricao}"/>
+				<listcell label="@{c.contribuinte}"/>
+				<listcell label="@{c.msg}"/>
+			</listitem>
+		</listbox>
+		<separator height="10px" />
+		<div align="center">
+			<hbox>
+				<button label="Gerar Remessa" width="140px" onClick="wRep.gerar()" />
+			</hbox>
+		</div>
+	</window>
+</zk>

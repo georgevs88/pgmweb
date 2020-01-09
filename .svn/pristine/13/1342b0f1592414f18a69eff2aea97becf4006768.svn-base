@@ -1,0 +1,59 @@
+<%@page contentType="text/html;charset=UTF-8"%>
+<%@page import="java.rmi.RemoteException,javax.xml.rpc.ServiceException,ServicoPJ2_pkg.ServicoPJ2Locator,ServicoPJ2_pkg.ServicoPJ2PortType,pmcg.imti.ws.domain.*,pmcg.imti.ws.*" %> 
+
+<% request.setCharacterEncoding("UTF-8"); %>
+<HTML>
+<HEAD>
+<TITLE>Result</TITLE>
+</HEAD>
+<BODY>
+<H1>Result</H1>
+
+<jsp:useBean id="spj2" scope="session" class="ServicoPJ2.ServicoPJ2PortTypeProxy" />
+<%
+if (request.getParameter("endpoint") != null && request.getParameter("endpoint").length() > 0)
+	spj2.setEndpoint(request.getParameter("endpoint"));
+%>
+
+<%
+SolicitaLogonVO sl = new SolicitaLogonVO();
+String xml = SolicitaLogonVO.toXML(sl);
+//	new Signer();
+
+String reto = Signer.xmlSigner(xml);
+System.out.println(reto);
+try {
+
+	ServicoPJ2Locator myService_ServiceLocator = new ServicoPJ2Locator();
+	ServicoPJ2PortType webservice = myService_ServiceLocator.getServicoPJ2HttpPort();
+webservice.se
+	reto = webservice.solicitaLogon(reto);
+//	System.out.println(reto);
+
+	SolicitaLogonVO solo = SolicitaLogonVO.fromXml(reto);
+
+	String desafioAssinado = Signer.assinarString(solo.getMessageBody().getResposta().getDesafio());
+
+	ConfirmaLogonVO cl = new ConfirmaLogonVO(solo.getMessageId().getCode());
+	/*
+	String desafioAssinado = new Signer().assinarString("-4549824763982146460");
+	System.out.println(desafioAssinado);
+	ConfirmaLogonVO cl = new ConfirmaLogonVO("1459350089511");
+	*/
+	MessageBodyVO mb = new MessageBodyVO();
+	mb.setDesafioAssinado(desafioAssinado);
+	cl.setMessageBody(mb);
+	xml = ConfirmaLogonVO.toXML(cl);
+	//		new Signer();
+
+	String desaf = Signer.xmlSigner(xml);
+//	System.out.println(desaf);
+	reto = webservice.confirmaLogon(desaf);
+//	System.out.println(reto);
+} catch (RemoteException e) {
+	e.printStackTrace();
+}
+%>
+<%= reto %>
+</BODY>
+</HTML>

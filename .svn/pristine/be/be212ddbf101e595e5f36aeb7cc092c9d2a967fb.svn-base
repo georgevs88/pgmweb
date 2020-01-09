@@ -1,0 +1,73 @@
+<?page id="wLisVincZul" title="Lista de Vinc" cacheable="false" language="xul/html" zscriptLanguage="Java" contentType="text/html;charset=UTF-8"?>
+	 
+ <zk xmlns="http://www.zkoss.org/2005/zul" 
+ 	xmlns:h="http://www.w3.org/1999/xhtml" 
+ 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-infabnce" 
+ 	xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
+		 
+ 	<window use="pmcg.imti.view.Vinclis" id="wLisVinc" 
+ 		title="Lista de Vinc" border="normal" shadow="false" width="620px" 
+ 		height="460px" position="center" mode="overlapped" sizable="false" 
+ 		closable="true" onCreate="wLisVinc.initComponentes()">
+			    
+ 		<paging id="pagVinc" pageSize="20"  />
+					 
+ 		<listbox id="listVinc" model="@{wLisVinc.listmodel}" width="600px" 
+ 			height="340px" selectedItem="@{wLisVinc.item}"    
+ 			onSelect="wLisVinc.selecionar()" checkmark="true">
+				 
+ 		 
+ 			 <listhead>
+					 <listheader width="105px" >
+						<vbox>
+							<label value="idvinc"/>
+							 <longbox id="idvinc" value="@{wLisVinc.vincVO.idvinc}" maxlength="19"  width="95px"  />
+							</vbox>
+						 </listheader>
+					<listheader width="105px" >
+						<vbox>
+							<label value="Funcionário"/>
+							 <longbox id="funvinc" value="@{wLisVinc.vincVO.funvinc}" maxlength="19"  tooltiptext="Funcionário"  width="95px"  />
+							</vbox>
+						 </listheader>
+					<listheader width="105px" >
+						<vbox>
+							<label value="Vinculado"/>
+							 <longbox id="paivinc" value="@{wLisVinc.vincVO.paivinc}" maxlength="19"  tooltiptext="Vinculo"  width="95px"  />
+							</vbox>
+						 </listheader>
+					<listheader width="1010px" >
+						<vbox>
+							<label value="usualt"/>
+							<textbox id="usualt" value="@{wLisVinc.vincVO.usualt}"  onOK="wLisVinc.pesquisar();"  maxlength="200"  width="1000px"  />
+							</vbox>
+						 </listheader>
+					<listheader width="175px" >
+						<vbox>
+							<label value="datalt"/>
+							  <datebox id="datalt" value="@{wLisVinc.vincVO.datalt}"  maxlength="29"  format="dd/MM/yyyy"  width="145px"  />
+							</vbox>
+						 </listheader>
+					<listheader width="15px" >
+						<vbox>
+							<label value="ativinc"/>
+							</vbox>
+						 </listheader>
+					 </listhead>
+				  <listitem self="@{each=vinc}">
+					    <listcell	  label="@{vinc.idvinc}" />
+					    <listcell	  label="@{vinc.funVO.nomfun}" />
+					    <listcell	  label="@{vinc.paiVO.nomfun}" />
+					    <listcell	  label="@{vinc.usualt}" />
+					    <listcell	  label="@{vinc.datalt}" />
+					    <listcell	  label="@{vinc.ativinc}" />
+					    </listitem>
+				 
+ 			 
+ 		</listbox>
+			 
+ 	</window>
+		 
+ </zk>
+	 
+ 

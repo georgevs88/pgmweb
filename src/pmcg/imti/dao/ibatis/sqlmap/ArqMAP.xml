@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+ <!DOCTYPE sqlMap PUBLIC "//iBATIS.com//DTD SQL Map 2.0//EN" "HTTP://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="Arq">
+	<typeAlias alias="ArqVO" type="pmcg.imti.domain.ArqVO" />
+
+	<resultMap id="mapComplexQuerySimple" class="ArqVO">
+		<result property="iddarq" column="iddarq" />
+		<result property="tiparq" column="tiparq" />
+		<result property="nomarq" column="nomarq" />
+		<result property="qtlarq" column="qtlarq" />
+		<result property="usualt" column="usualt" />
+		<result property="datalt" column="datalt" />
+	</resultMap>
+
+	<resultMap id="mapComplexQuery" class="ArqVO">
+		<result property="iddarq" column="iddarq" />
+		<result property="tiparq" column="tiparq" />
+		<result property="nomarq" column="nomarq" />
+		<result property="qtlarq" column="qtlarq" />
+		<result property="usualt" column="usualt" />
+		<result property="datalt" column="datalt" />
+	</resultMap>
+
+	<select id="getRegByCod" parameterClass="Long" resultMap="mapComplexQuerySimple">
+		SELECT * FROM pgm.pgmarq WHERE iddarq = #value:NUMERIC#
+	</select>
+
+	<select id="getRegByCodComplex" parameterClass="Long" resultMap="mapComplexQuery">
+		SELECT * FROM pgm.pgmarq WHERE iddarq = #value:NUMERIC#
+	</select>
+
+	<select id="getRegByCriterio" parameterClass="ArqVO" resultMap="mapComplexQuerySimple">
+		SELECT * FROM pgm.pgmarq
+		<dynamic prepend=" WHERE ">
+			<isNotNull property="iddarq" prepend=" AND ">
+				iddarq = #iddarq:NUMERIC#
+			</isNotNull>
+			<isNotNull property="tiparq" prepend=" AND ">
+				tiparq ILIKE '%' || #tiparq:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="nomarq" prepend=" AND ">
+				nomarq ILIKE '%' || #nomarq:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="usualt" prepend=" AND ">
+				usualt ILIKE '%' || #usualt:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="datalt" prepend=" AND "> to_char(datalt,'dd/MM/yyyy') =
+				to_char(#datalt:TIMESTAMP#,'dd/MM/yyyy')
+			</isNotNull>
+		</dynamic>
+	</select>
+
+	<select id="getRegByCriterioComplex" parameterClass="ArqVO" resultMap="mapComplexQuery">
+		SELECT * FROM pgm.pgmarq
+		<dynamic prepend=" WHERE ">
+			<isNotNull property="iddarq" prepend=" AND "> iddarq = #iddarq:NUMERIC#
+			</isNotNull>
+			<isNotNull property="tiparq" prepend=" AND ">
+				tiparq ILIKE '%' || #tiparq:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="nomarq" prepend=" AND ">
+				nomarq ILIKE '%' || #nomarq:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="usualt" prepend=" AND ">
+				usualt ILIKE '%' || #usualt:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="datalt" prepend=" AND "> to_char(datalt,'dd/MM/yyyy') =
+				to_char(#datalt:TIMESTAMP#,'dd/MM/yyyy')
+			</isNotNull>
+		</dynamic>
+	</select>
+
+	<select id="getTodos" resultMap="mapComplexQuerySimple">
+		SELECT * FROM pgm.pgmarq
+		ORDER BY DATALT DESC
+	</select>
+
+	<insert id="insReg" parameterClass="ArqVO">
+		<selectKey keyProperty="iddarq" resultClass="Long">
+			SELECT NEXTVAL('pgm.seqarq')
+		</selectKey>
+		INSERT INTO pgm.pgmarq(iddarq,tiparq,nomarq,qtlarq,usualt,datalt) VALUES (#iddarq:NUMERIC#, UPPER(#tiparq:VARCHAR#),
+		UPPER(#nomarq:VARCHAR#),#qtlarq:NUMERIC#, UPPER(#usualt:VARCHAR#),now() )
+	</insert>
+
+	<update id="updRegByCod" parameterClass="ArqVO">
+		UPDATE pgm.pgmarq 
+		SET 
+			tiparq = UPPER(#tiparq:VARCHAR#),
+			nomarq = UPPER(#nomarq:VARCHAR#),
+			qtlarq = #qtlarq:NUMERIC#,
+			usualt = UPPER(#usualt:VARCHAR#),
+			datalt = now() 
+		WHERE 
+			iddarq = #iddarq:NUMERIC#
+	</update>
+	
+	<delete id="delByCod" parameterClass="Long">
+		DELETE FROM pgm.pgmarq WHERE iddarq = #value:NUMERIC#
+	</delete>
+	
+	<delete id="delByCodigos" parameterClass="String">
+		DELETE FROM pgm.pgmarq WHERE iddarq in ($value$)
+	</delete>
+
+	<select id="getCountByCriterio" parameterClass="ArqVO" resultClass="Integer">
+		SELECT count(iddarq) FROM pgm.pgmarq
+		<dynamic prepend=" WHERE ">
+			<isNotNull property="iddarq" prepend=" AND "> iddarq = #iddarq:NUMERIC#
+			</isNotNull>
+			<isNotNull property="tiparq" prepend=" AND ">
+				tiparq ILIKE '%' || #tiparq:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="nomarq" prepend=" AND ">
+				nomarq ILIKE '%' || #nomarq:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="usualt" prepend=" AND ">
+				usualt ILIKE '%' || #usualt:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="datalt" prepend=" AND "> to_char(datalt,'dd/MM/yyyy') =
+				to_char(#datalt:TIMESTAMP#,'dd/MM/yyyy')
+			</isNotNull>
+		</dynamic>
+	</select>
+</sqlMap> 
+ 

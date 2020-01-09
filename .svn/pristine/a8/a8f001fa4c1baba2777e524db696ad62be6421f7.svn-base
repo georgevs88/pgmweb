@@ -1,0 +1,106 @@
+package pmcg.imti.view;
+
+import java.sql.SQLException;
+import java.util.List;
+
+import org.zkoss.zul.Messagebox;
+
+import pmcg.framework.ui.WindowCrud;
+import pmcg.imti.dao.ibatis.Projex_DivDAO;
+import pmcg.imti.dao.ibatis.Projex_ProDAO;
+import pmcg.imti.domain.Projex_DivVO;
+import pmcg.imti.domain.Projex_ProVO;
+
+public class Verpro extends WindowCrud{
+	private static final long serialVersionUID = 1L;
+	public List<Projex_ProVO> listProc;
+	public Projex_ProVO procSel;
+	public List<Projex_DivVO> listDiv;
+	public Projex_DivVO divSel;
+	
+	
+	public void initComponentes() throws SQLException{
+		getCrdBar().getBotao(0).setVisible(false);
+		getCrdBar().getBotao(1).setVisible(false);
+		getCrdBar().getBotao(2).setVisible(false);
+		getCrdBar().getBotao(3).setVisible(false);
+		getCrdBar().getBotao(4).setVisible(false);
+		getCrdBar().getBotao(5).setVisible(false);
+		listProc = new Projex_ProDAO().getNaoVerificadosByImportacao(1L);
+		vincular();
+	}
+	
+	public void selecionar(){
+		listDiv = new Projex_DivDAO().getDivByProcesso(procSel.getId_processo());
+//		edrVO.setId_processo(Integer.parseInt(procSel.get("ID_PROCESSO").toString()));
+//		edrVO.setInscricao(procSel.get("INSCRICAO").toString());
+//		edrVO.setTipo_logradouro(procSel.get("TIPO_LOGRADOURO").toString());
+//		edrVO.setNome_logradouro(procSel.get("NOME_LOGRADOURO").toString());
+//		edrVO.setNumero(procSel.get("NUMERO")!=null?Integer.parseInt(procSel.get("NUMERO").toString()):null);
+//		edrVO.setComplemento(procSel.get("COMPLEMENTO")!=null?procSel.get("COMPLEMENTO").toString():null);
+//		edrVO.setTipo_bairro(procSel.get("TIPO_BAIRRO").toString());
+//		edrVO.setNome_bairro(procSel.get("NOME_BAIRRO").toString());
+//		edrVO.setCep(procSel.get("CEP").toString());
+//		edrVO.setNome_municipio(procSel.get("NOME_MUNICIPIO").toString());
+//		edrVO.setUf(procSel.get("UF").toString());
+		vincular();
+	}
+	
+	@Override
+	public void salvar() throws InterruptedException {
+		try {
+			if (Messagebox.show("Tem certeza que deseja Salvar o Processo?","Aviso!!!", Messagebox.YES | Messagebox.NO, Messagebox.QUESTION) == Messagebox.YES) {
+//				edrVO.setUsualt(getLogin());
+				new Projex_ProDAO().updRegByCod(procSel);
+//				edrVO = new EdrVO();
+//				procSel = null;
+//				listProc = new EdrDAO().getProcessosPendentesEdr();
+				vincular();
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void imprimePeticao(){
+		
+	}
+	
+	public void imprimeCDA(){
+		
+	}
+
+	public String getEstatistica(){
+		if(listProc != null && listProc.size() >0){
+			return "Qtde de Processos à analisar: " + listProc.size() + ".";
+		} else {
+			return "";
+		}
+	}
+	
+	public void pesquisar() {
+	}
+	
+	@Override
+	public void incluir() throws InterruptedException {
+	}
+
+	@Override
+	public void apagar() throws InterruptedException {
+	}
+
+	@Override
+	public void limpar() throws InterruptedException {
+		vincular();
+	}
+
+	@Override
+	public void imprimir() throws InterruptedException {
+	}
+
+	@Override
+	public void sair() throws InterruptedException {
+		detach();
+	}
+
+}

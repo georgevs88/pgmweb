@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+ <!DOCTYPE sqlMap PUBLIC "//iBATIS.com//DTD SQL Map 2.0//EN" "HTTP://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="Adeb">
+	<typeAlias alias="AdebVO" type="pmcg.imti.domain.AdebVO" />
+
+
+	<resultMap id="mapComplexQuerySimple" class="AdebVO">
+		<result property="codimp" column="codimp" />
+		<result property="datimp" column="datimp" />
+		<result property="codcad" column="codcad" />
+		<result property="numcad" column="numcad" />
+		<result property="coddeb" column="coddeb" />
+		<result property="datven" column="datven" />
+		<result property="valcor" column="valcor" />
+		<result property="valjur" column="valjur" />
+		<result property="valmul" column="valmul" />
+		<result property="valtot" column="valtot" />
+		<result property="datcal" column="datcal" />
+	</resultMap>
+
+	<resultMap id="mapComplexQuery" class="AdebVO">
+		<result property="codimp" column="codimp" />
+		<result property="datimp" column="datimp" />
+		<result property="codcad" column="codcad" />
+		<result property="numcad" column="numcad" />
+		<result property="coddeb" column="coddeb" />
+		<result property="datven" column="datven" />
+		<result property="valcor" column="valcor" />
+		<result property="valjur" column="valjur" />
+		<result property="valmul" column="valmul" />
+		<result property="valtot" column="valtot" />
+		<result property="datcal" column="datcal" />
+	</resultMap>
+
+	<select id="getRegByCod" parameterClass="Long" resultMap="mapComplexQuerySimple">
+		SELECT * FROM imo.imodeb WHERE codimp = #value:NUMERIC#
+	</select>
+
+	<select id="getRegByCodComplex" parameterClass="Long" resultMap="mapComplexQuery">
+		SELECT * FROM imo.imodeb WHERE codimp = #value:NUMERIC#
+	</select>
+
+	<select id="getRegByCriterio" parameterClass="AdebVO" resultMap="mapComplexQuerySimple">
+		SELECT * FROM imo.imodeb
+		<dynamic prepend=" WHERE ">
+			<isNotNull property="codimp" prepend=" AND ">
+				codimp = #codimp:NUMERIC#
+			</isNotNull>
+			<isNotNull property="datimp" prepend=" AND "> to_char(datimp,'dd/MM/yyyy') =
+				to_char(#datimp:TIMESTAMP#,'dd/MM/yyyy')
+			</isNotNull>
+			<isNotNull property="codcad" prepend=" AND ">
+				codcad ILIKE '%' || #codcad:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="numcad" prepend=" AND ">
+				numcad ILIKE '%' || #numcad:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="coddeb" prepend=" AND ">
+				coddeb ILIKE '%' || #coddeb:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="datven" prepend=" AND ">
+				datven ILIKE '%' || #datven:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="valcor" prepend=" AND ">
+				valcor ILIKE '%' || #valcor:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="valjur" prepend=" AND ">
+				valjur ILIKE '%' || #valjur:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="valmul" prepend=" AND ">
+				valmul ILIKE '%' || #valmul:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="valtot" prepend=" AND ">
+				valtot ILIKE '%' || #valtot:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="datcal" prepend=" AND ">
+				datcal ILIKE '%' || #datcal:VARCHAR# || '%'
+			</isNotNull>
+		</dynamic>
+	</select>
+
+	<select id="getRegByCriterioComplex" parameterClass="AdebVO" resultMap="mapComplexQuery">
+		SELECT * FROM imo.imodeb
+		<dynamic prepend=" WHERE ">
+			<isNotNull property="codimp" prepend=" AND "> codimp = #codimp:NUMERIC#
+			</isNotNull>
+			<isNotNull property="datimp" prepend=" AND "> to_char(datimp,'dd/MM/yyyy') =
+				to_char(#datimp:TIMESTAMP#,'dd/MM/yyyy')
+			</isNotNull>
+			<isNotNull property="codcad" prepend=" AND ">
+				codcad ILIKE '%' || #codcad:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="numcad" prepend=" AND ">
+				numcad ILIKE '%' || #numcad:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="coddeb" prepend=" AND ">
+				coddeb ILIKE '%' || #coddeb:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="datven" prepend=" AND ">
+				datven ILIKE '%' || #datven:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="valcor" prepend=" AND ">
+				valcor ILIKE '%' || #valcor:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="valjur" prepend=" AND ">
+				valjur ILIKE '%' || #valjur:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="valmul" prepend=" AND ">
+				valmul ILIKE '%' || #valmul:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="valtot" prepend=" AND ">
+				valtot ILIKE '%' || #valtot:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="datcal" prepend=" AND ">
+				datcal ILIKE '%' || #datcal:VARCHAR# || '%'
+			</isNotNull>
+		</dynamic>
+	</select>
+
+	<select id="getTodos" resultMap="mapComplexQuerySimple">
+		SELECT * FROM imo.imodeb
+	</select>
+
+	<insert id="insReg" parameterClass="AdebVO">
+		<selectKey keyProperty="codimp" resultClass="Long">
+			SELECT NEXTVAL('imo.seqimp')
+		</selectKey>
+		INSERT INTO imo.imodeb(codimp,datimp,codcad,numcad,coddeb,datven,valcor,valjur,valmul,valtot,datcal) VALUES
+		(#codimp:NUMERIC#,now(), UPPER(#codcad:VARCHAR#), UPPER(#numcad:VARCHAR#), UPPER(#coddeb:VARCHAR#),
+		UPPER(#datven:VARCHAR#), UPPER(#valcor:VARCHAR#), UPPER(#valjur:VARCHAR#), UPPER(#valmul:VARCHAR#),
+		UPPER(#valtot:VARCHAR#), UPPER(#datcal:VARCHAR#) )
+	</insert>
+
+	<update id="updRegByCod" parameterClass="AdebVO">
+		UPDATE imo.imodeb SET datimp= #datimp:TIMESTAMP#,codcad= UPPER(#codcad:VARCHAR#),numcad= UPPER(#numcad:VARCHAR#),coddeb=
+		UPPER(#coddeb:VARCHAR#),datven= UPPER(#datven:VARCHAR#),valcor= UPPER(#valcor:VARCHAR#),valjur=
+		UPPER(#valjur:VARCHAR#),valmul= UPPER(#valmul:VARCHAR#),valtot= UPPER(#valtot:VARCHAR#),datcal=
+		UPPER(#datcal:VARCHAR#) WHERE codimp = #codimp:NUMERIC#
+	</update>
+	<delete id="delByCod" parameterClass="Long">
+		DELETE FROM imo.imodeb WHERE codimp = #value:NUMERIC#
+	</delete>
+	<delete id="delByCodigos" parameterClass="String">
+		DELETE FROM imo.imodeb WHERE codimp in ($value$)
+	</delete>
+
+	<select id="getCountByCriterio" parameterClass="AdebVO" resultClass="Integer">
+		SELECT count(codimp) FROM imo.imodeb
+		<dynamic prepend=" WHERE ">
+			<isNotNull property="codimp" prepend=" AND "> codimp = #codimp:NUMERIC#
+			</isNotNull>
+			<isNotNull property="datimp" prepend=" AND "> to_char(datimp,'dd/MM/yyyy') =
+				to_char(#datimp:TIMESTAMP#,'dd/MM/yyyy')
+			</isNotNull>
+			<isNotNull property="codcad" prepend=" AND ">
+				codcad ILIKE '%' || #codcad:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="numcad" prepend=" AND ">
+				numcad ILIKE '%' || #numcad:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="coddeb" prepend=" AND ">
+				coddeb ILIKE '%' || #coddeb:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="datven" prepend=" AND ">
+				datven ILIKE '%' || #datven:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="valcor" prepend=" AND ">
+				valcor ILIKE '%' || #valcor:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="valjur" prepend=" AND ">
+				valjur ILIKE '%' || #valjur:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="valmul" prepend=" AND ">
+				valmul ILIKE '%' || #valmul:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="valtot" prepend=" AND ">
+				valtot ILIKE '%' || #valtot:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="datcal" prepend=" AND ">
+				datcal ILIKE '%' || #datcal:VARCHAR# || '%'
+			</isNotNull>
+		</dynamic>
+	</select>
+</sqlMap> 
+ 

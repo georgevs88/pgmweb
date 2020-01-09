@@ -1,0 +1,142 @@
+package pmcg.imti.domain; 
+
+import gerador.annotation.*;
+@ZKEntity(label = "Vinc", sequence = "seqvinc")
+public class VincVO{
+	@ZKId
+	@ZKField(label="idvinc", maxsize=19, width=95, tooltip="")
+	private Long idvinc;
+
+ 	@ZKField(label="Funcionário", maxsize=19, width=95, tooltip="Funcionário")
+	private Long funvinc;
+
+ 	@ZKField(label="Vinculado", maxsize=19, width=95, tooltip="Vinculo")
+	private Long paivinc;
+
+ 	@ZKField(label="usualt", maxsize=200, width=1000, tooltip="")
+	private String usualt;
+
+ 	@ZKField(label="datalt", maxsize=29, width=145, tooltip="")
+	private java.util.Date datalt;
+
+ 	@ZKField(label="ativinc", maxsize=1, width=5, tooltip="Ativo")
+	private Object ativinc;
+
+ 	private FunVO funVO = new FunVO();
+    private FunVO paiVO = new FunVO(); 
+        
+
+	/**
+	* null
+	**/
+	public Long getIdvinc(){
+		return this.idvinc; 
+	}
+ 
+	/**
+	* Funcionário
+	**/
+	public Long getFunvinc(){
+		return this.funvinc; 
+	}
+ 
+	/**
+	* Vinculo
+	**/
+	public Long getPaivinc(){
+		return this.paivinc; 
+	}
+ 
+	/**
+	* null
+	**/
+	public String getUsualt(){
+		return this.usualt; 
+	}
+ 
+	/**
+	* null
+	**/
+	public java.util.Date getDatalt(){
+		return this.datalt; 
+	}
+ 
+	/**
+	* Ativo
+	**/
+	public Object getAtivinc(){
+		return this.ativinc; 
+	}
+
+
+	/**
+	* null
+	**/
+	public void setIdvinc(Long idvinc){
+		this.idvinc = idvinc; 
+	}
+ 
+	/**
+	* Funcionário
+	**/
+	public void setFunvinc(Long funvinc){
+		this.funvinc = funvinc; 
+	}
+ 
+	/**
+	* Vinculo
+	**/
+	public void setPaivinc(Long paivinc){
+		this.paivinc = paivinc; 
+	}
+ 
+	/**
+	* null
+	**/
+	public void setUsualt(String usualt){
+		this.usualt = usualt; 
+	}
+ 
+	/**
+	* null
+	**/
+	public void setDatalt(java.util.Date datalt){
+		this.datalt = datalt; 
+	}
+ 
+	/**
+	* Ativo
+	**/
+	public void setAtivinc(Object ativinc){
+		this.ativinc = ativinc; 
+	}
+
+	public FunVO getFunVO() {
+		return funVO;
+	}
+
+	public void setFunVO(FunVO funVO) {
+		this.funVO = funVO;
+		if(funVO != null){
+			funvinc= funVO.getIddfun();
+		}
+		else{
+			funvinc=null;
+		}
+	}
+
+	public FunVO getPaiVO() {
+		return paiVO;
+	}
+
+	public void setPaiVO(FunVO paiVO) {
+		this.paiVO = paiVO;
+		if(paiVO != null){
+			paivinc= paiVO.getIddfun();
+		}
+		else{
+			paivinc=null;
+		}
+	}
+
+}

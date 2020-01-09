@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+ <!DOCTYPE sqlMap PUBLIC "//iBATIS.com//DTD SQL Map 2.0//EN" "HTTP://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="Alat">
+	<typeAlias alias="AlatVO" type="pmcg.imti.domain.AlatVO" />
+
+
+	<resultMap id="mapComplexQuerySimple" class="AlatVO">
+		<result property="codimp" column="codimp" />
+		<result property="datimp" column="datimp" />
+		<result property="codcad" column="codcad" />
+		<result property="numcad" column="numcad" />
+		<result property="coddeb" column="coddeb" />
+		<result property="codlat" column="codlat" />
+		<result property="numfol" column="numfol" />
+		<result property="numins" column="numins" />
+		<result property="datins" column="datins" />
+	</resultMap>
+
+	<resultMap id="mapComplexQuery" class="AlatVO">
+		<result property="codimp" column="codimp" />
+		<result property="datimp" column="datimp" />
+		<result property="codcad" column="codcad" />
+		<result property="numcad" column="numcad" />
+		<result property="coddeb" column="coddeb" />
+		<result property="codlat" column="codlat" />
+		<result property="numfol" column="numfol" />
+		<result property="numins" column="numins" />
+		<result property="datins" column="datins" />
+	</resultMap>
+
+	<select id="getRegByCod" parameterClass="Long" resultMap="mapComplexQuerySimple">
+		SELECT * FROM imo.imolat WHERE codimp = #value:NUMERIC#
+	</select>
+
+	<select id="getRegByCodComplex" parameterClass="Long" resultMap="mapComplexQuery">
+		SELECT * FROM imo.imolat WHERE codimp = #value:NUMERIC#
+	</select>
+
+	<select id="getRegByCriterio" parameterClass="AlatVO" resultMap="mapComplexQuerySimple">
+		SELECT * FROM imo.imolat
+		<dynamic prepend=" WHERE ">
+			<isNotNull property="codimp" prepend=" AND ">
+				codimp = #codimp:NUMERIC#
+			</isNotNull>
+			<isNotNull property="datimp" prepend=" AND "> to_char(datimp,'dd/MM/yyyy') =
+				to_char(#datimp:TIMESTAMP#,'dd/MM/yyyy')
+			</isNotNull>
+			<isNotNull property="codcad" prepend=" AND ">
+				codcad ILIKE '%' || #codcad:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="numcad" prepend=" AND ">
+				numcad ILIKE '%' || #numcad:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="coddeb" prepend=" AND ">
+				coddeb ILIKE '%' || #coddeb:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="codlat" prepend=" AND ">
+				codlat ILIKE '%' || #codlat:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="numfol" prepend=" AND ">
+				numfol ILIKE '%' || #numfol:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="numins" prepend=" AND ">
+				numins ILIKE '%' || #numins:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="datins" prepend=" AND ">
+				datins ILIKE '%' || #datins:VARCHAR# || '%'
+			</isNotNull>
+		</dynamic>
+	</select>
+
+	<select id="getRegByCriterioComplex" parameterClass="AlatVO" resultMap="mapComplexQuery">
+		SELECT * FROM imo.imolat
+		<dynamic prepend=" WHERE ">
+			<isNotNull property="codimp" prepend=" AND "> codimp = #codimp:NUMERIC#
+			</isNotNull>
+			<isNotNull property="datimp" prepend=" AND "> to_char(datimp,'dd/MM/yyyy') =
+				to_char(#datimp:TIMESTAMP#,'dd/MM/yyyy')
+			</isNotNull>
+			<isNotNull property="codcad" prepend=" AND ">
+				codcad ILIKE '%' || #codcad:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="numcad" prepend=" AND ">
+				numcad ILIKE '%' || #numcad:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="coddeb" prepend=" AND ">
+				coddeb ILIKE '%' || #coddeb:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="codlat" prepend=" AND ">
+				codlat ILIKE '%' || #codlat:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="numfol" prepend=" AND ">
+				numfol ILIKE '%' || #numfol:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="numins" prepend=" AND ">
+				numins ILIKE '%' || #numins:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="datins" prepend=" AND ">
+				datins ILIKE '%' || #datins:VARCHAR# || '%'
+			</isNotNull>
+		</dynamic>
+	</select>
+
+	<select id="getTodos" resultMap="mapComplexQuerySimple">
+		SELECT * FROM imo.imolat
+	</select>
+
+	<insert id="insReg" parameterClass="AlatVO">
+		<!-- <selectKey keyProperty="codimp" resultClass="Long">
+			SELECT NEXTVAL('imo.seqlat')
+		</selectKey> -->
+		INSERT INTO imo.imolat(codimp,datimp,codcad,numcad,coddeb,codlat,numfol,numins,datins) VALUES
+		(#codimp:NUMERIC#,now(), UPPER(#codcad:VARCHAR#), UPPER(#numcad:VARCHAR#), UPPER(#coddeb:VARCHAR#),
+		UPPER(#codlat:VARCHAR#), UPPER(#numfol:VARCHAR#), UPPER(#numins:VARCHAR#), UPPER(#datins:VARCHAR#) )
+	</insert>
+
+	<update id="updRegByCod" parameterClass="AlatVO">
+		UPDATE imo.imolat SET datimp= #datimp:TIMESTAMP#,codcad= UPPER(#codcad:VARCHAR#),numcad= UPPER(#numcad:VARCHAR#),coddeb=
+		UPPER(#coddeb:VARCHAR#),codlat= UPPER(#codlat:VARCHAR#),numfol= UPPER(#numfol:VARCHAR#),numins=
+		UPPER(#numins:VARCHAR#),datins= UPPER(#datins:VARCHAR#) WHERE codimp = #codimp:NUMERIC#
+	</update>
+	<delete id="delByCod" parameterClass="Long">
+		DELETE FROM imo.imolat WHERE codimp = #value:NUMERIC#
+	</delete>
+	<delete id="delByCodigos" parameterClass="String">
+		DELETE FROM imo.imolat WHERE codimp in ($value$)
+	</delete>
+
+	<select id="getCountByCriterio" parameterClass="AlatVO" resultClass="Integer">
+		SELECT count(codimp) FROM imo.imolat
+		<dynamic prepend=" WHERE ">
+			<isNotNull property="codimp" prepend=" AND "> codimp = #codimp:NUMERIC#
+			</isNotNull>
+			<isNotNull property="datimp" prepend=" AND "> to_char(datimp,'dd/MM/yyyy') =
+				to_char(#datimp:TIMESTAMP#,'dd/MM/yyyy')
+			</isNotNull>
+			<isNotNull property="codcad" prepend=" AND ">
+				codcad ILIKE '%' || #codcad:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="numcad" prepend=" AND ">
+				numcad ILIKE '%' || #numcad:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="coddeb" prepend=" AND ">
+				coddeb ILIKE '%' || #coddeb:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="codlat" prepend=" AND ">
+				codlat ILIKE '%' || #codlat:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="numfol" prepend=" AND ">
+				numfol ILIKE '%' || #numfol:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="numins" prepend=" AND ">
+				numins ILIKE '%' || #numins:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="datins" prepend=" AND ">
+				datins ILIKE '%' || #datins:VARCHAR# || '%'
+			</isNotNull>
+		</dynamic>
+	</select>
+</sqlMap> 
+ 

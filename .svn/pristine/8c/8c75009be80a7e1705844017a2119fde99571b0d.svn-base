@@ -1,0 +1,87 @@
+<?page id="wLisFunZul" title="Lista de Fun" cacheable="false" language="xul/html" zscriptLanguage="Java" contentType="text/html;charset=UTF-8"?>
+	 
+ <zk xmlns="http://www.zkoss.org/2005/zul" 
+ 	xmlns:h="http://www.w3.org/1999/xhtml" 
+ 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-infabnce" 
+ 	xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
+		 
+ 	<window use="pmcg.imti.view.Funlis" id="wLisFun" 
+ 		title="Lista de Fun" border="normal" shadow="false" width="620px" 
+ 		height="460px" position="center" mode="overlapped" sizable="false" 
+ 		closable="true" onCreate="wLisFun.initComponentes()">
+			    
+ 		<paging id="pagFun" pageSize="20"  />
+					 
+ 		<listbox id="listFun" model="@{wLisFun.listmodel}" width="700px" 
+ 			height="340px" selectedItem="@{wLisFun.item}"    
+ 			onSelect="wLisFun.selecionar()" checkmark="true">
+				 
+ 		 
+ 			 <listhead>
+					 <listheader width="105px" >
+						<vbox>
+							<label value="iddfun"/>
+							 <longbox id="iddfun" value="@{wLisFun.funVO.iddfun}" maxlength="19"  tooltiptext="PK"  width="95px"  />
+							</vbox>
+						 </listheader>
+					<listheader width="110px" >
+						<vbox>
+							<label value="Nome"/>
+							<textbox id="nomfun" value="@{wLisFun.funVO.nomfun}"  onOK="wLisFun.pesquisar();"  maxlength="200"  tooltiptext="Nome"  width="200px"  />
+							</vbox>
+						 </listheader>
+					<listheader width="135px" >
+						<vbox>
+							<label value="CPF"/>
+							<textbox id="cpffun" value="@{wLisFun.funVO.cpffun}"  onOK="wLisFun.pesquisar();"  maxlength="11"  tooltiptext="CPF"  width="125px"  />
+							</vbox>
+						 </listheader>
+					<listheader width="160px" >
+						<vbox>
+							<label value="OAB"/>
+							<textbox id="oabfun" value="@{wLisFun.funVO.oabfun}"  onOK="wLisFun.pesquisar();"  maxlength="20"  tooltiptext="OAB"  width="150px"  />
+							</vbox>
+						 </listheader>
+					<listheader width="110px" >
+						<vbox>
+							<label value="Email"/>
+							<textbox id="emafun" value="@{wLisFun.funVO.emafun}"  onOK="wLisFun.pesquisar();"  maxlength="100"  tooltiptext="e-mail"  width="200px"  />
+							</vbox>
+						 </listheader>
+					<listheader width="15px" >
+						<vbox>
+							<label value="Ativo"/>
+							</vbox>
+						 </listheader>
+					<listheader width="80px" >
+						<vbox>
+							<label value="Usuário"/>
+							<textbox id="usuariofun" value="@{wLisFun.funVO.usuariofun}"  onOK="wLisFun.pesquisar();"  maxlength="200"  tooltiptext="Usuário"  width="100px"  />
+							</vbox>
+						 </listheader>
+					<listheader width="50px" >
+						<vbox>
+							<label value="Perfil"/>
+							 <longbox id="perfun" value="@{wLisFun.funVO.perfun}" maxlength="19"  tooltiptext="Perfil"  width="95px"  />
+							</vbox>
+						 </listheader>
+					 </listhead>
+				  <listitem self="@{each=fun}">
+					    <listcell	  label="@{fun.iddfun}" />
+					    <listcell	  label="@{fun.nomfun}" />
+					    <listcell	  label="@{fun.cpffun}" />
+					    <listcell	  label="@{fun.oabfun}" />
+					    <listcell	  label="@{fun.emafun}" />
+					    <listcell	  label="@{fun.atvfun}" />
+					    <listcell	  label="@{fun.usuariofun}" />
+					    <listcell	  label="@{fun.perfun}" />
+					    </listitem>
+				 
+ 			 
+ 		</listbox>
+			 
+ 	</window>
+		 
+ </zk>
+	 
+ 

@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+ <!DOCTYPE sqlMap PUBLIC "//iBATIS.com//DTD SQL Map 2.0//EN" "HTTP://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="Pad">
+	<typeAlias alias="PadVO" type="pmcg.imti.domain.PadVO" />
+
+	<resultMap id="mapComplexQuerySimple" class="PadVO">
+		<result property="iddpad" column="iddpad" />
+		<result property="imopad" column="imopad" />
+		<result property="propad" column="propad" />
+		<result property="despad" column="despad" />
+		<result property="cpfpad" column="cpfpad" />
+		<result property="valpad" column="valpad" />
+		<result property="dttpad" column="dttpad" />
+		<result property="conpad" column="conpad" />
+		<result property="usualt" column="usualt" />
+		<result property="datalt" column="datalt" />
+	</resultMap>
+
+	<resultMap id="mapComplexQuery" class="PadVO">
+		<result property="iddpad" column="iddpad" />
+		<result property="imopad" column="imopad" />
+		<result property="propad" column="propad" />
+		<result property="despad" column="despad" />
+		<result property="cpfpad" column="cpfpad" />
+		<result property="valpad" column="valpad" />
+		<result property="dttpad" column="dttpad" />
+		<result property="conpad" column="conpad" />
+		<result property="usualt" column="usualt" />
+		<result property="datalt" column="datalt" />
+	</resultMap>
+
+	<select id="getRegByCod" parameterClass="Long" resultMap="mapComplexQuerySimple">
+		SELECT * FROM imo.imopad WHERE iddpad = #value:NUMERIC#
+	</select>
+
+	<select id="getRegByCodComplex" parameterClass="Long" resultMap="mapComplexQuery">
+		SELECT * FROM imo.imopad WHERE iddpad = #value:NUMERIC#
+	</select>
+
+	<select id="getRegByCriterio" parameterClass="PadVO" resultMap="mapComplexQuerySimple">
+		SELECT * FROM imo.imopad
+		<dynamic prepend=" WHERE ">
+			<isNotNull property="iddpad" prepend=" AND ">
+				iddpad = #iddpad:NUMERIC#
+			</isNotNull>
+			<isNotNull property="imopad" prepend=" AND ">
+				imopad ILIKE '%' || #imopad:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="propad" prepend=" AND ">
+				propad ILIKE '%' || #propad:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="despad" prepend=" AND ">
+				despad ILIKE '%' || #despad:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="cpfpad" prepend=" AND ">
+				cpfpad ILIKE '%' || #cpfpad:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="valpad" prepend=" AND ">
+				valpad = #valpad:NUMERIC#
+			</isNotNull>
+			<isNotNull property="dttpad" prepend=" AND "> to_char(dttpad,'dd/MM/yyyy') =
+				to_char(#dttpad:TIMESTAMP#,'dd/MM/yyyy')
+			</isNotNull>
+			<isNotNull property="conpad" prepend=" AND ">
+				conpad ILIKE '%' || #conpad:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="usualt" prepend=" AND ">
+				usualt ILIKE '%' || #usualt:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="datalt" prepend=" AND "> to_char(datalt,'dd/MM/yyyy') =
+				to_char(#datalt:TIMESTAMP#,'dd/MM/yyyy')
+			</isNotNull>
+		</dynamic>
+	</select>
+
+	<select id="getRegByCriterioComplex" parameterClass="PadVO" resultMap="mapComplexQuery">
+		SELECT * FROM imo.imopad
+		<dynamic prepend=" WHERE ">
+			<isNotNull property="iddpad" prepend=" AND "> iddpad = #iddpad:NUMERIC#
+			</isNotNull>
+			<isNotNull property="imopad" prepend=" AND ">
+				imopad ILIKE '%' || #imopad:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="propad" prepend=" AND ">
+				propad ILIKE '%' || #propad:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="despad" prepend=" AND ">
+				despad ILIKE '%' || #despad:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="cpfpad" prepend=" AND ">
+				cpfpad ILIKE '%' || #cpfpad:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="valpad" prepend=" AND "> valpad = #valpad:NUMERIC#
+			</isNotNull>
+			<isNotNull property="dttpad" prepend=" AND "> to_char(dttpad,'dd/MM/yyyy') =
+				to_char(#dttpad:TIMESTAMP#,'dd/MM/yyyy')
+			</isNotNull>
+			<isNotNull property="conpad" prepend=" AND ">
+				conpad ILIKE '%' || #conpad:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="usualt" prepend=" AND ">
+				usualt ILIKE '%' || #usualt:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="datalt" prepend=" AND "> to_char(datalt,'dd/MM/yyyy') =
+				to_char(#datalt:TIMESTAMP#,'dd/MM/yyyy')
+			</isNotNull>
+		</dynamic>
+	</select>
+
+	<select id="getTodos" resultMap="mapComplexQuerySimple">
+		SELECT * FROM imo.imopad
+	</select>
+
+	<insert id="insReg" parameterClass="PadVO">
+		<selectKey keyProperty="iddpad" resultClass="Long">
+			SELECT NEXTVAL('imo.seqpad')
+		</selectKey>
+		INSERT INTO imo.imopad(iddpad,imopad,propad,despad,cpfpad,valpad,dttpad,conpad,usualt,datalt) VALUES (#iddpad:NUMERIC#,
+		UPPER(#imopad:VARCHAR#), UPPER(#propad:VARCHAR#), UPPER(#despad:VARCHAR#),
+		UPPER(#cpfpad:VARCHAR#),#valpad:NUMERIC#,#dttpad:TIMESTAMP#, UPPER(#conpad:VARCHAR#), UPPER(#usualt:VARCHAR#),now() )
+	</insert>
+
+	<update id="updRegByCod" parameterClass="PadVO">
+		UPDATE imo.imopad SET imopad= UPPER(#imopad:VARCHAR#),propad= UPPER(#propad:VARCHAR#),despad= UPPER(#despad:VARCHAR#),cpfpad=
+		UPPER(#cpfpad:VARCHAR#),valpad= #valpad:NUMERIC#,dttpad= #dttpad:TIMESTAMP#,conpad= UPPER(#conpad:VARCHAR#),usualt=
+		UPPER(#usualt:VARCHAR#),datalt= now() WHERE iddpad = #iddpad:NUMERIC#
+	</update>
+	
+	<delete id="delByCod" parameterClass="Long">
+		DELETE FROM imo.imopad WHERE iddpad = #value:NUMERIC#
+	</delete>
+	
+	<delete id="delByCodigos" parameterClass="String">
+		DELETE FROM imo.imopad WHERE iddpad in ($value$)
+	</delete>
+
+	<select id="getCountByCriterio" parameterClass="PadVO" resultClass="Integer">
+		SELECT count(iddpad) FROM imo.imopad
+		<dynamic prepend=" WHERE ">
+			<isNotNull property="iddpad" prepend=" AND "> iddpad = #iddpad:NUMERIC#
+			</isNotNull>
+			<isNotNull property="imopad" prepend=" AND ">
+				imopad ILIKE '%' || #imopad:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="propad" prepend=" AND ">
+				propad ILIKE '%' || #propad:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="despad" prepend=" AND ">
+				despad ILIKE '%' || #despad:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="cpfpad" prepend=" AND ">
+				cpfpad ILIKE '%' || #cpfpad:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="valpad" prepend=" AND "> valpad = #valpad:NUMERIC#
+			</isNotNull>
+			<isNotNull property="dttpad" prepend=" AND "> to_char(dttpad,'dd/MM/yyyy') =
+				to_char(#dttpad:TIMESTAMP#,'dd/MM/yyyy')
+			</isNotNull>
+			<isNotNull property="conpad" prepend=" AND ">
+				conpad ILIKE '%' || #conpad:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="usualt" prepend=" AND ">
+				usualt ILIKE '%' || #usualt:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="datalt" prepend=" AND "> to_char(datalt,'dd/MM/yyyy') =
+				to_char(#datalt:TIMESTAMP#,'dd/MM/yyyy')
+			</isNotNull>
+		</dynamic>
+	</select>
+	
+	<select id="getVerificaProc" parameterClass="PadVO" resultClass="Integer">
+		SELECT 
+			count(iddpad) 
+		FROM 
+			imo.imopad
+		WHERE 
+			LPAD(REPLACE(imopad,'-',''),11,'0') = LPAD(REPLACE(#imopad:VARCHAR#,'-',''),11,'0')
+			AND LPAD(REPLACE(REPLACE(propad,'-',''),'/',''),10,'0') = LPAD(REPLACE(REPLACE(#propad:VARCHAR#,'-',''),'/',''),10,'0')
+	</select>
+</sqlMap> 
+ 

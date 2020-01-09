@@ -1,0 +1,141 @@
+<?page id="wCadFunZul" title="Importação de Arquivos" cacheable="false" language="xul/html" zscriptLanguage="Java" contentType="text/html;charset=UTF-8"?>
+<zk xmlns="http://www.zkoss.org/2005/zul"
+	xmlns:h="http://www.w3.org/1999/xhtml"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-infabnce"
+	xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
+	<window use="pmcg.imti.view.Imparq" id="wImparq" title="Importação de Arquivos" border="normal" shadow="false"
+		width="800px" position="center" mode="overlapped" sizable="false" closable="false" onCreate="wImparq.initComponentes()">
+		<separator height="5px" />
+		<div style="background:#A9D4FF;padding:5px">
+			<label value="Passo 1 - Selecionar Processos ADM para Remessa" style="color:#001262;font-weight:bold;font-size:14px;" />
+			<label value="(Para gerar remessa de tipo ANUAL pular para o Passo 2)" style="color:#001262;" />
+		</div>
+		<listbox model="@{wImparq.listPad}">
+			<listhead>
+<!-- 				<listheader label="Código" width="50px" align="center"/> -->
+<!-- 				<listheader label="Tipo Remessa" width="90px" align="center"/> -->
+<!-- 				<listheader label="Data Remessa" width="95px" align="center"/> -->
+<!-- 				<listheader label="Data Cálculo" width="85px" align="center"/> -->
+<!-- 				<listheader label="Descrição" width="300px" align="left"/> -->
+<!-- 				<listheader label="Usuário" align="left"/> -->
+			</listhead>
+			<listitem self="@{each=a}" value="@{a}">
+<!-- 				<listcell label="@{a.codrem}" style="text-align:center;font-size:11px;" /> -->
+<!-- 				<listcell label="@{a.tiprem}" style="text-align:center;font-size:11px;" /> -->
+<!-- 				<listcell label="@{a.dataRemessa}" style="text-align:center;font-size:11px;" /> -->
+<!-- 				<listcell label="@{a.dataCalculo}" style="text-align:center;font-size:11px;"/> -->
+<!-- 				<listcell label="@{a.desrem}" style="text-align:left;font-size:11px;"/> -->
+<!-- 				<listcell label="@{a.usualt}" style="text-align:left;font-size:11px;"/> -->
+			</listitem>
+		</listbox> 
+		<button label="Processar PAD" width="140px" onClick="wImparq.processarPad()" />
+		<separator height="5px" />
+		<div style="background:#A9D4FF;padding:5px">
+			<label value="Remessas" style="color:#001262;font-weight:bold;font-size:14px;" />
+		</div>
+		<listbox model="@{wImparq.listRem}" height="300px">
+			<listhead>
+				<listheader label="Código" width="50px" align="center"/>
+				<listheader label="Tipo Remessa" width="90px" align="center"/>
+				<listheader label="Data Remessa" width="95px" align="center"/>
+				<listheader label="Data Cálculo" width="85px" align="center"/>
+				<listheader label="Descrição" width="300px" align="left"/>
+				<listheader label="Usuário" align="left"/>
+			</listhead>
+			<listitem self="@{each=a}" value="@{a}">
+				<listcell label="@{a.codrem}" style="text-align:center;font-size:11px;" />
+				<listcell label="@{a.tiprem}" style="text-align:center;font-size:11px;" />
+				<listcell label="@{a.dataRemessa}" style="text-align:center;font-size:11px;" />
+				<listcell label="@{a.dataCalculo}" style="text-align:center;font-size:11px;"/>
+				<listcell label="@{a.desrem}" style="text-align:left;font-size:11px;"/>
+				<listcell label="@{a.usualt}" style="text-align:left;font-size:11px;"/>
+			</listitem>
+		</listbox> 
+		<separator height="20px"/>
+		<groupbox>
+			<caption label="Gerar Nova Remessa"/>
+			<grid align="center">
+				<columns>
+					<column label="" align="right" width="120px" />
+					<column label="" align="left" width="120px"/>
+					<column label="" align="right" width="100px" />
+					<column label="" align="left" width="120px"/>
+					<column label="" align="right" width="105px" />
+					<column label="" align="left" />
+				</columns>
+				<rows>
+					<row spans="1,5">
+						<hbox>
+							<label value="Descrição:" />
+							<label value="*" style="font-weight:bold;color:red;"/>
+						</hbox>
+						<textbox id="desrem" value="@{wImparq.remVO.desrem}" maxlength="150" width="572px" style="text-transform:uppercase;"/>
+					</row>
+					<row>
+						<hbox><label value="Data Remessa:" /><label value="*" style="font-weight:bold;color:red;color:red;"/></hbox>
+						<datebox id="datrem" value="@{wImparq.remVO.datrem}" readonly="true"/>
+						<hbox><label value="Data Cálculo:" /><label value="*" style="font-weight:bold;color:red;"/></hbox>
+						<datebox id="dtcrem" value="@{wImparq.remVO.dtcrem}" readonly="true"/>
+						<hbox><label value="Tipo Remessa:" /><label value="*" style="font-weight:bold;color:red;"/></hbox>
+						<combobox id="tiprem" readonly="true" width="130px" selectedItem="@{wImparq.remVO.tiprem}">
+							<comboitem value="A" label="ANUAL" />
+							<comboitem value="A" label="PROCESSO ADM" />
+						</combobox>
+					</row>
+					<row spans="1,5">
+						<hbox>
+							<label value="Arquivo DEB:" />
+							<label value="*" style="font-weight:bold;color:red;"/>
+						</hbox>
+						<hbox>
+							<fileupload number="1" width="200px" id="imageDeb" maxsize="-1"
+								onUpload='wImparq.uploadDOX(event, "deb")' image="/images/down.png"
+								label="Selecionar Arquivo..." tooltiptext="Selecionar Arquivo" />
+							<!-- <label value="@{wImparq.nomeDoArquivoDeb}"
+								id="imageDeb" /> -->
+						</hbox>
+					</row>
+					<row spans="1,5">
+						<hbox>
+							<label value="Arquivo HIS:" />
+							<label value="*" style="font-weight:bold;color:red;"/>
+						</hbox>
+						<hbox>
+							<fileupload number="1" width="200px" id="imageHis"
+								onUpload='wImparq.uploadDOX(event, "his")' image="/images/down.png"
+								label="Selecionar Arquivo..." tooltiptext="Selecionar Arquivo" />
+							<!-- <label value="@{wImparq.nomeDoArquivoHis}"
+								id="imageHis" /> -->
+						</hbox>
+					</row>
+					<row spans="1,5">
+						<hbox>
+							<label value="Arquivo LAT:" />
+							<label value="*" style="font-weight:bold;color:red;"/>
+						</hbox>
+						<hbox>
+							<fileupload number="1" width="200px" id="imageLat"
+								onUpload='wImparq.uploadDOX(event, "lat")' image="/images/down.png"
+								label="Selecionar Arquivo..." tooltiptext="Selecionar Arquivo" />
+							<!-- <label value="@{wImparq.nomeDoArquivoLat}"
+								id="imageLat" /> -->
+						</hbox>
+					</row>
+				</rows>
+			</grid>
+			<grid>
+				<columns>
+					<column align="center" width="" />
+				</columns>
+				<rows>
+					<row>
+						<button label="Importar" width="140px" onClick="wImparq.importar()" />
+					</row>
+				</rows>
+			</grid>
+		</groupbox>
+		<label style="color:red; font-size: 10px;"
+			value="* Campos de Preenchimento Obrigatório." />
+		<separator height="10px" />
+	</window>
+</zk>

@@ -1,0 +1,242 @@
+package pmcg.imti.view;
+
+import java.nio.charset.Charset;
+import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+
+import pmcg.framework.ui.WindowCrud;
+import pmcg.imti.dao.ibatis.AdebDAO;
+import pmcg.imti.dao.ibatis.AhisDAO;
+import pmcg.imti.dao.ibatis.AlatDAO;
+import pmcg.imti.dao.ibatis.DebDAO;
+import pmcg.imti.dao.ibatis.ImoDAO;
+import pmcg.imti.dao.ibatis.Projex_DivDAO;
+import pmcg.imti.dao.ibatis.Projex_ProDAO;
+import pmcg.imti.domain.AdebVO;
+import pmcg.imti.domain.AhisVO;
+import pmcg.imti.domain.AlatVO;
+import pmcg.imti.domain.DebVO;
+import pmcg.imti.domain.Projex_DivVO;
+import pmcg.imti.domain.Projex_ProVO;
+import pmcg.imti.util.FormatUtils;
+
+public class Prcarq extends WindowCrud {
+	private static final long serialVersionUID = 1L;
+	public Long codimp = 1L;
+	
+	public void initComponentes() {
+		this.getCrdBar().getBotao(0).setVisible(false);// incluir
+		this.getCrdBar().getBotao(1).setVisible(false);// salvar
+		this.getCrdBar().getBotao(2).setVisible(false);// excluir
+		this.getCrdBar().getBotao(3).setVisible(false);// limpar
+		this.getCrdBar().getBotao(4).setVisible(false);// pesquisar
+		this.getCrdBar().getBotao(5).setVisible(false);// imprimir
+		this.getCrdBar().getBotao(6).setVisible(true);// sair
+
+		this.vincular();
+	}
+	
+	public void processar(){
+		//TODO List<String> listInsc = new AdebDAO().getInscricoesAgrup(codimp);
+		List<String> listInsc = new ArrayList<String>();
+		listInsc.add("02410050121");
+		listInsc.add("04250140032");
+		
+		if(listInsc != null && listInsc.size() > 0){
+			try {
+				new Projex_ProDAO().getSqlMap().startTransaction();
+				
+				//LIMPA IMPORTACOES ANTERIORES, SE FOR O CASO
+				new Projex_ProDAO().delImportacao(codimp);
+				new Projex_DivDAO().delImportacao(codimp);
+				
+				// CRIA OS PROCESSOS (AGRUPANDO POR INSCRIÇÃO)
+				Integer count = 1;
+				for(String inscricao : listInsc){
+					System.out.println("Processo " + count + " de " + listInsc.size() + " - Inscrição: " + inscricao);
+					Projex_ProVO processo = new Projex_ProVO();
+					processo.setCodimp(codimp);
+					processo.setInscricao(inscricao);
+					processo.setId_imovel(Long.parseLong(inscricao));
+					
+					
+//					if(processo.getId_imovel().toString().equalsIgnoreCase("3000060169")){
+//						System.out.println("debug");
+//					}
+					HashMap<String, Object> dadosImovel = new ImoDAO().getDadosImovel(processo.getId_imovel());
+					processo.setRazao_social(dadosImovel.get("NOMRAZ_TRCON").toString());
+					processo.setCpf_cnpj(dadosImovel.get("CPFCGC_TRCON")!=null?FormatUtils.onlyNumbers(dadosImovel.get("CPFCGC_TRCON").toString()):null);
+					if(processo.getCpf_cnpj() != null && processo.getCpf_cnpj().equalsIgnoreCase("03501509000106")){
+						processo.setId_pessoa(dadosImovel.get("COMPRO_TRIMO")!=null?Long.parseLong(dadosImovel.get("COMPRO_TRIMO").toString()):null);
+					} else {
+						processo.setId_pessoa(dadosImovel.get("PROPRI_TRIMO")!=null?Long.parseLong(dadosImovel.get("PROPRI_TRIMO").toString()):null);
+					}
+					processo.setNumero_processo("999");
+					processo.setData_processo(new Date());
+					processo.setId_modelo_processo(1L);
+					processo.setId_razao_social(dadosImovel.get("PROPRI_TRIMO")!=null?Long.parseLong(dadosImovel.get("PROPRI_TRIMO").toString()):null);
+					processo.setNome_fantasia(dadosImovel.get("NOME_FANTASIA")!=null?dadosImovel.get("NOME_FANTASIA").toString():null);
+					processo.setTipo_empresa(dadosImovel.get("TIPO_EMPRESA")!=null?dadosImovel.get("TIPO_EMPRESA").toString():null);
+					processo.setOrgao_doc_ident(dadosImovel.get("ORGAO_DOC_IDENT")!=null?FormatUtils.onlyLetters(dadosImovel.get("ORGAO_DOC_IDENT").toString()):null);
+					processo.setDoc_ident_insc_estadual(dadosImovel.get("DOC_IDENT_INSC_ESTADUAL")!=null?dadosImovel.get("DOC_IDENT_INSC_ESTADUAL").toString():null); 
+					processo.setUf_doc_ident(dadosImovel.get("UF_DOC_IDENT")!=null?FormatUtils.onlyLetters(dadosImovel.get("UF_DOC_IDENT").toString()):null); 
+					processo.setTipo_logradouro(dadosImovel.get("TIPO_LOGRADOURO")!=null?dadosImovel.get("TIPO_LOGRADOURO").toString():null); 
+					processo.setCod_logradouro(dadosImovel.get("COD_LOGRADOURO")!=null?Long.parseLong(dadosImovel.get("COD_LOGRADOURO").toString()):null); 
+					processo.setId_logradouro(dadosImovel.get("ID_LOGRADOURO")!=null?Long.parseLong(dadosImovel.get("ID_LOGRADOURO").toString()):null); 
+					processo.setNome_logradouro(dadosImovel.get("NOME_LOGRADOURO")!=null?dadosImovel.get("NOME_LOGRADOURO").toString():null); 
+					processo.setNumero(dadosImovel.get("NUMERO")!=null?Long.parseLong(dadosImovel.get("NUMERO").toString()):null); 
+					processo.setComplemento(dadosImovel.get("COMPLEMENTO")!=null?dadosImovel.get("COMPLEMENTO").toString():null); 
+					processo.setCod_bairro(dadosImovel.get("COD_BAIRRO")!=null?Long.parseLong(dadosImovel.get("COD_BAIRRO").toString()):null); 
+					processo.setTipo_bairro(dadosImovel.get("TIPO_BAIRRO")!=null?dadosImovel.get("TIPO_BAIRRO").toString():null); 
+					processo.setNome_bairro(dadosImovel.get("NOME_BAIRRO")!=null?dadosImovel.get("NOME_BAIRRO").toString():null); 
+					processo.setCep(dadosImovel.get("CEP")!=null?dadosImovel.get("CEP").toString():null);
+					processo.setId_municipio("1");
+					processo.setCod_municipio("1");
+					processo.setNome_municipio("CAMPO GRANDE");
+					processo.setUf("MS");
+					processo.setSeq("01");
+					processo.setSerie("TRIBUTARIA");
+					processo.setData_ajuizamento(new Date());
+
+					new Projex_ProDAO().insReg(processo);
+					
+					//INSERE AS DIVIDAS
+					List<AdebVO> listDiv = new AdebDAO().getDivByInscricao(inscricao);
+					for(AdebVO deb : listDiv){
+						
+						DebVO debTIQU = new DebDAO().getRegByCod(Long.parseLong(deb.getCoddeb()));
+						AhisVO his = new AhisDAO().getRegByCoddeb(Long.parseLong(deb.getCoddeb()));
+						AlatVO lat = new AlatDAO().getRegByCoddeb(Long.parseLong(deb.getCoddeb()));
+						HashMap<String, Object> tipdeb = new DebDAO().getTipoDebito(debTIQU.getCodtrb_trdeb());
+						
+						Projex_DivVO divida = new Projex_DivVO();
+						divida.setCodimp(codimp);
+						divida.setId_processo(processo.getId_processo());
+						divida.setCodigo_trdeb(Long.parseLong(deb.getCoddeb()));
+//						divida.setId_lancto(id_lancto); //ARMLancto_Debito -> id_lancto   (IID_LANCTO)
+//						divida.setTipo_lancamento(tipo_lancamento); //ARMLancto_Debito     (
+						divida.setData_lancamento(debTIQU.getDatlan_trdeb()); //ARMLancto_Debito    (DATLAN_TRDEB)
+						divida.setTipo_cadastro(debTIQU.getCodcad_trdeb()); //ARMLancto_Debito    (CODCAD_TRDEB)
+//						divida.setId_cadastro(id_cadastro); //ARMLancto_Debito     (IID_IMOVEL)
+						divida.setExercicio(debTIQU.getAnolan_trdeb()); // ARMLancto_Debito    (ANOLAN_TRDEB)
+						divida.setPeriodo(debTIQU.getNumpre_trdeb()); // ARMLancto_Debito         (NUMPRE_TRDEB)
+						divida.setId_tipo_debito(debTIQU.getCodtrb_trdeb()); //ARMLancto_Debito    (CODTRB_TRDEB)
+						divida.setCod_tipo_debito(tipdeb.get("COD_TIPO_DEBITO")!=null?Long.parseLong(tipdeb.get("COD_TIPO_DEBITO").toString()):null); //  
+						divida.setSigla_debito(tipdeb.get("SIGLA_DEBITO")!=null?tipdeb.get("SIGLA_DEBITO").toString():null); //armtipo_debito
+						divida.setDescricao_tipo_debito(tipdeb.get("DESCRICAO_TIPO_DEBITO")!=null?tipdeb.get("DESCRICAO_TIPO_DEBITO").toString():null); // //armtipo_debito - Descricao
+						divida.setTipo_debito(tipdeb.get("TIPO_DEBITO")!=null?Integer.parseInt(tipdeb.get("TIPO_DEBITO").toString()):null);  //armtipo_debito - TIPO_DEBITO
+						divida.setTipo_periodo(tipdeb.get("TIPO_PERIODO")!=null?Integer.parseInt(tipdeb.get("TIPO_PERIODO").toString()):null);  //armtipo_debito
+						divida.setValor_total(debTIQU.getVallan_trdeb()); // ARMLancto_Debito     (VALLAN_TRDEB)
+						divida.setSigla_moeda("R$"); //ARMLancto_Debito
+						divida.setParcelas(null); //ARMLancto_Debito
+						divida.setTipo_composicao(null); //ARMLancto_Debito
+						divida.setId_contrato_parcto(null); //ARMLancto_Debito
+						divida.setParcela(debTIQU.getNumpre_trdeb()); 
+						divida.setCoddla_trdeb(debTIQU.getCoddla_trdeb()); //ARMLancto_Debito
+						divida.setSeqlan_trdeb(debTIQU.getSeqlan_trdeb()); //ARMLancto_Debito
+						divida.setDigito_trdeb(debTIQU.getDigito_trdeb()); //ARMLancto_Debito
+						divida.setData_vencimento(debTIQU.getDatven_trdeb());  // ARMLancto_Debito
+						divida.setValor_parcela(debTIQU.getVallan_trdeb()); //TRDEB  OU deb.getValLancado()
+						divida.setId_baixa("NULL");
+						divida.setId_arrecadador("NULL");
+						divida.setNome_arrecadador("NULL");
+						divida.setId_tipo_baixa("NULL");
+						divida.setDescricao_tipo_baixa("NULL");
+						divida.setTipo_baixa("NULL");
+						divida.setData_baixa("NULL");
+						divida.setSigla_moeda_baixa("NULL");
+						divida.setValor_parcela_baixa("NULL");
+						divida.setValor_correcao_baixa("NULL");
+						divida.setValor_multa_baixa("NULL");
+						divida.setValor_juros_baixa("NULL");
+						divida.setValor_outros_acrescimos_baixa("NULL");
+						divida.setValor_desconto_baixa("NULL");
+						divida.setValor_total_baixa("NULL");
+						divida.setCobrar_taxa_expediente(tipdeb.get("COBRAR_TAXA_EXPEDIENTE")!=null?tipdeb.get("COBRAR_TAXA_EXPEDIENTE").toString():null); //armtipo_debito
+						divida.setSuspende_execucao("N");
+						divida.setNumero_processo_adm(his != null && his.getCodpro()!= null?his.getCodpro():null); // JURProcesso_Debito
+						divida.setData_processo_adm(his != null && his.getDatpro()!= null?new SimpleDateFormat("yyyyMMdd").parse(his.getDatpro()):null); //JURProcesso_Debito
+						divida.setNumero_livro(lat != null && lat.getCodlat()!=null?lat.getCodlat():null); // JURProcesso_Debito
+						divida.setNumero_folha(lat != null && lat.getNumfol()!=null?lat.getNumfol():null); // JURProcesso_Debito
+						divida.setId_inscricao(lat != null && lat.getNumins()!=null?lat.getNumins():null); // JURProcesso_Debito
+						divida.setNumero_auto_infracao(his != null && his.getNumaut()!= null?his.getNumaut():null); // JURProcesso_Debito
+						divida.setData_auto_infracao(his != null && his.getDataut()!=null?new SimpleDateFormat("yyyyMMdd").parse(his.getDataut()):null); // JURProcesso_Debito
+						divida.setValor_parcela_calc(null);
+						divida.setValor_correcao_calc(deb.getValAtualizado()); //aju_imo -> valatu
+						divida.setValor_multa_calc(null); //aju_imo -> valmul  Double.parseDouble(deb.getValmul())
+						divida.setValor_outros_acrescimos_calc(null);
+						divida.setValor_desconto_calc(null);
+						divida.setValor_total_calc(deb.getValCorrigido()); //aju_imo -> valtotatu
+						divida.setIndice_correcao_calc(null);
+						divida.setIndice_multa_calc(null);
+						divida.setIndice_juros_calc(null);
+						divida.setNinsc(processo.getId_imovel());
+						divida.setOrigem("ORIGEMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMMM"); //TODO
+						divida.setCodtrb(debTIQU.getCodtrb_trdeb());
+						divida.setValor_juros_calc(deb.getValJuros()); //aju_imo -> valjur
+						divida.setValores("VALORESSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSSS"); //TODO
+						
+						new Projex_DivDAO().insReg(divida);
+					}
+					count++;
+				}
+				
+				
+				new Projex_ProDAO().getSqlMap().commitTransaction();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			} catch (ParseException e) {
+				e.printStackTrace();
+			} finally {
+				try {
+					new Projex_ProDAO().getSqlMap().endTransaction();
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		this.vincular();
+	}
+
+	
+	
+	@Override
+	public void apagar() throws InterruptedException {
+		
+	}
+
+	@Override
+	public void imprimir() throws InterruptedException {
+		
+	}
+
+	@Override
+	public void incluir() throws InterruptedException {
+		
+	}
+
+	@Override
+	public void limpar() throws InterruptedException {
+		
+	}
+
+	@Override
+	public void pesquisar() throws InterruptedException {
+		
+	}
+
+	@Override
+	public void sair() throws InterruptedException {
+		this.detach();
+	}
+
+	@Override
+	public void salvar() throws InterruptedException {
+		
+	}
+}

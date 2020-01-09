@@ -1,0 +1,87 @@
+package pmcg.imti.dao.ibatis; 
+  
+ import pmcg.framework.dao.ibatis.DAOConcorrencia; 
+ import pmcg.imti.domain.EctVO; 
+ import java.util.List; 
+ import java.sql.SQLException; 
+   /** 
+    * EctDAO  
+    * Responsável pela Manipulação de registros 
+    * @author Gerador ZK 
+    */ 
+ public class EctDAO extends DAOConcorrencia<EctVO, Long> { 
+ 	public EctDAO() { 
+ 		super("Ect","pmcg/imti/dao/ibatis/sqlmap/SqlMapConfigSIATCGR.xml"); 
+ 	} 
+ 	  
+ 	public List<EctVO> getRegByCriterioComplex(EctVO obj) { 
+ 		String nameSpace = getNameSpaceMap(); 
+ 		if (nameSpace == null) 
+ 			setNameSpaceMap("Ect"); 
+ 		try { 
+ 			return sqlMap.queryForList(nameSpace + ".getRegByCriterioComplex", 
+ 					obj); 
+ 		} catch (SQLException e) { 
+ 			e.printStackTrace(); 
+ 		} 
+ 		return null; 
+ 	} 
+   
+ 	public EctVO getRegByCodComplex(Long cod) { 
+ 		String nameSpace = getNameSpaceMap(); 
+ 		if (nameSpace == null) 
+ 			setNameSpaceMap("Ect"); 
+ 		try { 
+ 			return (EctVO) sqlMap.queryForObject(nameSpace 
+ 					+ ".getRegByCodComplex", cod); 
+ 		} catch (SQLException e) { 
+ 			e.printStackTrace(); 
+ 		} 
+ 		return null; 
+ 	} 
+  	  
+ 	public Integer delByCodigos(String codigos) { 
+ 		String nameSpace = getNameSpaceMap(); 
+ 		if (nameSpace == null) 
+ 			setNameSpaceMap("Ect"); 
+ 		try { 
+ 			return sqlMap.delete(nameSpace + ".delByCodigos", codigos); 
+ 		} catch (Exception e) { 
+ 			e.printStackTrace(); 
+ 		} 
+ 		return null; 
+ 	} 
+ 	  
+ 	public Integer 	getCountByCriterio(EctVO  obj) {  
+  		String nameSpace = getNameSpaceMap();  
+  		if (nameSpace == null)  
+  			setNameSpaceMap("Ect");  
+  		try {  
+  			return (Integer) sqlMap.queryForObject(nameSpace + ".getCountByCriterio", obj);  
+  		} catch (Exception e) {  
+  			e.printStackTrace();  
+  		}  
+  		return 0;  
+  	}  
+  	  
+  	public List<EctVO> 	getByCriterioLimit(EctVO obj,Integer inicial, Integer maximoPermitido) {  
+  		String nameSpace = getNameSpaceMap();  
+  		if (nameSpace == null)  
+  			setNameSpaceMap("Ect");  
+  		try {  
+  			return sqlMap.queryForList(nameSpace + ".getRegByCriterioComplex",obj,inicial,maximoPermitido);  
+  		} catch (SQLException e) {  
+  			e.printStackTrace();  
+  		}  
+  		return null;  
+  	} 
+  	
+  	public Integer updCartorio(EctVO ect) throws SQLException {
+		return (Integer) sqlMap.update("Ect.updCartorio", ect);
+	}
+  	
+  	public Integer updRetorno(EctVO ect) throws SQLException {
+		return (Integer) sqlMap.update("Ect.updRetorno", ect);
+	}
+ } 
+ 

@@ -1,0 +1,87 @@
+<?page id="wCadMovZul" title="Cadastro de Mov" cacheable="false" language="xul/html" zscriptLanguage="Java" contentType="text/html;charset=UTF-8"?> 
+ <zk xmlns="http://www.zkoss.org/2005/zul" 
+ 	xmlns:h="http://www.w3.org/1999/xhtml" 
+ 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-infabnce" 
+ 	xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd"> 
+ 	<window use="pmcg.imti.view.Movcad" id="wCadMov" 
+ 		title="Cadastro de Mov" border="normal" shadow="false" 
+ 		width="550px" position="center" mode="overlapped" sizable="false" 
+ 		closable="false" onCreate="wCadMov.initComponentes()"> 
+ 		<separator height="5px" /> 
+ 		 
+ 		<grid width="97%" align="center"> 
+ 			<columns> 
+ 				<column label="" align="right" width="150px" /> 
+ 				<column label="" align="left" />				 
+ 			</columns> 
+ 			<rows>			 
+ 				<row>
+	<hbox>
+		<label value="idmov:" />
+		</hbox>
+	 <longbox id="idmov" value="@{wCadMov.movVO.idmov}" maxlength="19"  width="95px"  />
+	</row>
+<row>
+	<hbox>
+		<label value="Data/Hora de Entrada do Processo::" />
+		</hbox>
+	 <datebox id="datemov" value="@{wCadMov.movVO.datemov}"  maxlength="29"  format="dd/MM/yyyy"  tooltiptext="Data/Hora de Entrada do Processo"  width="145px"  />
+	</row>
+<row>
+	<hbox>
+		<label value="Processo::" />
+		</hbox>
+	 <longbox id="promov" value="@{wCadMov.movVO.promov}" maxlength="19"  tooltiptext="Processo"  width="95px"  />
+	</row>
+<row>
+	<hbox>
+		<label value="Descrição::" />
+		</hbox>
+	<textbox id="desmov" value="@{wCadMov.movVO.desmov}" maxlength="200"  tooltiptext="Descricao"  width="1000px"  />
+	</row>
+<row>
+	<hbox>
+		<label value="usualt:" />
+		</hbox>
+	<textbox id="usualt" value="@{wCadMov.movVO.usualt}" maxlength="20"  width="100px"  />
+	</row>
+<row>
+	<hbox>
+		<label value="datalt:" />
+		</hbox>
+	 <datebox id="datalt" value="@{wCadMov.movVO.datalt}"  maxlength="13"  format="dd/MM/yyyy"  width="65px"  />
+	</row>
+<row>
+	<hbox>
+		<label value="Funcionario de Origem do Processo:" />
+		</hbox>
+	 <longbox id="orimov" value="@{wCadMov.movVO.orimov}" maxlength="19"  tooltiptext="Funcionario de Origem do Processo"  width="95px"  />
+	</row>
+<row>
+	<hbox>
+		<label value="Funcionário de Destido do Processo:" />
+		</hbox>
+	 <longbox id="destmov" value="@{wCadMov.movVO.destmov}" maxlength="19"  tooltiptext="Funcionário de Destido do Processo"  width="95px"  />
+	</row>
+<row>
+	<hbox>
+		<label value="Data/ Hora de Saida do Processo:" />
+		</hbox>
+	 <datebox id="datsmov" value="@{wCadMov.movVO.datsmov}"  maxlength="22"  format="dd/MM/yyyy"  tooltiptext="Data/ Hora de Saida do Processo"  width="110px"  />
+	</row>
+<row>
+	<hbox>
+		<label value="conmov:" />
+		</hbox>
+	</row>
+ 
+ 				 
+ 				<row spans="2" style="text-align:left"> 
+ 				<label style="color:red; font-size: 10px;" value="* Campos de Preenchimento Obrigatório." /> 
+ 				</row> 
+ 			</rows> 
+ 		</grid> 
+ 		<separator height="10px" /> 
+ 	</window> 
+ </zk> 
+ 

@@ -1,0 +1,226 @@
+package pmcg.imti.view;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.StringReader;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+
+import org.zkoss.util.media.Media;
+import org.zkoss.zk.ui.event.UploadEvent;
+import org.zkoss.zul.Listitem;
+import org.zkoss.zul.Messagebox;
+
+import com.ibm.icu.text.SimpleDateFormat;
+
+import pmcg.framework.ui.WindowCrud;
+import pmcg.framework.util.UploadUtils;
+import pmcg.framework.util.WinUtils;
+import pmcg.imti.dao.ibatis.ArlDAO;
+import pmcg.imti.dao.ibatis.ArqDAO;
+import pmcg.imti.dao.ibatis.EctDAO;
+import pmcg.imti.domain.ArlVO;
+import pmcg.imti.domain.ArqVO;
+import pmcg.imti.domain.EctVO;
+
+public class Impconf extends WindowCrud {
+
+	private static final long serialVersionUID = 1L;
+	public String nomeDoArquivo;
+	public BufferedReader readerConteudo;
+	public Boolean modoDesenv = true;
+	public List<ArqVO> listArq;
+
+	public void initComponentes() throws SQLException {
+		this.getCrdBar().getBotao(0).setVisible(false);// incluir
+		this.getCrdBar().getBotao(1).setVisible(false);// salvar
+		this.getCrdBar().getBotao(2).setVisible(false);// excluir
+		this.getCrdBar().getBotao(3).setVisible(false);// limpar
+		this.getCrdBar().getBotao(4).setVisible(false);// pesquisar
+		this.getCrdBar().getBotao(5).setVisible(false);// imprimir
+		this.getCrdBar().getBotao(6).setVisible(true);// sair
+		this.nomeDoArquivo = "Nenhum arquivo selecionado.";
+		listArq = new ArqDAO().getTodos(null);
+		this.vincular();
+	}
+	
+	public void trataVO(){
+		
+	}
+
+	public void uploadDOX(UploadEvent evt){
+		if (evt != null) {
+			List<String> tiposValidos = new ArrayList<String>();
+			tiposValidos.add("TXT");
+			tiposValidos.add("txt");
+			tiposValidos.add(new SimpleDateFormat("yy").format(new Date()));
+			//validaFormato(evt, tiposValidos);
+			
+			Media media = (Media) evt.getMedia();
+			Integer posPonto = media.getName().indexOf(".");
+			if(!(media.getFormat().equals(tiposValidos.get(0)) || media.getFormat().equals(tiposValidos.get(1)) 
+					|| media.getName().substring(posPonto + 1, posPonto + 3).equals(tiposValidos.get(2)))){
+				try {
+					Messagebox.show("Formato inválido. Formatos validos: .txt");
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+			else{
+				try {
+					nomeDoArquivo = media.getName();
+					((org.zkoss.zul.Fileupload) getComponente("imageDeb")).setLabel(nomeDoArquivo);
+					byte[] fileConf = UploadUtils.getBinaryData(media);
+					String conf = new String(fileConf);
+					readerConteudo = new BufferedReader(new StringReader(conf));
+					//System.out.println(teste.substring(0, teste.indexOf("\n")));
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+		}}
+		this.vincular();
+	}
+	
+	public void processar() throws InterruptedException, IOException{
+		trataVO();
+		String conteudo = null;
+		try {
+			conteudo = readerConteudo.readLine();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		try {
+			new EctDAO().getSqlMap().startTransaction();
+			new ArqDAO().getSqlMap().startTransaction();
+			
+			ArqVO arq = new ArqVO();
+			arq.setNomarq(nomeDoArquivo);
+			arq.setTiparq(nomeDoArquivo.substring(0, 1));
+			arq.setUsualt(getLogin());
+			Long iddarq = (Long) new ArqDAO().insReg(arq);
+			
+			Integer count = 0;
+			ArlVO linha;
+			EctVO ect;
+			
+			while(conteudo != null){
+				linha = new ArlVO();
+				linha.setArqarl(iddarq);
+				linha.setDesarl(conteudo);
+				linha.setNumarl(count + 1);
+				linha.setUsualt(getLogin());
+				new ArlDAO().insReg(linha);
+				
+				if(arq.getTiparq().equalsIgnoreCase("C")){
+					//ARQUIVO CONFIRMAÇÃO
+					if(conteudo.substring(0, 1).equalsIgnoreCase("1")){
+						String cda = conteudo.substring(216, 227);
+						String cartorio = conteudo.substring(445, 447);
+						//ATUALIZAR TBLECOCDATMP
+						ect = new EctVO();
+						ect.setCodctd(Long.parseLong(cda));
+						ect.setCartorio(cartorio);
+						new EctDAO().updCartorio(ect);
+					}
+				} else if(arq.getTiparq().equalsIgnoreCase("R")){
+					//ARQUIVO RETORNO
+					if(conteudo.substring(0, 1).equalsIgnoreCase("1")){
+						String coddca = conteudo.substring(198, 213).trim();
+						String tipoOcorrencia = conteudo.substring(457, 458).trim();
+						String codIrregularidade = conteudo.substring(485, 487).trim();
+						//ATUALIZAR TBLECOCDATMP
+						ect = new EctVO();
+						ect.setCoddca(Long.parseLong(coddca));
+						ect.setLinret(conteudo);
+						ect.setOcoret(tipoOcorrencia);
+						ect.setIrrret(codIrregularidade);
+						new EctDAO().updRetorno(ect);
+					}
+				}
+				conteudo = readerConteudo.readLine();
+				count++;
+			}
+			
+			arq.setQtlarq(count);
+			new ArqDAO().updRegByCod(arq);
+			
+			new EctDAO().getSqlMap().commitTransaction();
+			new ArqDAO().getSqlMap().commitTransaction();
+			
+			Messagebox.show("Arquivo Processado com Sucesso!","Importação Arq. Conf./Ret.",Messagebox.OK, Messagebox.EXCLAMATION);
+			this.nomeDoArquivo = "Nenhum arquivo selecionado.";
+			((org.zkoss.zul.Fileupload) getComponente("imageDeb")).setLabel(nomeDoArquivo);
+			listArq = new ArqDAO().getTodos(null);
+			vincular();
+		} catch (SQLException e) {
+			Messagebox.show("Erro ao Importar!");
+			e.printStackTrace();
+		} catch (IOException e) {
+			Messagebox.show("Erro ao Importar!");
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			Messagebox.show("Erro ao Importar!");
+			e.printStackTrace();
+		} finally {
+			try {
+				new EctDAO().getSqlMap().endTransaction();
+				new ArqDAO().getSqlMap().endTransaction();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			readerConteudo.close();
+		}
+	}
+	
+	public void imprimirRel(Listitem item){
+		@SuppressWarnings("unchecked")
+		ArqVO a = (ArqVO) item.getValue();
+		HashMap<String, String> param = new HashMap<String, String>();
+		param.put("iddarq", a.getIddarq().toString());
+		if(a.getTiparq().equalsIgnoreCase("C")){
+			new WinUtils().abrirBirt("arqconf.rptdesign", param);
+		} else {
+			new WinUtils().abrirBirt("arqret.rptdesign", param);
+		}
+	}
+	
+	public Boolean isVisibleBtnProcessar(){
+		if(readerConteudo != null && nomeDoArquivo != null && (!nomeDoArquivo.equalsIgnoreCase("Nenhum arquivo selecionado."))){
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	@Override
+	public void apagar() throws InterruptedException {
+	}
+
+	@Override
+	public void imprimir() throws InterruptedException {
+	}
+
+	@Override
+	public void incluir() throws InterruptedException {
+	}
+
+	@Override
+	public void limpar() throws InterruptedException {
+	}
+
+	@Override
+	public void pesquisar() throws InterruptedException {
+	}
+
+	@Override
+	public void sair() throws InterruptedException {
+		this.detach();
+	}
+
+	@Override
+	public void salvar() throws InterruptedException {
+	}
+}

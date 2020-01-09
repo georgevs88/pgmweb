@@ -1,0 +1,115 @@
+package pmcg.imti.util;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.util.Date;
+
+import org.eclipse.birt.core.exception.BirtException;
+import org.eclipse.birt.core.framework.Platform;
+import org.eclipse.birt.report.engine.api.EngineConfig;
+import org.eclipse.birt.report.engine.api.EngineConstants;
+import org.eclipse.birt.report.engine.api.IReportEngine;
+import org.eclipse.birt.report.engine.api.IReportEngineFactory;
+import org.eclipse.birt.report.engine.api.IReportRunnable;
+import org.eclipse.birt.report.engine.api.IRunAndRenderTask;
+import org.eclipse.birt.report.engine.api.PDFRenderOption;
+import org.eclipse.core.internal.registry.RegistryProviderFactory;
+
+public class GeraPDF {
+	@SuppressWarnings("unchecked")
+	public static String GeraPdfCda(String codctd, String codrem, Boolean modoTeste) throws BirtException{
+		EngineConfig config = new EngineConfig();
+		config.setEngineHome("/WEB-INF/lib");
+		//config.setLogConfig("/tmp", Level.FINE);
+		Platform.startup(config);
+		IReportEngineFactory factory = (IReportEngineFactory) Platform.createFactoryObject(IReportEngineFactory.EXTENSION_REPORT_ENGINE_FACTORY);
+		IReportEngine engine = factory.createReportEngine(config);
+		//engine.changeLogLevel(Level.WARNING);
+		
+//		Reader reaxml = null;
+//		try {
+//			reaxml = Resources.getResourceAsReader("pmcg/imti/util/CDACartorios.rptdesign");
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//		}
+		
+//		String caminhoCompleto = new GeraPDF().getClass().getResource("").getPath().substring(1);
+//		caminhoCompleto = caminhoCompleto.replaceFirst("/.metadata.*", "");
+//		caminhoCompleto = caminhoCompleto.replaceFirst("/pgmweb.*", ""); //se nao tiver o ".metadata"
+//		caminhoCompleto += "/pgmweb/WebContent/reports/CDACartorios.rptdesign";
+		
+		//TODO Caminho direto no Servidor
+		String caminhoCompleto;
+//		if (modoTeste) {
+			caminhoCompleto = new GeraPDF().getClass().getResource("").getPath().substring(1);
+			caminhoCompleto = caminhoCompleto.replaceFirst("/.metadata.*", "");
+			caminhoCompleto = caminhoCompleto.replaceFirst("/pgmweb.*", ""); //se nao tiver o ".metadata"
+			caminhoCompleto += "/pgmweb/WebContent/reports/CDACartorios.rptdesign";
+//		} else {
+//			caminhoCompleto = new CfgDAO().getValorByParam("URL_NFA");
+//		}
+		//Caminho na VM linux
+		//String caminhoCompleto = "usr/share/tomcat7/webapps/pgmweb/reports/CDACartorios.rptdesign";
+		
+		IReportRunnable design = engine.openReportDesign(caminhoCompleto);
+		// Create task to run and render the report,
+		IRunAndRenderTask task = engine.createRunAndRenderTask(design);
+		// Set parent classloader for engine
+		task.getAppContext().put(EngineConstants.APPCONTEXT_CLASSLOADER_KEY, GeraPDF.class.getClassLoader());
+		// Set parameter values and validate
+		task.setParameterValue("codctd", codctd);
+		task.setParameterValue("codrem", codrem);
+		task.validateParameters();
+		// Setup rendering to PDF
+		PDFRenderOption options = new PDFRenderOption();
+		//TODO setar o local do servidor
+//		if (modoTeste){
+			options.setOutputFileName("output/doc_" + new Date().getTime() + ".pdf");
+//		} else {
+			 //FORMATO = /tmp/na_123.pdf
+//			options.setOutputFileName(new CfgDAO().getValorByParam("URL_OUTPUTREL") + "na_" + new Date().getTime() + ".pdf");
+//		}
+		options.setOutputFormat("pdf");
+		// Setting this to true removes html and body tags
+		//options.setEmbeddable(false);
+		task.setRenderOption(options);
+		// run and render report
+		task.run();
+		task.close();
+		engine.destroy();
+		Platform.shutdown();
+		RegistryProviderFactory.releaseDefault();
+		String caminhoSaida = options.getOutputFileName(); //System.getProperty("user.dir").replace("\\","/");
+		//caminhoSaida += "/" + options.getOutputFileName();
+		
+//		try {
+//			Messagebox.show("Nota gerada com sucesso! " + caminhoSaida,"Nota Fiscal Avulsa",Messagebox.OK,Messagebox.INFORMATION);
+//		} catch (InterruptedException e) {
+//			e.printStackTrace();
+//		}
+		return caminhoSaida;
+	}
+	
+	public static String gerarHash(String msg) {
+		MessageDigest md = null;
+		try {
+			md = MessageDigest.getInstance("MD5");
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}
+		md.update(msg.getBytes());
+		byte[] hashMd5 = md.digest();
+		return stringHexa(hashMd5);
+	}
+	
+	private static String stringHexa(byte[] bytes) {
+		   StringBuilder s = new StringBuilder();
+		   for (int i = 0; i < bytes.length; i++) {
+		       int parteAlta = ((bytes[i] >> 4) & 0xf) << 4;
+		       int parteBaixa = bytes[i] & 0xf;
+		       if (parteAlta == 0) s.append('0');
+		       s.append(Integer.toHexString(parteAlta | parteBaixa));
+		   }
+		   return s.toString();
+		}
+}

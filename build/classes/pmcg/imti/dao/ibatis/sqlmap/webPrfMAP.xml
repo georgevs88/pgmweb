@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+ <!DOCTYPE sqlMap PUBLIC "//iBATIS.com//DTD SQL Map 2.0//EN" "http://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="nsPrf">
+	<typeAlias alias="WebPrfVO" type="pmcg.imti.domain.WebPrfVO" />
+	
+	<resultMap class="WebPrfVO" id="mapComplexQuery">
+		<result property="codprf" column="codprf" />
+		<result property="desprf" column="desprf" />
+		<result property="codsis" column="codsis" />
+		<result property="usuprf" column="usuprf" />
+		<result property="datprf" column="datprf" />
+	
+	</resultMap>
+
+	<select id="getTodos" resultClass="WebPrfVO">
+		SELECT * from webprf
+	</select>
+
+	<select id="getRegByCod" parameterClass="Integer" resultClass="WebPrfVO">
+		SELECT * from webprf 
+		WHERE 
+			codprf=#codprf:NUMERIC#
+	</select>
+
+	<select id="getRegByCriterio" parameterClass="WebPrfVO"
+		resultMap="mapComplexQuery">
+		SELECT * from webprf
+		<dynamic prepend=" WHERE ">
+			<isNotNull property="codprf" prepend=" AND ">
+				codprf=#codprf:NUMERIC#
+			</isNotNull>
+			<isNotNull property="desprf" prepend=" AND ">
+				UPPER(desprf) ILIKE '%' || UPPER(#desprf:VARCHAR#) || '%'
+			</isNotNull>
+			<isNotNull property="codsis" prepend=" AND ">
+				codsis=#codsis:NUMERIC#
+			</isNotNull>
+			<isNotNull property="usuprf" prepend=" AND ">
+				UPPER(usuprf) ILIKE '%' || UPPER(#usuprf:VARCHAR#) || '%'
+			</isNotNull>
+			<isNotNull property="datprf" prepend=" AND ">
+				datprf=#datprf:DATE#
+			</isNotNull>
+		</dynamic>
+		order by codprf
+	</select>
+	
+	<select id="countRegByCriterio" parameterClass="WebPrfVO"
+		resultClass="Integer">
+		SELECT COUNT (*) from webprf
+		<dynamic prepend=" WHERE ">
+			<isNotNull property="codprf" prepend=" AND ">
+				codprf=#codprf:NUMERIC#
+			</isNotNull>
+			<isNotNull property="desprf" prepend=" AND ">
+				UPPER(desprf) ILIKE '%' || UPPER(#desprf:VARCHAR#) || '%'
+			</isNotNull>
+			<isNotNull property="codsis" prepend=" AND ">
+				codsis=#codsis:NUMERIC#
+			</isNotNull>
+			<isNotNull property="usuprf" prepend=" AND ">
+				UPPER(usuprf) ILIKE '%' || UPPER(#usuprf:VARCHAR#) || '%'
+			</isNotNull>
+			<isNotNull property="datprf" prepend=" AND ">
+				datprf=#datprf:DATE#
+			</isNotNull>
+		</dynamic>
+	</select>
+	
+	<select id="getBuscaPrf" resultClass="Integer" parameterClass="String">
+	SELECT 
+			DISTINCT 
+				prf.codprf	
+		FROM 
+			webprf prf
+			INNER JOIN webups ups ON ( prf.codprf = ups.codprf AND ups.codsis = 77 )
+			INNER JOIN webusu usu ON ( usu.logusu = #value:VARCHAR#  AND usu.codusu = ups.codusu )
+			where desprf='SOS - Vigilância - Administrador'
+	</select>
+	
+	
+	<select id="getBuscaPerfilDECO" resultClass="WebPrfVO" parameterClass="String">
+	SELECT 
+			DISTINCT 
+				prf.desprf	
+		FROM 
+			webprf prf
+			INNER JOIN webups ups ON ( prf.codprf = ups.codprf AND ups.codsis = 77 )
+			INNER JOIN webusu usu ON ( usu.logusu = #value:VARCHAR#  AND usu.codusu = ups.codusu )
+	</select>
+		
+</sqlMap>

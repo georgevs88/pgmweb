@@ -1,0 +1,200 @@
+package pmcg.imti.domain;
+
+import pmcg.framework.domain.WebprfVO;
+import gerador.annotation.*;
+
+@ZKEntity(label = "Fun", sequence = "seqfun")
+public class FunVO {
+
+	@ZKId
+	@ZKField(label = "iddfun", maxsize = 19, width = 95, tooltip = "PK")
+	private Long iddfun;
+
+	@ZKField(label = "Nome", maxsize = 200, width = 200, tooltip = "Nome")
+	private String nomfun;
+
+	@ZKField(label = "CPF", maxsize = 11, width = 125, tooltip = "CPF")
+	private String cpffun;
+
+	@ZKField(label = "OAB", maxsize = 20, width = 150, tooltip = "OAB")
+	private String oabfun;
+	@ZKField(label = "Cargo", maxsize = 20, width = 150, tooltip = "Cargo")
+	private String cargfun;
+	@ZKField(label = "Matricula", maxsize = 20, width = 150, tooltip = "Matricula")
+	private String mtcfun;
+
+	@ZKField(label = "usualt", maxsize = 20, width = 100, tooltip = "")
+	private String usualt;
+
+	@ZKField(label = "datalt", maxsize = 13, width = 65, tooltip = "")
+	private java.util.Date datalt;
+
+	@ZKField(label = "Email", maxsize = 100, width = 200, tooltip = "e-mail")
+	private String emafun;
+
+	@ZKField(label = "Ativo", maxsize = 1, width = 5, tooltip = "ativo")
+	private Object atvfun;
+
+	@ZKField(label = "Usuário", maxsize = 200, width = 100, tooltip = "Usuário")
+	private String usuariofun;
+
+	@ZKField(label = "Perfil", maxsize = 19, width = 95, tooltip = "Perfil")
+	private int perfun;
+
+	/**
+	 * PK
+	 **/
+	public Long getIddfun() {
+		return this.iddfun;
+	}
+
+	/**
+	 * Nome
+	 **/
+	public String getNomfun() {
+		return this.nomfun;
+	}
+
+	public String getCargfun() {
+		return this.cargfun;
+	}
+
+	public String getMtcfun() {
+		return this.mtcfun;
+	}
+
+	/**
+	 * CPF
+	 **/
+	public String getCpffun() {
+		return this.cpffun;
+	}
+
+	/**
+	 * OAB
+	 **/
+	public String getOabfun() {
+		return this.oabfun;
+	}
+
+	/**
+	 * null
+	 **/
+	public String getUsualt() {
+		return this.usualt;
+	}
+
+	/**
+	 * null
+	 **/
+	public java.util.Date getDatalt() {
+		return this.datalt;
+	}
+
+	/**
+	 * e-mail
+	 **/
+	public String getEmafun() {
+		return this.emafun;
+	}
+
+	/**
+	 * ativo
+	 **/
+	public Object getAtvfun() {
+		return this.atvfun;
+	}
+
+	/**
+	 * Usuário
+	 **/
+	public String getUsuariofun() {
+		return this.usuariofun;
+	}
+
+	/**
+	 * Perfil
+	 **/
+	public Integer getPerfun() {
+		return this.perfun;
+	}
+
+	/**
+	 * PK
+	 **/
+	public void setIddfun(Long iddfun) {
+		this.iddfun = iddfun;
+	}
+
+	/**
+	 * Nome
+	 **/
+	public void setNomfun(String nomfun) {
+		this.nomfun = nomfun;
+	}
+
+	/**
+	 * CPF
+	 **/
+	public void setCpffun(String cpffun) {
+		this.cpffun = cpffun;
+	}
+
+	/**
+	 * OAB
+	 **/
+	public void setOabfun(String oabfun) {
+		this.oabfun = oabfun;
+	}
+
+	/**
+	 * null
+	 **/
+	public void setUsualt(String usualt) {
+		this.usualt = usualt;
+	}
+
+	public void setCargfun(String cargfun) {
+		this.cargfun = cargfun;
+	}
+
+	public void setMtcfun(String mtcfun) {
+		this.mtcfun = mtcfun;
+	}
+
+	/**
+	 * null
+	 **/
+	public void setDatalt(java.util.Date datalt) {
+		this.datalt = datalt;
+	}
+
+	/**
+	 * e-mail
+	 **/
+	public void setEmafun(String emafun) {
+		this.emafun = emafun;
+	}
+
+	/**
+	 * ativo
+	 **/
+	public void setAtvfun(Object atvfun) {
+		this.atvfun = atvfun;
+	}
+
+	/**
+	 * Usuário
+	 **/
+	public void setUsuariofun(String usuariofun) {
+		this.usuariofun = usuariofun;
+	}
+
+	/**
+	 * Perfil
+	 **/
+	public void setPerfun(int perfun) {
+		this.perfun = perfun;
+	}
+
+}

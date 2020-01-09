@@ -1,0 +1,175 @@
+package pmcg.imti.view;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.StringReader;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.zkoss.util.media.Media;
+import org.zkoss.zk.ui.event.UploadEvent;
+import org.zkoss.zul.Messagebox;
+
+import pmcg.framework.ui.WindowCrud;
+import pmcg.framework.util.UploadUtils;
+import pmcg.imti.dao.ibatis.ArlDAO;
+import pmcg.imti.dao.ibatis.ArqDAO;
+import pmcg.imti.dao.ibatis.EctDAO;
+import pmcg.imti.domain.ArlVO;
+import pmcg.imti.domain.ArqVO;
+import pmcg.imti.domain.EctVO;
+
+public class Impconf extends WindowCrud {
+
+	private static final long serialVersionUID = 1L;
+	public String nomeDoArquivo;
+	public BufferedReader readerConf;
+	public Boolean modoDesenv = true;
+
+	public void initComponentes() throws SQLException {
+		this.getCrdBar().getBotao(0).setVisible(false);// incluir
+		this.getCrdBar().getBotao(1).setVisible(false);// salvar
+		this.getCrdBar().getBotao(2).setVisible(false);// excluir
+		this.getCrdBar().getBotao(3).setVisible(false);// limpar
+		this.getCrdBar().getBotao(4).setVisible(false);// pesquisar
+		this.getCrdBar().getBotao(5).setVisible(false);// imprimir
+		this.getCrdBar().getBotao(6).setVisible(true);// sair
+		this.nomeDoArquivo = "Nenhum arquivo selecionado.";
+		this.vincular();
+	}
+	
+	public void trataVO(){
+		
+	}
+
+	public void uploadDOX(UploadEvent evt){
+		if (evt != null) {
+			List<String> tiposValidos = new ArrayList<String>();
+			tiposValidos.add("TXT");
+			tiposValidos.add("txt");
+			//validaFormato(evt, tiposValidos);
+			
+			Media media = (Media) evt.getMedia();
+			if(!(media.getFormat().equals(tiposValidos.get(0)) || media.getFormat().equals(tiposValidos.get(1)))){
+				try {
+					Messagebox.show("Formato inválido. Formatos validos: .txt");
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+			}
+			else{
+				try {
+					nomeDoArquivo = media.getName();
+					((org.zkoss.zul.Fileupload) getComponente("imageDeb")).setLabel(nomeDoArquivo);
+					byte[] fileConf = UploadUtils.getBinaryData(media);
+					String conf = new String(fileConf);
+					readerConf = new BufferedReader(new StringReader(conf));
+					//System.out.println(teste.substring(0, teste.indexOf("\n")));
+				} catch (IOException e) {
+					e.printStackTrace();
+				}
+		}}
+		this.vincular();
+	}
+	
+	public void processar() throws InterruptedException, IOException{
+		trataVO();
+		String conf = null;
+		try {
+			conf = readerConf.readLine();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		try {
+			new EctDAO().getSqlMap().commitTransaction();
+			new ArlDAO().getSqlMap().commitTransaction();
+			
+			ArqVO arq = new ArqVO();
+			arq.setNomarq(nomeDoArquivo);
+			arq.setTiparq("C");
+			arq.setUsualt(getLogin());
+			Long iddarq = (Long) new ArqDAO().insReg(arq);
+			
+			Integer count = 0;
+			ArlVO linha;
+			EctVO ect;
+			
+			while(conf != null){
+				linha = new ArlVO();
+				linha.setArqarl(iddarq);
+				linha.setDesarl(conf);
+				linha.setNumarl(count + 1);
+				linha.setUsualt(getLogin());
+				new ArlDAO().insReg(linha);
+				
+				if(conf.substring(0, 1).equalsIgnoreCase("1")){
+					String cda = conf.substring(217, 227);
+					String cartorio = conf.substring(446, 447);
+					//ATUALIZAR TBLECOCDATMP
+					ect = new EctVO();
+					ect.setCodctd(Long.parseLong(cda));
+					ect.setCartorio(cartorio);
+					new EctDAO().updCartorio(ect);
+				}
+				conf = readerConf.readLine();
+			}
+			
+			new EctDAO().getSqlMap().commitTransaction();
+			new EctDAO().getSqlMap().endTransaction();
+			new ArlDAO().getSqlMap().commitTransaction();
+			new ArlDAO().getSqlMap().endTransaction();
+			
+			vincular();
+			Messagebox.show("Arquivos importados com sucesso!");
+			System.out.println("Arquivos importados com sucesso!");
+			
+		} catch (SQLException e) {
+			Messagebox.show("Erro ao Importar!");
+			e.printStackTrace();
+		} catch (IOException e) {
+			Messagebox.show("Erro ao Importar!");
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			Messagebox.show("Erro ao Importar!");
+			e.printStackTrace();
+		} finally {
+			try {
+				new EctDAO().getSqlMap().endTransaction();
+				new ArlDAO().getSqlMap().endTransaction();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			readerConf.close();
+		}
+	}
+
+	@Override
+	public void apagar() throws InterruptedException {
+	}
+
+	@Override
+	public void imprimir() throws InterruptedException {
+	}
+
+	@Override
+	public void incluir() throws InterruptedException {
+	}
+
+	@Override
+	public void limpar() throws InterruptedException {
+	}
+
+	@Override
+	public void pesquisar() throws InterruptedException {
+	}
+
+	@Override
+	public void sair() throws InterruptedException {
+		this.detach();
+	}
+
+	@Override
+	public void salvar() throws InterruptedException {
+	}
+}

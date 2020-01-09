@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+ <!DOCTYPE sqlMap PUBLIC "//iBATIS.com//DTD SQL Map 2.0//EN" "HTTP://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="Rai">
+	<typeAlias alias="RaiVO" type="pmcg.imti.domain.RaiVO" />
+
+	<resultMap id="mapComplexQuerySimple" class="RaiVO">
+		<result property="codcad" column="codcad" />
+		<result property="codimo" column="codimo" />
+		<result property="numpro" column="numpro" />
+		<result property="numaut" column="numaut" />
+		<result property="datpro" column="datpro" />
+		<result property="dataut" column="dataut" />
+		<result property="datcad" column="datcad" />
+		<result property="nummrc" column="nummrc" />
+		<result property="dataju" column="dataju" />
+		<result property="dattra" column="dattra" />
+	</resultMap>
+
+	<resultMap id="mapComplexQuery" class="RaiVO">
+		<result property="codcad" column="codcad" />
+		<result property="codimo" column="codimo" />
+		<result property="numpro" column="numpro" />
+		<result property="numaut" column="numaut" />
+		<result property="datpro" column="datpro" />
+		<result property="dataut" column="dataut" />
+		<result property="datcad" column="datcad" />
+		<result property="nummrc" column="nummrc" />
+		<result property="dataju" column="dataju" />
+		<result property="dattra" column="dattra" />
+	</resultMap>
+
+	<select id="getRegByCod" parameterClass="Integer" resultMap="mapComplexQuerySimple">
+		SELECT * FROM GESTOR.TIQRAI WHERE codcad = #value:NUMERIC#
+	</select>
+
+	<select id="getRegByCodComplex" parameterClass="Integer" resultMap="mapComplexQuery">
+		SELECT * FROM GESTOR.TIQRAI WHERE codcad = #value:NUMERIC#
+	</select>
+
+	<select id="getRegByCriterio" parameterClass="RaiVO" resultMap="mapComplexQuerySimple">
+		SELECT * FROM GESTOR.TIQRAI
+		<dynamic prepend=" WHERE ">
+			<isNotNull property="codcad" prepend=" AND ">
+				codcad = #codcad:NUMERIC#
+			</isNotNull>
+			<isNotNull property="codimo" prepend=" AND ">
+				codimo = #codimo:NUMERIC#
+			</isNotNull>
+			<isNotNull property="numpro" prepend=" AND ">
+				numpro = #numpro:NUMERIC#
+			</isNotNull>
+			<isNotNull property="numaut" prepend=" AND ">
+				UPPER(numaut) LIKE '%' || UPPER(#numaut:VARCHAR#) || '%'
+			</isNotNull>
+			<isNotNull property="datpro" prepend=" AND "> to_char(datpro,'dd/MM/yyyy') =
+				to_char(#datpro:TIMESTAMP#,'dd/MM/yyyy')
+			</isNotNull>
+			<isNotNull property="dataut" prepend=" AND "> to_char(dataut,'dd/MM/yyyy') =
+				to_char(#dataut:TIMESTAMP#,'dd/MM/yyyy')
+			</isNotNull>
+			<isNotNull property="datcad" prepend=" AND "> to_char(datcad,'dd/MM/yyyy') =
+				to_char(#datcad:TIMESTAMP#,'dd/MM/yyyy')
+			</isNotNull>
+			<isNotNull property="nummrc" prepend=" AND ">
+				nummrc = #nummrc:NUMERIC#
+			</isNotNull>
+			<isNotNull property="dataju" prepend=" AND "> to_char(dataju,'dd/MM/yyyy') =
+				to_char(#dataju:TIMESTAMP#,'dd/MM/yyyy')
+			</isNotNull>
+			<isNotNull property="dattra" prepend=" AND "> to_char(dattra,'dd/MM/yyyy') =
+				to_char(#dattra:TIMESTAMP#,'dd/MM/yyyy')
+			</isNotNull>
+		</dynamic>
+	</select>
+
+	<select id="getRegByCriterioComplex" parameterClass="RaiVO" resultMap="mapComplexQuery">
+		SELECT * FROM GESTOR.TIQRAI
+		<dynamic prepend=" WHERE ">
+			<isNotNull property="codcad" prepend=" AND "> codcad = #codcad:NUMERIC#
+			</isNotNull>
+			<isNotNull property="codimo" prepend=" AND "> codimo = #codimo:NUMERIC#
+			</isNotNull>
+			<isNotNull property="numpro" prepend=" AND "> numpro = #numpro:NUMERIC#
+			</isNotNull>
+			<isNotNull property="numaut" prepend=" AND ">
+				UPPER(numaut) LIKE '%' || UPPER(#numaut:VARCHAR#) || '%'
+			</isNotNull>
+			<isNotNull property="datpro" prepend=" AND "> to_char(datpro,'dd/MM/yyyy') =
+				to_char(#datpro:TIMESTAMP#,'dd/MM/yyyy')
+			</isNotNull>
+			<isNotNull property="dataut" prepend=" AND "> to_char(dataut,'dd/MM/yyyy') =
+				to_char(#dataut:TIMESTAMP#,'dd/MM/yyyy')
+			</isNotNull>
+			<isNotNull property="datcad" prepend=" AND "> to_char(datcad,'dd/MM/yyyy') =
+				to_char(#datcad:TIMESTAMP#,'dd/MM/yyyy')
+			</isNotNull>
+			<isNotNull property="nummrc" prepend=" AND "> nummrc = #nummrc:NUMERIC#
+			</isNotNull>
+			<isNotNull property="dataju" prepend=" AND "> to_char(dataju,'dd/MM/yyyy') =
+				to_char(#dataju:TIMESTAMP#,'dd/MM/yyyy')
+			</isNotNull>
+			<isNotNull property="dattra" prepend=" AND "> to_char(dattra,'dd/MM/yyyy') =
+				to_char(#dattra:TIMESTAMP#,'dd/MM/yyyy')
+			</isNotNull>
+		</dynamic>
+	</select>
+
+	<select id="getTodos" resultMap="mapComplexQuerySimple">
+		SELECT * FROM GESTOR.TIQRAI
+	</select>
+
+	<insert id="insReg" parameterClass="RaiVO">
+		<selectKey keyProperty="codcad" resultClass="Integer">
+			SELECT GESTOR.seqrai.nextval from dual
+		</selectKey>
+		INSERT INTO GESTOR.TIQRAI(codcad,codimo,numpro,numaut,datpro,dataut,datcad,nummrc,dataju,dattra) VALUES
+		(#codcad:NUMERIC#,#codimo:NUMERIC#,#numpro:NUMERIC#,
+		UPPER(#numaut:VARCHAR#),#datpro:TIMESTAMP#,#dataut:TIMESTAMP#,#datcad:TIMESTAMP#,#nummrc:NUMERIC#,#dataju:TIMESTAMP#,#dattra:TIMESTAMP#
+		)
+	</insert>
+
+	<update id="updRegByCod" parameterClass="RaiVO">
+		UPDATE GESTOR.TIQRAI SET codimo= #codimo:NUMERIC#,numpro= #numpro:NUMERIC#,numaut= UPPER(#numaut:VARCHAR#),datpro=
+		#datpro:TIMESTAMP#,dataut= #dataut:TIMESTAMP#,datcad= #datcad:TIMESTAMP#,nummrc= #nummrc:NUMERIC#,dataju=
+		#dataju:TIMESTAMP#,dattra= #dattra:TIMESTAMP# WHERE codcad = #codcad:NUMERIC#
+	</update>
+	<delete id="delByCod" parameterClass="Integer">
+		DELETE FROM GESTOR.TIQRAI WHERE codcad = #value:NUMERIC#
+	</delete>
+	<delete id="delByCodigos" parameterClass="String">
+		DELETE FROM GESTOR.TIQRAI WHERE codcad in ($value$)
+	</delete>
+
+	<select id="getCountByCriterio" parameterClass="RaiVO" resultClass="Integer">
+		SELECT count(codcad) FROM GESTOR.TIQRAI
+		<dynamic prepend=" WHERE ">
+			<isNotNull property="codcad" prepend=" AND "> codcad = #codcad:NUMERIC#
+			</isNotNull>
+			<isNotNull property="codimo" prepend=" AND "> codimo = #codimo:NUMERIC#
+			</isNotNull>
+			<isNotNull property="numpro" prepend=" AND "> numpro = #numpro:NUMERIC#
+			</isNotNull>
+			<isNotNull property="numaut" prepend=" AND ">
+				UPPER(numaut) LIKE '%' || UPPER(#numaut:VARCHAR#) || '%'
+			</isNotNull>
+			<isNotNull property="datpro" prepend=" AND "> to_char(datpro,'dd/MM/yyyy') =
+				to_char(#datpro:TIMESTAMP#,'dd/MM/yyyy')
+			</isNotNull>
+			<isNotNull property="dataut" prepend=" AND "> to_char(dataut,'dd/MM/yyyy') =
+				to_char(#dataut:TIMESTAMP#,'dd/MM/yyyy')
+			</isNotNull>
+			<isNotNull property="datcad" prepend=" AND "> to_char(datcad,'dd/MM/yyyy') =
+				to_char(#datcad:TIMESTAMP#,'dd/MM/yyyy')
+			</isNotNull>
+			<isNotNull property="nummrc" prepend=" AND "> nummrc = #nummrc:NUMERIC#
+			</isNotNull>
+			<isNotNull property="dataju" prepend=" AND "> to_char(dataju,'dd/MM/yyyy') =
+				to_char(#dataju:TIMESTAMP#,'dd/MM/yyyy')
+			</isNotNull>
+			<isNotNull property="dattra" prepend=" AND "> to_char(dattra,'dd/MM/yyyy') =
+				to_char(#dattra:TIMESTAMP#,'dd/MM/yyyy')
+			</isNotNull>
+		</dynamic>
+	</select>
+	
+	<select id="getConteudoArq" parameterClass="hashmap" resultClass="hashmap">
+		SELECT 
+		       d.codcad_trdeb, lpad(d.numcad_trdeb, 11, '0') As numcad, d.anolan_trdeb, 
+		       lpad(d.codtrb_trdeb, 2, '0') As codtrb, lpad(d.numpre_trdeb, 2, '0') As numpre, 
+		       lpad(d.coddla_trdeb, 2, '0') As coddla, lpad(d.seqlan_trdeb, 2, '0') As seqlan,
+		       Substr(lpad(r.numpro,10,'0'), 1, 6) As numpro, Substr(lpad(r.numpro,10,'0'), 7, 2) As anopro, 
+		       Substr(lpad(r.numpro,10,'0'), 9, 2) As digpro,
+		       to_char(r.datpro, 'yyyymmdd') As datpro, rpad(r.numaut, 12, ' ') As numaut, 
+		       to_char(r.dataut, 'yyyymmdd') As dataut, to_char(r.datcad, 'yyyymmdd') As datcad
+		FROM 
+			TIQRAI r
+			Join TIQPAI p On p.codcad = r.codcad And p.codimo = r.codimo And p.numpro = r.numpro And p.numaut = r.numaut
+			Join gestor.snap$$_sntrimo i  On i.insant_trimo = r.codimo 
+			Join gestor.snap$$_sntrcon c  On c.codigo_trcon = i.propri_trimo And Length(Coalesce(trim(c.cpfcgc_trcon ), '')) > 0
+			Join gestor.snap$$_sntrdeb d  On (d.CODIGO_TRDEB = p.coddeb And d.DIGITO_TRDEB = p.digito 
+										     And d.SEQLAN_TRDEB = p.seqlan And d.CODDLA_TRDEB = p.coddla And d.NUMPRE_TRDEB = p.numpre
+										     And d.CODTRB_TRDEB = p.codtrb And d.ANOLAN_TRDEB = p.anolan And 
+										     d.CODCAD_TRDEB = p.codcad And d.NUMCAD_TRDEB = r.codimo
+										     And d.AJUIZA_TRDEB = 0)
+		WHERE
+		     Lpad(Cast(r.codimo As Varchar2(11)), 11, '0') = #inscricao:VARCHAR#
+		     AND Lpad(Cast(r.numpro As Varchar2(10)), 10, '0') = #processo:VARCHAR#
+	</select>
+	
+	<select id="getConsultaProc" parameterClass="hashmap" resultClass="hashmap">
+		Select 
+               R.NUMPRO, R.DATPRO, R.DATTRA, R.NUMAUT, R.DATAUT, C.CPFCGC_TRCON, C.NOMRAZ_TRCON
+		FROM 
+			TIQRAI r
+			Join gestor.snap$$_sntrimo i  On i.insant_trimo = r.codimo 
+			Join gestor.snap$$_sntrcon c  On c.codigo_trcon = i.propri_trimo And Length(Coalesce(trim(c.cpfcgc_trcon ), '')) > 0
+		WHERE
+		     Lpad(Cast(r.codimo As Varchar2(11)), 11, '0') = #inscricao:VARCHAR#
+		     AND Lpad(Cast(r.numpro As Varchar2(10)), 10, '0') = #processo:VARCHAR#
+	</select>
+</sqlMap> 
+ 

@@ -1,0 +1,224 @@
+package pmcg.imti.view;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.StringReader;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.zkoss.util.media.Media;
+import org.zkoss.zk.ui.event.UploadEvent;
+import org.zkoss.zul.Messagebox;
+
+import pmcg.framework.ui.WindowCrud;
+import pmcg.framework.util.UploadUtils;
+import pmcg.imti.dao.ibatis.AdebDAO;
+import pmcg.imti.dao.ibatis.AhisDAO;
+import pmcg.imti.dao.ibatis.AlatDAO;
+import pmcg.imti.domain.AdebVO;
+import pmcg.imti.domain.AhisVO;
+import pmcg.imti.domain.AlatVO;
+
+public class Imparq extends WindowCrud {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	public String nomeDoArquivoDeb;
+	public String nomeDoArquivoHis;
+	public String nomeDoArquivoLat;
+	public BufferedReader readerDeb;
+	public BufferedReader readerHis;
+	public BufferedReader readerLat;
+
+	public void initComponentes() {
+		this.getCrdBar().getBotao(0).setVisible(false);// incluir
+		this.getCrdBar().getBotao(1).setVisible(false);// salvar
+		this.getCrdBar().getBotao(2).setVisible(false);// excluir
+		this.getCrdBar().getBotao(3).setVisible(false);// limpar
+		this.getCrdBar().getBotao(4).setVisible(false);// pesquisar
+		this.getCrdBar().getBotao(5).setVisible(false);// imprimir
+		this.getCrdBar().getBotao(6).setVisible(true);// sair
+
+		this.nomeDoArquivoDeb = "Nenhum arquivo selecionado.";
+		this.nomeDoArquivoHis = "Nenhum arquivo selecionado.";
+		this.nomeDoArquivoLat = "Nenhum arquivo selecionado.";
+
+		this.vincular();
+	}
+
+	public void uploadDOX(UploadEvent evt, String arquivo){
+		if (evt != null) {
+			List<String> tiposValidos = new ArrayList<String>();
+			tiposValidos.add("TXT");
+			tiposValidos.add("txt");
+			//validaFormato(evt, tiposValidos);
+			
+			Media media = (Media) evt.getMedia();
+			if(!(media.getFormat().equals(tiposValidos.get(0)) || media.getFormat().equals(tiposValidos.get(1)))){
+				try {
+					Messagebox.show("Formato inválido. Formatos validos: .txt");
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			else{
+			try {
+			if(arquivo.equals("deb")){
+			nomeDoArquivoDeb = media.getName();
+			((org.zkoss.zul.Fileupload) getComponente("imageDeb")).setLabel(nomeDoArquivoDeb);
+			byte[] fileDeb = UploadUtils.getBinaryData(media);
+			String deb = new String(fileDeb);
+			readerDeb = new BufferedReader(new StringReader(deb));
+			//System.out.println(teste.substring(0, teste.indexOf("\n")));
+			}
+			else if(arquivo.equals("his")){
+				nomeDoArquivoHis = media.getName();
+				((org.zkoss.zul.Fileupload) getComponente("imageHis")).setLabel(nomeDoArquivoHis);
+				byte[] fileHis = UploadUtils.getBinaryData(media);
+				String his = new String(fileHis);
+				readerHis = new BufferedReader(new StringReader(his));
+			}
+				else{
+				nomeDoArquivoLat = media.getName();
+				((org.zkoss.zul.Fileupload) getComponente("imageLat")).setLabel(nomeDoArquivoLat);
+				byte[] fileLat = UploadUtils.getBinaryData(media);
+				String lat = new String(fileLat);
+				readerLat = new BufferedReader(new StringReader(lat));
+				}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}}
+		this.vincular();
+	}
+	
+	public void importar(){
+		String deb = null;
+		Long codimp = null;
+		try {
+			deb = readerDeb.readLine();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		AdebDAO adebDAO = new AdebDAO();
+		try {
+		adebDAO.getSqlMap().startTransaction();
+		while(deb != null){
+		
+		AdebVO debVO = new AdebVO();
+		String[] debs = deb.split("#");
+		debVO.setCodcad(debs[0]);
+		debVO.setNumcad(debs[1]);
+		debVO.setCoddeb(debs[2]);
+		debVO.setDatven(debs[3]);
+		debVO.setValcor(debs[4]);
+		debVO.setValjur(debs[5]);
+		debVO.setValmul(debs[6]);
+		debVO.setValtot(debs[7]);
+		
+		if(codimp == null)
+		codimp = (Long) adebDAO.insReg(debVO);
+		else{
+			debVO.setCodimp(codimp);
+			adebDAO.insRegRestoArquivo(debVO);
+		}
+			
+		String his = readerHis.readLine();
+		if(his != null){
+		AhisVO hisVO = new AhisVO();
+		String[] hiss = his.split("#");
+		hisVO.setCodimp(codimp);
+		hisVO.setCodcad(hiss[0]);
+		hisVO.setNumcad(hiss[1]);
+		hisVO.setCoddeb(hiss[2]);
+		hisVO.setCodpro(hiss[3]);
+		hisVO.setDatpro(hiss[4]);
+		hisVO.setNumaut(hiss[5]);
+		hisVO.setDataut(hiss[6]);
+		new AhisDAO().insReg(hisVO);
+		}
+		
+		String lat = readerLat.readLine();
+		if(lat != null){
+		AlatVO latVO = new AlatVO();
+		String[] lats = lat.split("#");
+		latVO.setCodimp(codimp);
+		latVO.setCodcad(lats[0]);
+		latVO.setNumcad(lats[1]);
+		latVO.setCoddeb(lats[2]);
+		latVO.setCodlat(lats[3]);
+		latVO.setNumfol(lats[4]);
+		latVO.setNumins(lats[5]);
+		latVO.setDatins(lats[6]);
+		new AlatDAO().insReg(latVO);
+		}
+		deb = readerDeb.readLine();
+		}
+			adebDAO.getSqlMap().commitTransaction();
+			adebDAO.getSqlMap().endTransaction();
+		
+		readerDeb.close();
+		readerHis.close();
+		readerLat.close();
+		
+		Messagebox.show("Arquivos importados com sucesso!");
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}	
+	}
+	
+
+	@Override
+	public void apagar() throws InterruptedException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void imprimir() throws InterruptedException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void incluir() throws InterruptedException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void limpar() throws InterruptedException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void pesquisar() throws InterruptedException {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void sair() throws InterruptedException {
+		this.detach();
+	}
+
+	@Override
+	public void salvar() throws InterruptedException {
+		// TODO Auto-generated method stub
+		
+	}
+}

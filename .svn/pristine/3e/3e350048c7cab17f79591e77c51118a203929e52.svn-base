@@ -1,0 +1,232 @@
+ 
+ package pmcg.imti.view; 
+ import java.util.Date; 
+ import java.util.HashMap; 
+ import java.util.Map; 
+ import org.zkoss.zul.ListModelList; 
+ import org.zkoss.zul.Messagebox; 
+ import pmcg.framework.ui.WindowCrud; 
+ import pmcg.framework.util.WinUtils; 
+ import org.zkoss.zk.ui.event.Events; 
+ import org.zkoss.zk.ui.Executions; 
+ import org.zkoss.zk.ui.WrongValueException; 
+ import pmcg.framework.exception.ConcorrenciaException; 
+ 
+import pmcg.imti.dao.ibatis.MovDAO;
+import pmcg.imti.domain.MovVO; 
+  
+ 	/** 
+ 	*View de Cadastro de Mov 
+ 	**/ 
+ public class Movcad extends WindowCrud { 
+ 	private static final long serialVersionUID = 1L; 
+ 	
+public MovVO movVO = new MovVO();	 
+ 	Boolean abertoPeloMenu = Boolean.TRUE; 
+ 	@SuppressWarnings("unchecked") 
+ 	public Movcad() { 
+ 		super("movcad.zul"); 
+ 		Map<String, String> map = Executions.getCurrent().getArg(); 
+ 		if (map.get("pageName") != null) { 
+ 			abertoPeloMenu = Boolean.FALSE; 
+ 		} 
+ 	} 
+ 	  
+ 	/** 
+ 	*Metodo initComponentes() - para inicializar a view. 
+ 	**/ 
+ 	public void initComponentes() { 
+ 		 
+ 		ctrlBotoesIncAltDel(false);  
+ 		  
+ 		 
+ 		this.vincular(); 
+ 	} 
+ 	/** 
+ 	*Metodo incluir()- Metodo responsável pela incluir o registro. 
+ 	**/ 
+ 	@Override 
+ 	public void incluir() { 
+ 		try { 
+ 			if (this.validarForm() && this.trataVO() ) { 
+ 				 
+MovDAO movDAO = new MovDAO(); 
+Long cod = new Long(movDAO.insReg(this.movVO).toString()); 
+ if (cod > 0) {
+this.movVO.setIdmov(cod);
+	if (this.abertoPeloMenu) {
+			Messagebox.show("O Registro foi incluído com sucesso!");
+	}
+	else {
+	 this.sair();
+	}
+				ctrlBotoesIncAltDel(true);	
+				this.vincular();
+} else {
+	Messagebox.show("O registro não pode ser incluído!","Erro:", Messagebox.OK, Messagebox.ERROR);
+			} 
+ 			} 
+ 		} catch (WrongValueException e) { 
+ 			throw e; 
+ 		} catch (Exception e) { 
+ 			try { 
+ 				Messagebox.show("O registro não pode ser incluído: " 
+ 						+ e.getMessage(), "Erro:", Messagebox.OK, 
+ 						Messagebox.ERROR); 
+ 			} catch (InterruptedException e1) { 
+ 				e1.printStackTrace(); 
+ 			} 
+ 			e.printStackTrace(); 
+ 		} 
+ 	} 
+ 	/** 
+ 	*Metodo salvar()-Metodo responsável em salvar o registro. 
+ 	**/ 
+ 	@Override 
+ 	public void salvar() { 
+ 		try { 
+ 			if (this.validarForm() && this.trataVO() 
+ 					&& this.movVO.getIdmov() != null ) { 
+ 				 
+MovDAO movDAO = new MovDAO(); 
+	if (movDAO.updRegByCodConcorrencia(this.movVO,movVO.getIdmov()) > 0) { 
+	if (this.abertoPeloMenu) { 
+		Messagebox.show("Registro Salvo com sucesso!"); 
+	} else { 
+	   this.sair(); 
+	} 
+				this.vincular(); 
+			} else { 
+				Messagebox.show("O registro não pode ser salvo!","Erro:", Messagebox.OK, Messagebox.ERROR); 
+			} 
+ 			} 
+ 		} catch (WrongValueException e) { 
+ 			throw e; 
+ 		} catch (ConcorrenciaException e) { 
+ 			try {   
+   				Messagebox.show(e.getMessage());   
+   			} catch (InterruptedException e1) {   
+   				e1.printStackTrace();   
+   			} 				  
+ 		} catch (Exception e) { 
+ 			try {   
+   				Messagebox.show("O registro não pode ser salvo!","Erro:", Messagebox.OK, Messagebox.ERROR);  
+   			} catch (InterruptedException e1) {   
+   				e1.printStackTrace();   
+   			} 	 
+ 			 
+ 			e.printStackTrace(); 
+ 		} 
+ 		this.limpar(); 
+ 	} 
+ 	/** 
+ 	*Metodo apagar()-Metodo responsável em apagar o registro. 
+ 	**/ 
+ 	@Override 
+ 	public void apagar() { 
+ 		Integer qtdreg = 0; 
+ 		try { 
+ 			if (Messagebox.show("Deseja realmente excluir ?", "Aviso!!!", 
+ 					Messagebox.YES | Messagebox.NO, Messagebox.QUESTION) == Messagebox.YES) { 
+ 				
+qtdreg =  new MovDAO().delRegConcorrencia(movVO,movVO.getIdmov());
+	if(qtdreg > 0){
+			Messagebox.show("Registro excluído com sucesso!");
+	this.limpar();
+	}
+	else{
+		Messagebox.show("Registro não pode ser excluído!");
+	} 
+ 			} 
+ 			  
+ 		} catch (ConcorrenciaException e) { 
+ 				try {  
+  				Messagebox.show(e.getMessage());  
+  			} catch (InterruptedException e1) {  
+  				e1.printStackTrace();  
+  			} 		  
+ 		 
+ 		}catch (Exception e) { 
+ 			try { 
+ 				Messagebox.show("Registro não pode ser excluído!"); 
+ 			} catch (InterruptedException e1) { 
+ 				e1.printStackTrace(); 
+ 			} 
+ 			e.printStackTrace(); 
+ 		}   
+ 	} 
+ 	/** 
+ 	*Metodo limpar()- Metodo reponsável por limpar os campos da tela. 
+ 	**/ 
+ 	@Override 
+ 	public void limpar() { 
+ 		
+this.movVO = new MovVO(); 
+ 		  
+ 		ctrlBotoesIncAltDel(false);  
+ 		this.vincular(); 
+ 	} 
+ 	/** 
+ 	*Metodo pesquisar()- Metodo responsável pela pesquisa. 
+ 	**/ 
+ 	@Override 
+ 	public void pesquisar() { 
+ 		 
+ 		Map<String, String> param = new HashMap<String, String>(); 
+ 		new WinUtils().abrirLis("/forms/movlis.zul", param, this, 
+ 				"retMovVO"); 
+ 	} 
+     /** 
+    	*Metodo retMovVO()- Metodo de retorno do pesquisar 
+ 	**/ 
+ 	public void retMovVO(Object ret) { 
+ 		if (ret != null) { 
+ 			  
+ 			
+ this.movVO = (MovVO) ret; 
+ 			ctrlBotoesIncAltDel(true);  
+ 			  
+ 			 
+ 			this.vincular(); 
+ 		} 
+ 	} 
+ 	/** 
+ 	*Metodo imprimir()-Metodo responsável em chamar o relatório. 
+ 	**/ 
+ 	@Override 
+ 	public void imprimir() { 
+ 	} 
+ 	/** 
+ 	*Metodo trataVO()- Metodo responsável pela validação de alguns campos existentes na tela. 
+ 	**/ 
+ 	public boolean trataVO() { 
+ 		if (this.movVO != null) { 
+ 			this.movVO.setUsualt(this.getLogin()); 
+ 			this.movVO.setDatalt(WinUtils.getDataBanco()); 
+ 			
+ this.movVO.setDesmov(this.movVO.getDesmov()==null?null:movVO.getDesmov().toUpperCase());
+ 
+ this.movVO.setUsualt(this.movVO.getUsualt()==null?null:movVO.getUsualt().toUpperCase());
+ 			 
+ 			return true; 
+ 		} 
+ 		return false; 
+ 	} 
+ 	/** 
+ 	*Metodo sair()- Metodo responsável por fechar a tela. 
+ 	**/ 
+ 	@Override 
+ 	public void sair() { 
+ 		if (this.abertoPeloMenu) { 
+ 			this.detach(); 
+ 		} else { 
+ 			Events.postEvent("onClose", this, this.movVO); 
+ 		} 
+ 	} 
+   
+ 	 
+ 	 
+ 	 
+ 	 
+ } 
+ 

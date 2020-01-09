@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+ <!DOCTYPE sqlMap PUBLIC "//iBATIS.com//DTD SQL Map 2.0//EN" "HTTP://ibatis.apache.org/dtd/sql-map-2.dtd" >
+<sqlMap namespace="Vinc">
+	<typeAlias alias="VincVO" type="pmcg.imti.domain.VincVO" />
+
+	<resultMap id="mapComplexQuery" class="VincVO">
+		<result property="idvinc" column="idvinc" />
+		<result property="funvinc" column="funvinc" />
+		<result property="paivinc" column="paivinc" />
+		<result property="usualt" column="usualt" />
+		<result property="datalt" column="datalt" />
+		<result property="funVO" select="Fun.getRegByCod" column="funvinc" />
+		<result property="paiVO" select="Fun.getRegByCod" column="paivinc" />
+	</resultMap>
+
+	<select id="getRegByCod" parameterClass="Long" resultClass="VincVO">
+		SELECT * FROM pgm.pgmvinc WHERE idvinc = #value:NUMERIC#
+	</select>
+
+	<select id="getRegByCodComplex" parameterClass="Long" resultMap="mapComplexQuery">
+		SELECT * FROM pgm.pgmvinc WHERE idvinc = #value:NUMERIC#
+	</select>
+
+	<select id="getRegByCriterio" parameterClass="VincVO"
+		resultClass="VincVO">
+		SELECT * FROM pgm.pgmvinc
+		<dynamic prepend=" WHERE ">
+			<isNotNull property="idvinc" prepend=" AND ">
+				idvinc = #idvinc:NUMERIC#
+			</isNotNull>
+			<isNotNull property="funvinc" prepend=" AND ">
+				funvinc = #funvinc:NUMERIC#
+			</isNotNull>
+			<isNotNull property="paivinc" prepend=" AND ">
+				paivinc = #paivinc:NUMERIC#
+			</isNotNull>
+			<isNotNull property="usualt" prepend=" AND ">
+				usualt ILIKE '%' || #usualt:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="datalt" prepend=" AND ">
+				to_char(datalt,'dd/MM/yyyy') =
+				to_char(#datalt:TIMESTAMP#,'dd/MM/yyyy')
+			</isNotNull>
+		</dynamic>
+	</select>
+
+	<select id="getRegByCriterioComplex" parameterClass="VincVO"
+		resultMap="mapComplexQuery">
+		SELECT * FROM pgm.pgmvinc
+		<dynamic prepend=" WHERE ">
+			<isNotNull property="idvinc" prepend=" AND "> idvinc =
+				#idvinc:NUMERIC#
+			</isNotNull>
+			<isNotNull property="funvinc" prepend=" AND "> funvinc =
+				#funvinc:NUMERIC#
+			</isNotNull>
+			<isNotNull property="paivinc" prepend=" AND "> paivinc =
+				#paivinc:NUMERIC#
+			</isNotNull>
+			<isNotNull property="usualt" prepend=" AND ">
+				usualt ILIKE '%' || #usualt:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="datalt" prepend=" AND ">
+				to_char(datalt,'dd/MM/yyyy') =
+				to_char(#datalt:TIMESTAMP#,'dd/MM/yyyy')
+			</isNotNull>
+		</dynamic>
+	</select>
+
+	<select id="getTodos" resultClass="VincVO">
+		SELECT * FROM pgm.pgmvinc
+	</select>
+
+	<insert id="insReg" parameterClass="VincVO">
+		<selectKey keyProperty="idvinc" resultClass="Long">
+			SELECT NEXTVAL('pgm.seqvinc')
+		</selectKey>
+		INSERT INTO pgm.pgmvinc(idvinc,funvinc,paivinc,usualt,datalt) VALUES
+		(#idvinc:NUMERIC#,#funvinc:NUMERIC#,#paivinc:NUMERIC#,
+		UPPER(#usualt:VARCHAR#),now() )
+	</insert>
+
+	<update id="updRegByCod" parameterClass="VincVO">
+		UPDATE pgm.pgmvinc SET funvinc= #funvinc:NUMERIC#,paivinc=
+		#paivinc:NUMERIC#,usualt= UPPER(#usualt:VARCHAR#),datalt= now() WHERE
+		idvinc = #idvinc:NUMERIC#
+	</update>
+	<delete id="delByCod" parameterClass="Long">
+		DELETE FROM pgm.pgmvinc WHERE idvinc = #value:NUMERIC#
+	</delete>
+	<delete id="delByCodigos" parameterClass="String">
+		DELETE FROM pgm.pgmvinc WHERE idvinc in ($value$)
+	</delete>
+
+	<select id="getCountByCriterio" parameterClass="VincVO"
+		resultClass="Integer">
+		SELECT count(idvinc) FROM pgm.pgmvinc
+		<dynamic prepend=" WHERE ">
+			<isNotNull property="idvinc" prepend=" AND "> idvinc =
+				#idvinc:NUMERIC#
+			</isNotNull>
+			<isNotNull property="funvinc" prepend=" AND "> funvinc =
+				#funvinc:NUMERIC#
+			</isNotNull>
+			<isNotNull property="paivinc" prepend=" AND "> paivinc =
+				#paivinc:NUMERIC#
+			</isNotNull>
+			<isNotNull property="usualt" prepend=" AND ">
+				usualt ILIKE '%' || #usualt:VARCHAR# || '%'
+			</isNotNull>
+			<isNotNull property="datalt" prepend=" AND ">
+				to_char(datalt,'dd/MM/yyyy') =
+				to_char(#datalt:TIMESTAMP#,'dd/MM/yyyy')
+			</isNotNull>
+		</dynamic>
+	</select>
+</sqlMap> 
+ 

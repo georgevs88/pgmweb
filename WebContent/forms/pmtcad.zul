@@ -1,0 +1,58 @@
+<?page title="Promotores" cacheable="false" language="xul/html" zscriptLanguage="Java" contentType="text/html;charset=UTF-8"?>
+<zk xmlns="http://www.zkoss.org/2005/zul" xmlns:h="http://www.w3.org/1999/xhtml"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.zkoss.org/2005/zul http://www.zkoss.org/2005/zul/zul.xsd">
+
+	<window use="pmcg.imti.view.Pmtcad" id="wPmt" title="Promotores" width="990px" height="640px" border="normal" shadow="false" position="center"
+		mode="overlapped" sizable="false" closable="true" onCreate="wPmt.initComponentes()" contentStyle="overflow:auto;">
+		<vbox>
+			<grid>
+		    	<columns>
+		    		<column align="right" width="200px"/>
+		    		<column />
+		    	</columns>
+		    	<rows>
+		    		<row>
+		    			<label value="Ativo"/>
+						<checkbox checked="@{wPmt.pmtSel.atvpmt}"/>
+					</row>
+		    		<row>
+		    			<label value="CPF"/>
+						<textbox value="@{wPmt.pmtSel.cpfpmt}" style="text-align:center;"/>
+					</row>
+					<row>
+		    			<label value="Nome"/>
+						<textbox value="@{wPmt.pmtSel.nompmt}" width="400px"/>
+					</row>
+					
+					<row>
+		    			<label value="OAB"/>
+						<textbox value="@{wPmt.pmtSel.oabpmt}"/>
+					</row>
+					<row>
+		    			<label value="E-mail"/>
+						<textbox value="@{wPmt.pmtSel.emapmt}" width="400px"/>
+					</row>
+		    	</rows>
+		    </grid>
+			<listbox model="@{wPmt.listPmt}" selectedItem="@{wPmt.pmtSel}" width="953px" style="border:1px solid #277EB7;">
+				<listhead>
+					<listheader width="40px" label="Ativo" style="align:center"/>
+					<listheader width="100px" label="CPF" style="align:center"/>
+					<listheader width="200px" label="Nome"/>
+					<listheader width="100px" label="OAB"/>
+					<listheader label="E-mail"/>
+				</listhead>
+				<listitem self="@{each=p}" value="@{p}">
+					<listcell style="text-align:center">
+						<checkbox checked="@{p.atvpmt}" disabled="true"/>
+					</listcell>
+					<listcell label="@{p.cpf}"/>
+					<listcell label="@{p.nompmt}"/>
+					<listcell label="@{p.oabpmt}"/>
+					<listcell label="@{p.emapmt}"/>
+				</listitem>
+			</listbox>
+		</vbox>
+	</window>
+</zk>

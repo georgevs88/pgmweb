@@ -1,0 +1,84 @@
+<?page title="new page title" contentType="text/html;charset=UTF-8"?>
+<zk>
+	<zscript>
+	String host = desktop.execution.nativeRequest.requestURL.substring(0, 16);
+	String ver = "5.0.7";
+	String validaVer = (desktop.webApp.version != ver ? "***** VERSÃO ERRADA ***** VERIFIQUE A VERSÃO DO ZK EM SEU TOMCAT *****"
+			: "OK");
+	String validaVerCor = (desktop.webApp.version != ver ? "color: red"
+			: "color: green");
+</zscript>
+	<groupbox if="${host == 'http://localhost'}" >
+		<listbox id="listProt" width="100%"
+			style="border-radius:5px;">
+			<listhead>
+				<listheader style="text-align:center;"
+					align="center">
+					<label value="N° Processo"
+						style="font-weight:bold;" />
+				</listheader>
+				<listheader  align="center" label="Prazo" width="130px;"
+					style="text-align:center;" />
+				<listheader style="text-align:center;"
+					align="center">
+					<label value="Parte"
+						style="font-weight:bold;" />
+				</listheader>
+				<listheader align="center" width="110px;"
+					style="text-align:center;">
+					<label value="Valor" style="font-weight:bold;" />
+				</listheader>
+				<listheader  style="text-align:center;"
+					align="center">
+					<label value="Classe"
+						style="font-weight:bold;" />
+				</listheader>
+				<listheader style="text-align:center;" align="center">
+					<label value="Ação"
+						style="font-weight:bold;" />
+				</listheader>
+			</listhead>
+			<listitem>
+				<listcell label="0032845-73.2003.8.12.0001" />
+				<listcell label="24/03/2016" />
+				<listcell label="Executado" />
+				<listcell label="R$7.895.115,52"/>				
+				<listcell label="EXECUÇÃO FISCAL" />
+				<listcell>
+					<button>Detalhes</button>
+					<button>Encaminhar</button>
+					<button>Apagar</button>
+				</listcell>
+			</listitem>
+			<listitem>
+				<listcell label="0032845-73.2003.8.12.14947" />
+				<listcell label="23/03/2016" />
+				<listcell label="P	" />
+				<listcell label="R$7.895.115,52"/>				
+				<listcell label="EXECUÇÃO FISCAL" />
+				<listcell>
+					<button>Detalhes</button>
+					<button>Encaminhar</button>
+					<button>Apagar</button>
+				</listcell>
+			</listitem>
+		</listbox>
+
+	</groupbox>
+	<!-- 	<groupbox if="${host == 'http://localhost'}" style="position:absolute;bottom:5px;width:70%;"	> -->
+	<!-- 	<caption label="Informações de Debug"/> -->
+	<!-- 		<hbox> -->
+	<!-- 			Versão do Padrão: <label value="${ver}" style="color: red"/> -->
+	<!-- 		</hbox> -->
+	<!-- 		<hbox> -->
+	<!-- 			Versão ZK Rodando: <label value="${desktop.webApp.version}" style="color: red" />   -->
+	<!-- 			<label value="${validaVer}" style="${validaVerCor}"/> -->
+	<!-- 		</hbox> -->
+	<!-- 		<hbox> -->
+	<!-- 			Rodando em <label value="${pageContext.request.serverName}" style="color: red"/> : -->
+	<!-- 			<label value="${pageContext.request.serverPort}" style="color: red"/> -->
+	<!-- 		</hbox> -->
+	<!-- 	</groupbox>	 -->
+
+
+</zk>

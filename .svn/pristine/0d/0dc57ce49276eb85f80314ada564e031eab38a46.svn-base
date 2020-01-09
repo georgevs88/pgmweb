@@ -1,0 +1,118 @@
+package pmcg.imti.dao.ibatis;
+
+import java.sql.SQLException;
+import java.util.List;
+
+import pmcg.framework.dao.ibatis.DAOConcorrencia;
+import pmcg.imti.domain.FunVO;
+
+/**
+ * FunDAO Responsável pela Manipulação de registros
+ * 
+ * @author Gerador ZK
+ */
+public class FunDAO extends DAOConcorrencia<FunVO, Long> {
+	public FunDAO() {
+		super("Fun");
+	}
+
+	public List<FunVO> getRegByCriterioComplex(FunVO obj) {
+		String nameSpace = getNameSpaceMap();
+		if (nameSpace == null)
+			setNameSpaceMap("Fun");
+		try {
+			return sqlMap.queryForList(nameSpace + ".getRegByCriterioComplex",
+					obj);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public FunVO getRegByCodComplex(Long cod) {
+		String nameSpace = getNameSpaceMap();
+		if (nameSpace == null)
+			setNameSpaceMap("Fun");
+		try {
+			return (FunVO) sqlMap.queryForObject(nameSpace
+					+ ".getRegByCodComplex", cod);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public FunVO getRegByUsuarioComplex(String Usuario) {
+		String nameSpace = getNameSpaceMap();
+		if (nameSpace == null)
+			setNameSpaceMap("Fun");
+		try {
+			return (FunVO) sqlMap.queryForObject(nameSpace
+					+ ".getRegByUsuarioComplex", Usuario);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	public FunVO getRegByNomeFun(String Usuario) {
+		String nameSpace = getNameSpaceMap();
+		if (nameSpace == null)
+			setNameSpaceMap("Fun");
+		try {
+			return (FunVO) sqlMap.queryForObject(nameSpace
+					+ ".getRegByNomeFun", Usuario);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public Integer delByCodigos(String codigos) {
+		String nameSpace = getNameSpaceMap();
+		if (nameSpace == null)
+			setNameSpaceMap("Fun");
+		try {
+			return sqlMap.delete(nameSpace + ".delByCodigos", codigos);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public Integer getCountByCriterio(FunVO obj) {
+		String nameSpace = getNameSpaceMap();
+		if (nameSpace == null)
+			setNameSpaceMap("Fun");
+		try {
+			return (Integer) sqlMap.queryForObject(nameSpace
+					+ ".getCountByCriterio", obj);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return 0;
+	}
+
+	public List<FunVO> getByCriterioLimit(FunVO obj, Integer inicial,
+			Integer maximoPermitido) {
+		String nameSpace = getNameSpaceMap();
+		if (nameSpace == null)
+			setNameSpaceMap("Fun");
+		try {
+			return sqlMap.queryForList(nameSpace + ".getRegByCriterioComplex",
+					obj, inicial, maximoPermitido);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	public List<FunVO> getRegByCriterioPesquisa(FunVO funVO) {
+		try {
+			return this.getRegByCriterio(funVO);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+}

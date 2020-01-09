@@ -1,0 +1,14 @@
+package pmcg.imti.ws;
+
+import static org.junit.Assert.*;
+
+import org.junit.Test;
+
+public class testaString {
+
+	@Test
+	public void test() {
+System.out.println(Signer.assinarString("514617824963888790"));
+	}
+
+}

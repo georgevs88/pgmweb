@@ -1,0 +1,78 @@
+package pmcg.imti.domain;
+
+import gerador.annotation.ZKEntity;
+import gerador.annotation.ZKField;
+import gerador.annotation.ZKId;
+
+@ZKEntity(label = "Lat", sequence = "seqlat")
+public class AlatVO {
+	@ZKId
+	@ZKField(label = "Código", artigo = "o", readonly = true, maxsize = 80, tooltip = "Código incremental!")
+	private Long codrem;
+	private String codcad; //codcad
+	private String numcad; //numcad
+	private String coddeb; //coddeb
+	private String codlat; //codlat
+	private String numfol; //numfol
+	private String numins; //numins
+	private String datins; //datins
+	
+	public AlatVO(Long codrem, String coddeb) {
+		super();
+		this.codrem = codrem;
+		this.coddeb = coddeb;
+	}
+	public AlatVO() {
+		super();
+	}
+	public Long getCodrem() {
+		return codrem;
+	}
+	public void setCodrem(Long codrem) {
+		this.codrem = codrem;
+	}
+	public String getCodcad() {
+		return codcad;
+	}
+	public void setCodcad(String codcad) {
+		this.codcad = codcad;
+	}
+	public String getNumcad() {
+		return numcad;
+	}
+	public void setNumcad(String numcad) {
+		this.numcad = numcad;
+	}
+	public String getCoddeb() {
+		return coddeb;
+	}
+	public void setCoddeb(String coddeb) {
+		this.coddeb = coddeb;
+	}
+	public String getCodlat() {
+		return codlat;
+	}
+	public void setCodlat(String codlat) {
+		this.codlat = codlat;
+	}
+	public String getNumfol() {
+		return numfol;
+	}
+	public void setNumfol(String numfol) {
+		this.numfol = numfol;
+	}
+	public String getNumins() {
+		return numins;
+	}
+	public void setNumins(String numins) {
+		this.numins = numins;
+	}
+	public String getDatins() {
+		return datins;
+	}
+	public void setDatins(String datins) {
+		this.datins = datins;
+	}
+
+	
+}
